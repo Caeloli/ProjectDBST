@@ -1,0 +1,90 @@
+@tailwind base;
+@taliwind components;
+@tailwind utilities;
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+.circle-logo{
+  height: 3.5rem;
+  width: 3.5rem;
+  border: 0.3rem solid #E1F5F5;
+  border-radius: 100%;
+  position: relative;
+}
+
+.circle-logo:before {
+  content: "";
+  position: absolute;
+  height: 2.2rem;
+  width: 0.5rem;
+  background-color: #E1F5F5;
+  right: 1.25rem;
+  top: 12.5%;
+}
+
+.circle-logo:after {
+  content: "";
+  position: absolute;
+  height: 0.5rem;
+  width: 2.2rem;
+  background-color: #E1F5F5;
+  top: 40%;
+  left: 12.5%;
+}
+
+nav li{
+  margin: auto 0 auto 0;
+  font-size: 1.2rem;
+}
+
+.button-primary{
+  background-color: #E1F5F5;
+  cursor: pointer;
+  color: #0B5755;
+  border-radius: 5rem;
+  padding: 0.5rem 1rem;
+  font-weight: 700;
+  border: 0.2rem solid #E1F5F5;
+  transition: all 0.3s ease-in-out;
+}
+
+.button-primary:hover{
+  background-color: #0B5755;
+  color: #7CBEB5;
+  border-radius: 5rem;
+  border: 0.2rem solid #7CBEB5;
+}
+
+.button-secondary{
+  background-color: #0B5755;
+  cursor: pointer;
+  color: #7CBEB5;
+  border-radius: 5rem;
+  border: 0.2rem solid #7CBEB5;
+}
+
+.background-green-gradient{
+  background: linear-gradient(to left, rgb(182, 244, 146), rgb(51, 139, 147)); 
+}
+
+.background-green-blue-gradient{
+  background: rgb(11,87,85);
+  background: linear-gradient(90deg, rgba(11,87,85,1) 0%, rgba(127,191,183,1) 100%); 
+}
+
+.radial-bg-blue-hosta-gradient{
+  background: rgb(255,255,255);
+  background: radial-gradient(circle, rgba(255,255,255,1) 0%, rgba(127,191,183,1) 100%); 
+}
