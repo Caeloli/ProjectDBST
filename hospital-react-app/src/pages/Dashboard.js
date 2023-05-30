@@ -4,6 +4,7 @@ import { Outlet, } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faGear } from '@fortawesome/free-solid-svg-icons';
 import Calendar from "../components/Calendar";
+import Table from "../components/Table";
 class Dashboard extends React.Component {
 
     constructor() {
@@ -11,6 +12,13 @@ class Dashboard extends React.Component {
     }
 
     render() {
+    const headerTitle = 'Citas'
+    const headerTable = ['Nombre', 'Consultorio', 'Hora'];
+    const tableInfo =[
+        ["info", "info", "info"],
+        ["info", "info", "info"]
+    ];
+    console.log(tableInfo);
         return (
             <div className="flex w-screen h-screen">
                 <NavDashboard />
@@ -27,93 +35,10 @@ class Dashboard extends React.Component {
                         </div>
                         <div className="panels grid grid-cols-3 gap-9 flex-1">
                             <div className="appointments col-span-1">
-                                <div className="w-auto max-w-full max-h-full h-full mx-auto bg-white shadow-lg rounded-3xl border  border-blue-hosta">
-                                    <header className="px-5 py-4 ">
-                                        <h2 className="font-semibold text-gray-800">Citas</h2>
-                                    </header>
-
-                                    <div className="overflow-y-auto max-h-full">
-                                        <table className="table-auto w-full">
-                                            <thead className="text-xs font-semibold uppercase text-gray-400 bg-gray-50">
-                                                <tr>
-                                                    <th className="p-2 whitespace-nowrap">
-                                                        <div className="font-semibold text-left">Name</div>
-                                                    </th>
-                                                    <th className="p-2 whitespace-nowrap">
-                                                        <div className="font-semibold text-left">Consultorio</div>
-                                                    </th>
-                                                    <th className="p-2 whitespace-nowrap">
-                                                        <div className="font-semibold text-left">Hour</div>
-                                                    </th>
-                                                </tr>
-                                            </thead>
-                                            <tbody className="text-sm divide-y divide-gray-100 overflow-y-scroll">
-                                                <tr>
-                                                    <td className="p-2 whitespace-nowrap">
-                                                        <div className="flex items-center">
-                                                            <div className="w-10 h-10 flex-shrink-0 mr-2 sm:mr-3"><img className="rounded-full" src="https://raw.githubusercontent.com/cruip/vuejs-admin-dashboard-template/main/src/images/user-36-05.jpg" width="40" height="40" alt="Alex Shatov" /></div>
-                                                            <div className="font-medium text-gray-800">Alex Shatov</div>
-                                                        </div>
-                                                    </td>
-                                                    <td className="p-2 whitespace-nowrap">
-                                                        <div className="text-lg text-center">??</div>
-                                                    </td>
-                                                </tr>
-
-                                                <tr>
-                                                    <td className="p-2 whitespace-nowrap">
-                                                        <div className="flex items-center">
-                                                            <div className="w-10 h-10 flex-shrink-0 mr-2 sm:mr-3"><img className="rounded-full" src="https://raw.githubusercontent.com/cruip/vuejs-admin-dashboard-template/main/src/images/user-36-06.jpg" width="40" height="40" alt="Philip Harbach" /></div>
-                                                            <div className="font-medium text-gray-800">Philip Harbach</div>
-                                                        </div>
-                                                    </td>
-                                                    <td className="p-2 whitespace-nowrap">
-                                                        <div className="text-lg text-center">??</div>
-                                                    </td>
-                                                </tr>
-
-
-                                                <tr>
-                                                    <td className="p-2 whitespace-nowrap">
-                                                        <div className="flex items-center">
-                                                            <div className="w-10 h-10 flex-shrink-0 mr-2 sm:mr-3"><img className="rounded-full" src="https://raw.githubusercontent.com/cruip/vuejs-admin-dashboard-template/main/src/images/user-36-07.jpg" width="40" height="40" alt="Mirko Fisuk" /></div>
-                                                            <div className="font-medium text-gray-800">Mirko Fisuk</div>
-                                                        </div>
-                                                    </td>
-                                                    <td className="p-2 whitespace-nowrap">
-                                                        <div className="text-lg text-center">??</div>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td className="p-2 whitespace-nowrap">
-                                                        <div className="flex items-center">
-                                                            <div className="w-10 h-10 flex-shrink-0 mr-2 sm:mr-3"><img className="rounded-full" src="https://raw.githubusercontent.com/cruip/vuejs-admin-dashboard-template/main/src/images/user-36-08.jpg" width="40" height="40" alt="Olga Semklo" /></div>
-                                                            <div className="font-medium text-gray-800">Olga Semklo</div>
-                                                        </div>
-                                                    </td>
-                                                    <td className="p-2 whitespace-nowrap">
-                                                        <div className="text-lg text-center">??</div>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td className="p-2 whitespace-nowrap">
-                                                        <div className="flex items-center">
-                                                            <div className="w-10 h-10 flex-shrink-0 mr-2 sm:mr-3"><img className="rounded-full" src="https://raw.githubusercontent.com/cruip/vuejs-admin-dashboard-template/main/src/images/user-36-09.jpg" width="40" height="40" alt="Burak Long" /></div>
-                                                            <div className="font-medium text-gray-800">Burak Long</div>
-                                                        </div>
-                                                    </td>
-                                                    <td className="p-2 whitespace-nowrap">
-                                                        <div className="text-lg text-center">??</div>
-                                                    </td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
-
-                                </div>
+                                <Table headerTitle = {headerTitle} headerTable = {headerTable} tableInfo = {tableInfo}/>
                             </div>
                             <div className="appointments-request col-span-1 ">
-                                <Calendar />
+                                <Calendar/>
                             </div>
                             <div className="doctor-review col-span-1">
                                 <div className="bg-white shadow-md h-full border border-blue-hosta rounded-3xl">
