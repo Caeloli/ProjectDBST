@@ -9,6 +9,8 @@ import Contact from './pages/Contact';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import Dashboard from './pages/Dashboard';
+import Medicines from './pages/Medicines';
+import NewMedicine from './pages/NewMedicine';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -24,6 +26,8 @@ root.render(
       <Route path="/Dashboard" element={<Dashboard />} />
       <Route path="/Login" element={<Login />} />
       <Route path="/Registro" element={<Register />} />
+      <Route path='/Medicamentos' element={<Medicines />} />
+      <Route path='/NewMedicine' element={<NewMedicine />} />
     </Routes>
   </BrowserRouter>
 
