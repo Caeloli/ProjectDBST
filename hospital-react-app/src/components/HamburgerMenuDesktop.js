@@ -25,7 +25,7 @@ const HamburgerMenuDesktop = () => {
                 </div>
                 <div className='h-4/6 flex  flex-col text-base text-center'>
                     <a
-                        href="#"
+                        href="/Dashboard"
                         className="flex justify-start items-center py-4 pl-4 transition duration-300 ease-in-out hover:bg-aqua-squeeze hover:text-deep-sea-green"
                     >
                         <FontAwesomeIcon className='pr-6' icon={faHouse} />
@@ -39,7 +39,7 @@ const HamburgerMenuDesktop = () => {
                         <p>Recetas</p>
                     </a>
                     <a
-                        href="#"
+                        href="/Medicamentos"
                         className="flex justify-start items-center py-4 pl-4 transition duration-300 ease-in-out hover:bg-aqua-squeeze hover:text-deep-sea-green"
                     >
                         <FontAwesomeIcon className='pr-6' icon={faFlask} />

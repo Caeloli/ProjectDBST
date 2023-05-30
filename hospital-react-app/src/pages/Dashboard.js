@@ -4,10 +4,26 @@ import { Outlet, } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faGear } from '@fortawesome/free-solid-svg-icons';
 import Calendar from "../components/Calendar";
+import MedicationList from "../components/MedicationList";
+
 class Dashboard extends React.Component {
 
     constructor() {
         super()
+        this.medicinas = [
+            { id: 1, nombre: 'Advil', nombreFarmaceutico: 'Ibuprofeno', precio: 60, dosisRecomendada: '5mg' },
+            { id: 1, nombre: 'Advil', nombreFarmaceutico: 'Ibuprofeno', precio: 60, dosisRecomendada: '5mg' },
+            { id: 1, nombre: 'Advil', nombreFarmaceutico: 'Ibuprofeno', precio: 60, dosisRecomendada: '5mg' },
+            { id: 1, nombre: 'Advil', nombreFarmaceutico: 'Ibuprofeno', precio: 60, dosisRecomendada: '5mg' },
+            { id: 1, nombre: 'Advil', nombreFarmaceutico: 'Ibuprofeno', precio: 60, dosisRecomendada: '5mg' },
+            { id: 1, nombre: 'Advil', nombreFarmaceutico: 'Ibuprofeno', precio: 60, dosisRecomendada: '5mg' },
+            { id: 1, nombre: 'Advil', nombreFarmaceutico: 'Ibuprofeno', precio: 60, dosisRecomendada: '5mg' },
+            { id: 1, nombre: 'Advil', nombreFarmaceutico: 'Ibuprofeno', precio: 60, dosisRecomendada: '5mg' },
+            { id: 1, nombre: 'Advil', nombreFarmaceutico: 'Ibuprofeno', precio: 60, dosisRecomendada: '5mg' },
+            { id: 1, nombre: 'Advil', nombreFarmaceutico: 'Ibuprofeno', precio: 60, dosisRecomendada: '5mg' },
+            { id: 1, nombre: 'Advil', nombreFarmaceutico: 'Ibuprofeno', precio: 60, dosisRecomendada: '5mg' },
+    
+        ];
     }
 
     render() {
@@ -266,9 +282,10 @@ class Dashboard extends React.Component {
                                 </div>
 
                             </div>
-                            <div className="medicinal-supplies col-span-1">
+                            <div className="medicinal-supplies col-span-1 ">
                                 <div className="border-2  shadow-md rounded-3xl max-h-full h-full border-blue-hosta bg-white">
-                                    <h3>Medical Supplies</h3>
+                                    {/* <h3>Medical Supplies</h3> */}
+                                    <MedicationList isDashboard={true} medicinas={this.medicinas}></MedicationList>
                                 </div>
                             </div>
                         </div>
