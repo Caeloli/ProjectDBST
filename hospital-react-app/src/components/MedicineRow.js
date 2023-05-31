@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faGear, faCircleXmark } from '@fortawesome/free-solid-svg-icons';
+import { Link } from "react-router-dom";
 
 function MedicineRow(props) {
     const medicina = props.medicina;
@@ -8,8 +9,25 @@ function MedicineRow(props) {
     const [showCard, setShowCard] = useState(false);
 
     const handleClick = () => {
-        console.log(showCard);
         setShowCard(!showCard)
+    };
+
+    const handleDelete = (id) => {
+        console.log(id);
+        console.log(new Date().toLocaleString());
+        fetch(`URL-DELETE-MEDICAMENTO/${id}`, {
+            method: "DELETE"
+        })
+            .then(response => {
+                if (response.ok) {
+                    console.log("Medicamento borrado correctamente");
+                } else {
+                    console.error("No se pudo borrar el medicamento");
+                }
+            })
+            .catch(error => {
+                console.error("Error al borrar medicamento:", error);
+            });
     };
 
     if (isDashboard) {
@@ -64,15 +82,15 @@ function MedicineRow(props) {
 
                     <td className="p-2 ">
                         <div className="text-left font-mediu">
-                            <a href="#">
+                            <Link to={`/NewMedicine?edit=true&id=${medicina.id}`}>
                                 <FontAwesomeIcon className='text-2xl hover:scale-110 translation' icon={faGear} style={{ color: "#545454", }} />
-                            </a>
+                            </Link>
                         </div>
                     </td>
 
                     <td className="p-2 ">
                         <div className="text-left font-medium text-green-500 hover:scale-110 translation">
-                            <a href="#">
+                            <a href="/Medicamentos" onClick={() => handleDelete(medicina.id)}>
                                 <FontAwesomeIcon className='text-2xl' icon={faCircleXmark} style={{ color: "#ff0000", }} />
                             </a>
                         </div>

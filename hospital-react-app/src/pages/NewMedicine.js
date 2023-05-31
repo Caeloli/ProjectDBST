@@ -1,10 +1,13 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import HamburgerMenuDesktop from "../components/HamburgerMenuDesktop";
 import imagen from '../assets/imgs/nuevoMedicamento.png'
+import {useLocation} from "react-router-dom";
 
 function NewMedicine() {
-
+  const location = useLocation();
+  const [isEditing, setIsEditing] = useState(false);
   const [medicamento, setMedicamento] = useState({
+    id: "",
     nombreComun: "",
     nombreFarmaceutica: "",
     precio: "",
@@ -12,6 +15,44 @@ function NewMedicine() {
     precauciones: "",
     fabricante: ""
   });
+
+  const [fabricantes,setFabricantes] = useState([])
+
+  useEffect(() => {
+    const searchParams = new URLSearchParams(location.search);
+    const isEdit = searchParams.get("edit") === "true";
+    const medicamentoId = searchParams.get("id");
+
+    setIsEditing(isEdit);
+
+    if(isEdit && medicamentoId) {
+      fetch(`URL-PARA-BUSCAR-MEDICAMENTO/${medicamentoId}`, {
+        method: "GET"
+      })
+        .then(response => response.json())
+        .then(data => {
+          setMedicamento(data)
+        })
+        .catch(error => {
+          console.log("Error al obtener datos del medicamento", error);
+        })
+    }
+
+    fetchFabricantes();
+  }, [location.search]);
+
+  const fetchFabricantes = () => {
+    fetch("URL-OBTENER-LISTA-FABRICANTES", {
+      method: "GET"
+    })
+      .then(response => response.json())
+      .then(data => {
+        setFabricantes(data)
+      })
+      .catch(error => {
+        console.log("Error al obtener la lista de fabricantes", error);
+      });
+  };
 
   const handleInputChange = (e) => {
     setMedicamento({
@@ -21,28 +62,44 @@ function NewMedicine() {
   };
 
   const handleSubmit = (e) => {
-    e.preventDefault()
+    e.preventDefault();
 
-    fetch("URL", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify(medicamento)
-    })
-      .then(response => response.json())
-      .then(data => {
-        console.log("Medicamento guardado correctamente", data);
+    if (isEditing) {
+      fetch(`URL-UPDATE-MEDICAMENTO/${medicamento.id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(medicamento)
       })
-      .catch(error => {
-        console.log("Error al guardar el medicamento", error);
+        .then(response => response.json())
+        .then(data => {
+          console.log("Medicamento editado correctamente", data);
+        })
+        .catch(error => {
+          console.log("Error al editar el medicamento", error);
+        });
+    } else {
+      fetch("URL-CREATE-MEDICAMENTO", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(medicamento)
       })
+        .then(response => response.json())
+        .then(data => {
+          console.log("Medicamento guardado correctamente", data);
+        })
+        .catch(error => {
+          console.log("Error al guardar el medicamento", error);
+        });
+    }
   };
 
   return (
     <div className="flex w-screen h-screen">
       <HamburgerMenuDesktop></HamburgerMenuDesktop>
-
 
       <div className="flex justify-center items-center w-full h-full ">
         <div className="w-1/2 border-2 border-green-500 shadow-m rounded-lg h-[670px] flex justify-center items-center bg-deep-sea-green">
@@ -141,9 +198,9 @@ function NewMedicine() {
               required
             >
               <option value="">Seleccione un fabricante</option>
-              <option value="Fabricante 1">Fabricante 1</option>
-              <option value="Fabricante 2">Fabricante 2</option>
-              <option value="Fabricante 3">Fabricante 3</option>
+              {fabricantes.map(fabricante => {
+                <option key={fabricante.id} value={fabricante.nombre}>{fabricante.nombre}</option>
+              })}
             </select>
           </div>
 
@@ -151,7 +208,7 @@ function NewMedicine() {
             type="submit"
             className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
           >
-            Agregar
+            {isEditing ? "Editar" : "Agregar"}
           </button>
         </form>
       </div>

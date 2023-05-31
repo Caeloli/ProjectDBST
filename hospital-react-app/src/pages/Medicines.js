@@ -1,14 +1,10 @@
-import React, { useState } from "react";
+import React, { useState , useEffect} from "react";
 import NavDashboard from "../components/NavDashboard";
 import MedicationList from "../components/MedicationList";
 
 function Medicines() {
 
-    const[medicinas, setMedicinas] = useState([
-        { id: 1, nombre: 'Advil', nombreFarmaceutico: 'Ibuprofeno', precio: 60, dosisRecomendada: '5mg', fabricante: 'Haleon' },
-        { id: 1, nombre: 'Advil', nombreFarmaceutico: 'Ibuprofeno', precio: 60, dosisRecomendada: '5mg', fabricante: 'Haleon' },
-        { id: 1, nombre: 'Advil', nombreFarmaceutico: 'Ibuprofeno', precio: 60, dosisRecomendada: '5mg', fabricante: 'Haleon' },
-    ]);
+    
 
 
     return (
@@ -25,7 +21,7 @@ function Medicines() {
 
                 <div className="border-2  shadow-md rounded-3xl max-h-full h-full border-blue-hosta bg-white">
                     {/* <h3>Medical Supplies</h3> */}
-                    <MedicationList isDashboard={false} medicinas={medicinas}> </MedicationList>
+                    <MedicationList isDashboard={false} > </MedicationList>
                 </div>
             </div>
         </div>
