@@ -1,11 +1,11 @@
-import React, {useEffect} from "react";
+import React, { useEffect } from "react";
 import MedicineRow from './MedicineRow';
 
 
 function MedicationList(props) {
 
     const { isDashboard, medicinas } = props;
-    
+
 
     // const [medicinas, setMedicinas] = useState([]);
 
@@ -37,7 +37,7 @@ function MedicationList(props) {
     //       });
     //   };
 
-    if (isDashboard) {
+    if (isDashboard === true) {
         return (
             <div className="patients-list col-span-2">
                 <div className="w-auto max-w-full max-h-full h-full mx-auto bg-white shadow-lg rounded-3xl border border-blue-hosta">
@@ -76,6 +76,7 @@ function MedicationList(props) {
             </div>
         );
     } else {
+
         return (
             <div className="patients-list col-span-2">
                 <div className="w-auto max-w-full max-h-full h-full mx-auto bg-white shadow-lg rounded-3xl border border-blue-hosta">
@@ -126,10 +127,9 @@ function MedicationList(props) {
                         </table>
                     </div>
                 </div>
-
-
             </div>
         );
+
     }
 
 }

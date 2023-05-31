@@ -89,3 +89,14 @@ nav li{
   background: rgb(255,255,255);
   background: radial-gradient(circle, rgba(255,255,255,1) 0%, rgba(127,191,183,1) 100%); 
 }
+
+
+.card-content {
+  background-color: #ffffff;
+  padding: 1rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.card-cell:hover {
+  background-color: rgba(255, 255, 255, 0.8); /* Color de fondo al mostrar la card */
+}

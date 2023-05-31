@@ -45,7 +45,7 @@ function NewMedicine() {
 
 
       <div className="flex justify-center items-center w-full h-full ">
-        <div className="w-1/2 border-2 border-green-500 shadow-m rounded-lg h-[670px] w-1/2 flex justify-center items-center bg-deep-sea-green">
+        <div className="w-1/2 border-2 border-green-500 shadow-m rounded-lg h-[670px] flex justify-center items-center bg-deep-sea-green">
           <img src={imagen} alt="Imagen" className="w-[200px] h-[500px]  object-contain " />
         </div>
         <form
