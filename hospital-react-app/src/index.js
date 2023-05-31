@@ -9,6 +9,7 @@ import Contact from './pages/Contact';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import Dashboard from './pages/Dashboard';
+import AdminDashboard from "./pages/AdminDashboard";
 import Medicines from './pages/Medicines';
 import NewMedicine from './pages/NewMedicine';
 
@@ -24,6 +25,7 @@ root.render(
         <Route path='*' element={<Home />} />
       </Route>
       <Route path="/Dashboard" element={<Dashboard />} />
+      <Route path='/AdminDashboard' element={<AdminDashboard/>} />
       <Route path="/Login" element={<Login />} />
       <Route path="/Registro" element={<Register />} />
       <Route path='/Medicamentos' element={<Medicines />} />

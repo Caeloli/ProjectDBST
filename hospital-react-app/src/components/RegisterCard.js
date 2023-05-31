@@ -25,19 +25,20 @@ class RegisterCard extends React.Component {
                         <p className="text-xs">(+52) 55231234543</p>
                     </div>
                 </div>
-                <form className="text-gray-700 flex flex-col items-center flex-1">
+                <form className="text-gray-700 flex flex-col items-center flex-1" method="POST" action="api/Patient/AddPatient ">
                     <h2 className="text-3xl text-center font-semibold mb-10 pb-5 border-b-gray-500 border-b w-full">Registro de Nuevo Paciente</h2>
                     <div className="w-3/5 flex-1 flex flex-col justify-between">
                         <div className="name-input flex justify-between w-full">
                             <div className="flex items-center w-1/4">
-                                <label for="name">Nombre</label>
+                                <label for="Nombre">Nombre</label>
                             </div>
                             <div className="flex justify-between md:w-2/4 w-3/4">
-                                <input className="border text-black text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 bg-aqua-squeeze border-deep-sea-green placeholder-deep-sea-green" id="name" name="name" placeholder="Nombre"></input>
-                                <input className="border text-black text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 bg-aqua-squeeze border-deep-sea-green placeholder-deep-sea-green" id="paternal" name="paternal" placeholder="Apellido Paterno"></input>
-                                <input className="border text-black text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 bg-aqua-squeeze border-deep-sea-green placeholder-deep-sea-green" id="maternal" name="maternal" placeholder="Apellido Materno"></input>
+                                <input className="border text-black text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 bg-aqua-squeeze border-deep-sea-green placeholder-deep-sea-green" id="Nombre" name="Nombre" placeholder="Nombre"></input>
+                                <input className="border text-black text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 bg-aqua-squeeze border-deep-sea-green placeholder-deep-sea-green" id="Paterno" name="Paterno" placeholder="Apellido Paterno"></input>
+                                <input className="border text-black text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 bg-aqua-squeeze border-deep-sea-green placeholder-deep-sea-green" id="Materno" name="Materno" placeholder="Apellido Materno"></input>
                             </div>
                         </div>
+                        {/*}
                         <div className="sex-input flex justify-between w-full">
                             <div className="flex items-center w-1/4">
                                 <label for="sex">Sexo</label>
@@ -49,39 +50,21 @@ class RegisterCard extends React.Component {
                                 </select>
                             </div>
                         </div>
+                        */}
                         <div className="dob-input flex justify-between">
                             <div className="flex items-center w-1/4">
-                                <label for="dob">Fecha de Nacimiento</label>
+                                <label for="FechaNacimiento">Fecha de Nacimiento</label>
                             </div>
                             <div className="md:w-2/4 w-3/4">
-                                <input className="border text-black text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 bg-aqua-squeeze border-deep-sea-green placeholder-deep-sea-green" id="dob" name="dob" placeholder="Fecha de Nacimiento"></input>
+                                <input className="border text-black text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 bg-aqua-squeeze border-deep-sea-green placeholder-deep-sea-green" type="date" id="FechaNacimiento" name="FechaNacimiento" placeholder="Fecha de Nacimiento"></input>
                             </div>
                         </div>
                         <div className="email-input flex justify-between">
                             <div className="flex items-center w-1/4">
-                                <label for="email">Email</label>
+                                <label for="Email">Email</label>
                             </div>
                             <div className="md:w-2/4 w-3/4">
-                                <input className="border text-black text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 bg-aqua-squeeze border-deep-sea-green placeholder-deep-sea-green" id="email" name="email" placeholder="Correo Electrónico"></input>
-                            </div>
-                        </div>
-                        <div className="address-input flex justify-between">
-                            <div className="flex items-center w-1/4">
-                                <label for="streetNumber">Dirección</label>
-                            </div>
-                            <div className="flex flex-col md:w-2/4 w-3/4">
-                                <div className="flex">
-                                    <input className="border text-black text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 bg-aqua-squeeze border-deep-sea-green placeholder-deep-sea-green" id="state" name="state" placeholder="Estado"></input>
-                                    <input className="border text-black text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 bg-aqua-squeeze border-deep-sea-green placeholder-deep-sea-green" id="borough" name="borough" placeholder="Alcaldía"></input>
-                                </div>
-                                <div className="flex">
-                                    <input className="border text-black text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 bg-aqua-squeeze border-deep-sea-green placeholder-deep-sea-green" id="colony" name="colony" placeholder="Colonia"></input>
-                                    <input className="border text-black text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 bg-aqua-squeeze border-deep-sea-green placeholder-deep-sea-green" id="street" name="street" placeholder="Calle"></input>
-                                </div>
-                                <div className="flex">
-                                    <input className="border text-black text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 bg-aqua-squeeze border-deep-sea-green placeholder-deep-sea-green" id="interiorNumber" name="interiorNumber" placeholder="No. Interior"></input>
-                                    <input className="border text-black text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 bg-aqua-squeeze border-deep-sea-green placeholder-deep-sea-green" id="streetNumber" name="streetNumber" placeholder="No. Exterior"></input>
-                                </div>
+                                <input className="border text-black text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 bg-aqua-squeeze border-deep-sea-green placeholder-deep-sea-green" id="Email" name="Email" placeholder="Correo Electrónico"></input>
                             </div>
                         </div>
                         <div className="password-input flex justify-between">
@@ -92,6 +75,28 @@ class RegisterCard extends React.Component {
                                 <input className="border text-black text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 bg-aqua-squeeze border-deep-sea-green placeholder-deep-sea-green" id="password" name="password" type="password" placeholder="Contraseña"></input>
                             </div>
                         </div>
+                        <div className="address-input flex justify-between">
+                            <div className="flex items-center w-1/4">
+                                <label for="Calle">Dirección</label>
+                            </div>
+                            <div className="flex flex-col md:w-2/4 w-3/4">
+                                <div className="flex">
+                                    <input className="border text-black text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 bg-aqua-squeeze border-deep-sea-green placeholder-deep-sea-green" id="Estado" name="Estado" placeholder="Estado"></input>
+                                    <input className="border text-black text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 bg-aqua-squeeze border-deep-sea-green placeholder-deep-sea-green" id="Municipio" name="Municipio" placeholder="Municipio"></input>
+                                </div>
+                                <div className="flex">
+                                    <input className="border text-black text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 bg-aqua-squeeze border-deep-sea-green placeholder-deep-sea-green" id="Colonia" name="Colonia" placeholder="Colonia"></input>
+                                    <input className="border text-black text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 bg-aqua-squeeze border-deep-sea-green placeholder-deep-sea-green" id="Calle" name="Calle" placeholder="Calle"></input>
+                                </div>
+                                <div className="flex">
+                                    <input className="border text-black text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 bg-aqua-squeeze border-deep-sea-green placeholder-deep-sea-green" id="NoInterior" name="NoInterior" placeholder="No. Interior"></input>
+                                    <input className="border text-black text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 bg-aqua-squeeze border-deep-sea-green placeholder-deep-sea-green" id="NoExterior" name="NoExterior" placeholder="No. Exterior"></input>
+                                </div>
+                                <div className="flex">
+                                    <input className="border text-black text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 bg-aqua-squeeze border-deep-sea-green placeholder-deep-sea-green" id="Cp" name="Cp" placeholder="Código Postal"></input>
+                                </div>
+                            </div>
+                        </div>
                         <div className="phone-input flex justify-between">
                             <div className="flex items-center w-1/4">
                                 <label for="phone">Teléfono</label>
@@ -100,6 +105,7 @@ class RegisterCard extends React.Component {
                                 <input className="border text-black text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 bg-aqua-squeeze border-deep-sea-green placeholder-deep-sea-green" id="phone" name="phone" placeholder="Teléfono"></input>
                             </div>
                         </div>
+                        {/*}
                         <div className="conditions-input flex justify-between">
                             <div className="flex items-center w-1/4">
                                 <label for="conditions">Padecimientos</label>
@@ -116,8 +122,9 @@ class RegisterCard extends React.Component {
                                 <textarea className="border text-black text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 bg-aqua-squeeze border-deep-sea-green placeholder-deep-sea-green" id="allergies" name="allergies" placeholder="Alergias comunes"></textarea>
                             </div>
                         </div>
+                        */}
                         <div className="block text-right mb-5">
-                        <button type="submit" className="button-primary w-1/4">Registrarse</button>
+                            <button type="submit" className="button-primary w-1/4">Registrarse</button>
                         </div>
                     </div>
                 </form>
