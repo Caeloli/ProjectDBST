@@ -25,7 +25,7 @@ class RegisterCard extends React.Component {
                         <p className="text-xs">(+52) 55231234543</p>
                     </div>
                 </div>
-                <form className="text-gray-700 flex flex-col items-center flex-1" method="POST" action="api/Patient/AddPatient ">
+                <form className="text-gray-700 flex flex-col items-center flex-1" method="POST" action="https://localhost:44342/Help/Api/POST-api-Patient-AddPatient">
                     <h2 className="text-3xl text-center font-semibold mb-10 pb-5 border-b-gray-500 border-b w-full">Registro de Nuevo Paciente</h2>
                     <div className="w-3/5 flex-1 flex flex-col justify-between">
                         <div className="name-input flex justify-between w-full">
@@ -102,7 +102,7 @@ class RegisterCard extends React.Component {
                                 <label for="phone">Teléfono</label>
                             </div>
                             <div className="flex flex-col md:w-2/4 w-3/4">
-                                <input className="border text-black text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 bg-aqua-squeeze border-deep-sea-green placeholder-deep-sea-green" id="phone" name="phone" placeholder="Teléfono"></input>
+                                <input className="border text-black text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 bg-aqua-squeeze border-deep-sea-green placeholder-deep-sea-green" id="phone" name="phone" placeholder="Teléfono" type="number"></input>
                             </div>
                         </div>
                         {/*}
