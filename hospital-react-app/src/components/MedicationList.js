@@ -1,43 +1,24 @@
-import React, {useEffect} from "react";
+import React, { useEffect , useState} from "react";
 import MedicineRow from './MedicineRow';
 
 
-function MedicationList(props) {
+function MedicationList({ isDashboard }) {
+    const [listaMedicinas, setListaMedicinas] = useState([]);
 
-    const { isDashboard, medicinas } = props;
-    
+    useEffect(() => {
+        fetch("URL-GET-ALL-MEDICAMENTOS", {
+            method: "GET"
+        })
+            .then(response => response.json())
+            .then(data => {
+                setListaMedicinas(data);
+            })
+            .catch(error => {
+                console.log("Error no se pudo obtener la lista de medicinas", error);
+            })
+    }, []);
 
-    // const [medicinas, setMedicinas] = useState([]);
-
-    // useEffect(() => {
-    //     const fetchMedicamentos = async() => {
-    //         try {
-    //             const response = await fetch("URL");
-    //             const data = await response.json();
-    //             setMedicinas(data);
-    //         } catch (error) {
-    //             console.log("Error fetching medicamentos: ", error);
-    //         }
-    //     }
-    // }, []);
-
-    // const handleDelete = (id) => {
-    //     fetch(`URL/${id}`, {
-    //       method: "DELETE"
-    //     })
-    //       .then(response => {
-    //         if (response.ok) {
-    //           console.log("Medicamento borrado correctamente");
-    //         } else {
-    //           console.error("No se pudo borrar el medicamento");
-    //         }
-    //       })
-    //       .catch(error => {
-    //         console.error("Error al borrar medicamento:", error);
-    //       });
-    //   };
-
-    if (isDashboard) {
+    if (isDashboard === true) {
         return (
             <div className="patients-list col-span-2">
                 <div className="w-auto max-w-full max-h-full h-full mx-auto bg-white shadow-lg rounded-3xl border border-blue-hosta">
@@ -64,7 +45,7 @@ function MedicationList(props) {
                                 </tr>
                             </thead>
                             <tbody className="text-sm divide-y divide-gray-100 overflow-y-scroll">
-                                {medicinas.map(medicina => (
+                                {listaMedicinas.map(medicina => (
                                     <MedicineRow medicina={medicina} key={medicina.id} tipo={isDashboard}></MedicineRow>
                                 ))}
                             </tbody>
@@ -76,6 +57,7 @@ function MedicationList(props) {
             </div>
         );
     } else {
+
         return (
             <div className="patients-list col-span-2">
                 <div className="w-auto max-w-full max-h-full h-full mx-auto bg-white shadow-lg rounded-3xl border border-blue-hosta">
@@ -119,17 +101,16 @@ function MedicationList(props) {
                                 </tr>
                             </thead>
                             <tbody className="text-sm divide-y divide-gray-100 overflow-y-scroll">
-                                {medicinas.map(medicina => (
+                                {listaMedicinas.map(medicina => (
                                     <MedicineRow medicina={medicina} key={medicina.id} tipo={isDashboard}></MedicineRow>
                                 ))}
                             </tbody>
                         </table>
                     </div>
                 </div>
-
-
             </div>
         );
+
     }
 
 }
