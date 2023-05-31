@@ -7,13 +7,12 @@ function NewMedicine() {
   const location = useLocation();
   const [isEditing, setIsEditing] = useState(false);
   const [medicamento, setMedicamento] = useState({
-    id: "",
-    nombreComun: "",
-    nombreFarmaceutica: "",
+    idFabricante: "",
+    nombreComun:"",
+    dosificacionRecomendada: "",
+    formaFarmaceutica: "",
     precio: "",
-    dosificacion: "",
-    precauciones: "",
-    fabricante: ""
+    precauciones: ""
   });
 
   const [fabricantes,setFabricantes] = useState([])
@@ -26,12 +25,13 @@ function NewMedicine() {
     setIsEditing(isEdit);
 
     if(isEdit && medicamentoId) {
-      fetch(`URL-PARA-BUSCAR-MEDICAMENTO/${medicamentoId}`, {
+      fetch(`https://localhost:44342/api/Medicine/GetMedicineById?piId=${medicamentoId}`, {
         method: "GET"
       })
         .then(response => response.json())
         .then(data => {
-          setMedicamento(data)
+          console.log(data.Data[0])
+          setMedicamento(data.Data[0])
         })
         .catch(error => {
           console.log("Error al obtener datos del medicamento", error);
@@ -42,16 +42,21 @@ function NewMedicine() {
   }, [location.search]);
 
   const fetchFabricantes = () => {
-    fetch("URL-OBTENER-LISTA-FABRICANTES", {
+    fetch("https://localhost:44342/api/Provider/GetProviders", {
       method: "GET"
     })
       .then(response => response.json())
       .then(data => {
-        setFabricantes(data)
+        setFabricantes(data.Data)
       })
       .catch(error => {
         console.log("Error al obtener la lista de fabricantes", error);
       });
+
+      let optionItems = fabricantes.map((fabricante) =>
+        <option key={fabricante.idFabricante} value={fabricante.idFabricante}>{fabricante.nombre}</option>
+    );
+
   };
 
   const handleInputChange = (e) => {
@@ -63,10 +68,16 @@ function NewMedicine() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
+    medicamento.idFabricante = parseInt(medicamento.idFabricante);
+    medicamento.precio = parseFloat(medicamento.precio);
     if (isEditing) {
-      fetch(`URL-UPDATE-MEDICAMENTO/${medicamento.id}`, {
-        method: "PUT",
+      const searchParams = new URLSearchParams(location.search);
+      let medicamentoUpdate = {}
+      medicamentoUpdate = medicamento
+      medicamentoUpdate['id'] = parseInt(searchParams.get("id"))
+      console.log(medicamentoUpdate)
+      fetch(`https://localhost:44342/api/Medicine/UpdateMedicines`, {
+        method: "POST",
         headers: {
           "Content-Type": "application/json"
         },
@@ -74,13 +85,13 @@ function NewMedicine() {
       })
         .then(response => response.json())
         .then(data => {
-          console.log("Medicamento editado correctamente", data);
+          console.log("Medicamento editado correctamente", data.Data);
         })
         .catch(error => {
           console.log("Error al editar el medicamento", error);
         });
     } else {
-      fetch("URL-CREATE-MEDICAMENTO", {
+      fetch("https://localhost:44342/api/Medicine/AddMedicine", {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
@@ -112,7 +123,7 @@ function NewMedicine() {
           <h2 className="text-2xl font-bold mb-4">Agregar Medicamento</h2>
 
           <div className="mb-4">
-            <label htmlFor="nombreComun" className="block font-semibold">
+            <label htmlFor="NombreComun" className="block font-semibold">
               Nombre Común
             </label>
             <input
@@ -120,22 +131,22 @@ function NewMedicine() {
               id="nombreComun"
               name="nombreComun"
               className="w-full border border-gray-300 rounded-md py-2 px-3"
-              value={medicamento.nombreComun}
+              value= {medicamento.nombreComun}
               onChange={handleInputChange}
               required
             />
           </div>
 
           <div className="mb-4">
-            <label htmlFor="nombreFarmaceutica" className="block font-semibold">
+            <label htmlFor="formaFarmaceutica" className="block font-semibold">
               Nombre Farmacéutica
             </label>
             <input
               type="text"
-              id="nombreFarmaceutica"
-              name="nombreFarmaceutica"
+              id="formaFarmaceutica"
+              name="formaFarmaceutica"
               className="w-full border border-gray-300 rounded-md py-2 px-3"
-              value={medicamento.nombreFarmaceutica}
+              value={medicamento.formaFarmaceutica}
               onChange={handleInputChange}
               required
             />
@@ -157,15 +168,15 @@ function NewMedicine() {
           </div>
 
           <div className="mb-4">
-            <label htmlFor="dosificacion" className="block font-semibold">
+            <label htmlFor="dosificacionRecomendada" className="block font-semibold">
               Dosificación Recomendada
             </label>
             <input
               type="text"
-              id="dosificacion"
-              name="dosificacion"
+              id="dosificacionRecomendada"
+              name="dosificacionRecomendada"
               className="w-full border border-gray-300 rounded-md py-2 px-3"
-              value={medicamento.dosificacion}
+              value={medicamento.dosificacionRecomendada}
               onChange={handleInputChange}
               required
             />
@@ -186,21 +197,25 @@ function NewMedicine() {
           </div>
 
           <div className="mb-4">
-            <label htmlFor="fabricante" className="block font-semibold">
+            <label htmlFor="idFabricante" className="block font-semibold">
               Fabricante
             </label>
             <select
-              id="fabricante"
-              name="fabricante"
+              id="idFabricante"
+              name="idFabricante"
               className="w-full border border-gray-300 rounded-md py-2 px-3"
-              value={medicamento.fabricante}
+              value={medicamento.idFabricante}
               onChange={handleInputChange}
               required
             >
               <option value="">Seleccione un fabricante</option>
               {fabricantes.map(fabricante => {
-                <option key={fabricante.id} value={fabricante.nombre}>{fabricante.nombre}</option>
+                <option key={fabricante.idFabricante} value={fabricante.idFabricante}>ss</option>
               })}
+              <option value="1">merk mexico</option>
+              <option value="2">boehringer ingelheim</option>
+              <option value="3">bayer</option>
+
             </select>
           </div>
 

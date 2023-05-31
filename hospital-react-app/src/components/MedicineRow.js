@@ -2,11 +2,30 @@ import React, { useState } from "react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faGear, faCircleXmark } from '@fortawesome/free-solid-svg-icons';
 import { Link } from "react-router-dom";
+import { useEffect } from "react";
 
 function MedicineRow(props) {
     const medicina = props.medicina;
     const isDashboard = props.tipo;
     const [showCard, setShowCard] = useState(false);
+    const[providerName, setProviderName] = useState("");
+
+    useEffect(() => {
+        const getProviderName = () => {
+            fetch(`https://localhost:44342/api/Provider/GetProviderById?piId=${medicina.idFabricante}`, {
+              method: "GET"
+            })
+              .then(response => response.json())
+              .then(data => {
+                setProviderName(data.Data[0].nombre)
+              })
+              .catch(error => {
+                console.log("Error al obtener fabricante", error);
+              });
+        
+          };
+          getProviderName();
+    }, [])
 
     const handleClick = () => {
         setShowCard(!showCard)
@@ -15,8 +34,8 @@ function MedicineRow(props) {
     const handleDelete = (id) => {
         console.log(id);
         console.log(new Date().toLocaleString());
-        fetch(`URL-DELETE-MEDICAMENTO/${id}`, {
-            method: "DELETE"
+        fetch(`https://localhost:44342/api/Medicine/DeleteMedicine?piId=${id}`, {
+            method: "POST"
         })
             .then(response => {
                 if (response.ok) {
@@ -35,12 +54,12 @@ function MedicineRow(props) {
             <tr>
                 <td className="p-2  whitespace-nowrap">
                     <div className="text-left">
-                        {medicina.nombreFarmaceutico}
+                        {medicina.formaFarmaceutica}
                     </div>
                 </td>
                 <td className="p-2  whitespace-nowrap">
                     <div className="text-left">
-                        {medicina.nombre}
+                        {medicina.nombreComun}
                     </div>
                 </td>
                 <td className="p-2 whitespace-nowrap">
@@ -57,14 +76,14 @@ function MedicineRow(props) {
                 <tr className="hover:bg-gray-100">
                     <td className="p-2  whitespace-nowrap cursor-pointer" onClick={handleClick}>
                         <div className="text-left">
-                            {medicina.nombreFarmaceutico}
+                            {medicina.formaFarmaceutica}
                         </div>
 
                     </td>
 
                     <td className="p-2  whitespace-nowrap cursor-pointer" onClick={handleClick}>
                         <div className="text-left">
-                            {medicina.nombre}
+                            {medicina.nombreComun}
                         </div>
                     </td>
 
@@ -76,13 +95,13 @@ function MedicineRow(props) {
 
                     <td className="p-2  whitespace-nowrap cursor-pointer" onClick={handleClick}>
                         <div className="text-left font-mediu">
-                            {medicina.dosisRecomendada}
+                            {medicina.dosificacionRecomendada}
                         </div>
                     </td>
 
                     <td className="p-2 ">
                         <div className="text-left font-mediu">
-                            <Link to={`/NewMedicine?edit=true&id=${medicina.id}`}>
+                            <Link to={`/NewMedicine?edit=true&id=${medicina.idMedicamento}`}>
                                 <FontAwesomeIcon className='text-2xl hover:scale-110 translation' icon={faGear} style={{ color: "#545454", }} />
                             </Link>
                         </div>
@@ -90,7 +109,7 @@ function MedicineRow(props) {
 
                     <td className="p-2 ">
                         <div className="text-left font-medium text-green-500 hover:scale-110 translation">
-                            <a href="/Medicamentos" onClick={() => handleDelete(medicina.id)}>
+                            <a href="/Medicamentos" onClick={() => handleDelete(medicina.idMedicamento)}>
                                 <FontAwesomeIcon className='text-2xl' icon={faCircleXmark} style={{ color: "#ff0000", }} />
                             </a>
                         </div>
@@ -103,19 +122,19 @@ function MedicineRow(props) {
                                 <div className="row-span-3  flex items-center justify-center flex-col">
                                     <p className="font-sans text-base">
                                         <span className="text-sky-400">Nombre:</span>
-                                        {medicina.nombre}
+                                        {medicina.nombreComun}
                                     </p>
                                     <p className="font-sans text-base">
                                         <span className="text-sky-400">Nombre Farmaceutico: </span>
-                                        {medicina.nombreFarmaceutico}
+                                        {medicina.formaFarmaceutica}
                                     </p>
                                     <p className="font-sans text-base">
                                         <span className="text-sky-400">Dosis recomendada: </span>
-                                        {medicina.dosisRecomendada}
+                                        {medicina.dosificacionRecomendada}
                                     </p>
                                     <p className="font-sans text-base">
                                         <span className="text-sky-400">Fabricante: </span>
-                                        {medicina.fabricante}
+                                        {providerName}
                                     </p>
 
                                     <p className="font-sans text-green-600 text-xl">
@@ -146,7 +165,7 @@ function MedicineRow(props) {
                                         </div>
                                         <div>
                                             <p>
-                                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec rutrum fermentum ex sed dapibus. Sed fringilla vestibulum metus at maximus. Curabitur est sapien, posuere vitae euismod a, dapibus sit amet neque. Ut quis nisi mauris. Vivamus eget accumsan nibh. Morbi molestie arcu sed metus consequat, ut auctor nisl luctus.
+                                                {medicina.precauciones}
                                             </p>
 
                                         </div>

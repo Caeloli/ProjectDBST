@@ -6,12 +6,13 @@ function MedicationList({ isDashboard }) {
     const [listaMedicinas, setListaMedicinas] = useState([]);
 
     useEffect(() => {
-        fetch("URL-GET-ALL-MEDICAMENTOS", {
+        fetch("https://localhost:44342/api/Medicine/GetAllMedicine", {
             method: "GET"
         })
             .then(response => response.json())
             .then(data => {
-                setListaMedicinas(data);
+                setListaMedicinas(data.Data);
+                console.log(data.Data)
             })
             .catch(error => {
                 console.log("Error no se pudo obtener la lista de medicinas", error);
@@ -46,7 +47,7 @@ function MedicationList({ isDashboard }) {
                             </thead>
                             <tbody className="text-sm divide-y divide-gray-100 overflow-y-scroll">
                                 {listaMedicinas.map(medicina => (
-                                    <MedicineRow medicina={medicina} key={medicina.id} tipo={isDashboard}></MedicineRow>
+                                    <MedicineRow medicina={medicina} key={medicina.idMedicamento} tipo={isDashboard}></MedicineRow>
                                 ))}
                             </tbody>
                         </table>
@@ -102,7 +103,7 @@ function MedicationList({ isDashboard }) {
                             </thead>
                             <tbody className="text-sm divide-y divide-gray-100 overflow-y-scroll">
                                 {listaMedicinas.map(medicina => (
-                                    <MedicineRow medicina={medicina} key={medicina.id} tipo={isDashboard}></MedicineRow>
+                                    <MedicineRow medicina={medicina} key={medicina.idMedicamento} tipo={isDashboard}></MedicineRow>
                                 ))}
                             </tbody>
                         </table>
