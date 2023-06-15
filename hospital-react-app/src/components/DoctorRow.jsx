@@ -1,12 +1,105 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faGear, faCircleXmark } from '@fortawesome/free-solid-svg-icons';
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 
 function DoctorRow(props) {
+    const navigate = useNavigate()
+    const location = useLocation()
     const doctor = props.doctor;
     const isDashboard = props.tipo;
     const [showCard, setShowCard] = useState(false);
+    const [listaEspecialidades, setListaEspecialidades] = useState([]);
+    const [listaEspecialidadesIncluded, setListaEspecialidadesIncluded] = useState([]);
+    const [especialidad, setEspecialidad] = useState("")
+    const [bandera, setBandera] = useState(0)
+
+    useEffect(() => {
+        fetch(`https://localhost:44342/api/Speciality/GetAllSpecialities?piId=${doctor.idMedico}`, {
+                method: "GET"
+            })
+            .then(response => response.json())
+            .then(data => {
+                setListaEspecialidades(data.Data);
+                console.log(data.Data)
+            })
+            .catch(error => {
+                console.log("Error no se pudo obtener la lista de especialidades", error);
+            })
+
+            fetch(`https://localhost:44342/api/Speciality/GetAllSpecialitiesByDoctor?piId=${doctor.idMedico}`, {
+                method: "GET"
+            })
+            .then(response => response.json())
+            .then(data => {
+                setListaEspecialidadesIncluded(data.Data);
+                console.log(data.Data)
+            })
+            .catch(error => {
+                console.log("Error no se pudo obtener la lista de especialidades", error);
+            })
+
+    }, []);
+
+    
+
+    const handleInputChange = (e) => {
+        console.log([e.target.value][0])
+        setEspecialidad([e.target.value][0])
+      };
+
+    const handleAddSpeciality = () =>{
+        console.log(especialidad)
+        const speciality = {
+            idEspecialidad: especialidad,
+            idMedico: doctor.idMedico
+        }
+        console.log(speciality)
+        fetch("https://localhost:44342/api/Speciality/AddSpecialityDoctor", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json"
+            },
+            body: JSON.stringify(speciality)
+          })
+            .then(response => response.json())
+            .then(data => {
+                console.log("Especialidad guardada correctamente", data);
+                handleUpdateSpecialities()
+            })
+            .catch(error => {
+              console.log("Error al guardar especialidad", error);
+            });
+
+
+    }
+
+    const handleUpdateSpecialities = () =>{
+        fetch(`https://localhost:44342/api/Speciality/GetAllSpecialities?piId=${doctor.idMedico}`, {
+                method: "GET"
+            })
+            .then(response => response.json())
+            .then(data => {
+                setListaEspecialidades(data.Data);
+                console.log("Update",data.Data[0].idEspecialidad)
+                setEspecialidad(data.Data[0].idEspecialidad)
+            })
+            .catch(error => {
+                console.log("Error no se pudo obtener la lista de especialidades", error);
+            })
+
+            fetch(`https://localhost:44342/api/Speciality/GetAllSpecialitiesByDoctor?piId=${doctor.idMedico}`, {
+                method: "GET"
+            })
+            .then(response => response.json())
+            .then(data => {
+                setListaEspecialidadesIncluded(data.Data);
+                console.log(data.Data)
+            })
+            .catch(error => {
+                console.log("Error no se pudo obtener la lista de especialidades", error);
+            })
+    }
 
 
     const handleClick = () => {
@@ -159,11 +252,32 @@ function DoctorRow(props) {
                                         </div>
                                         <div>
                                             <ul className="list-disc">
-                                                <li>Especialidad 1</li>
+                                            {listaEspecialidadesIncluded.map((option) => (
+                                                <li key={option.idEspecialidad}>{option.nombre}</li>
+                                            ))}
+                                                {/* <li>Especialidad 1</li>
                                                 <li>Especialidad 2</li>
-                                                <li>Especialidad 3</li>
+                                                <li>Especialidad 3</li> */}
                                             </ul>
-
+                                        </div>
+                                    </div>
+                                    <div className=" grid grid-cols-2 py-2 px-2">
+                                        <div className="flex justify-center">
+                                            Agregar Especialidad:
+                                        </div>
+                                        <div>
+                                            <select name="especialidad" id="especialidad"
+                                            value={especialidad}
+                                            onChange={handleInputChange}
+                                            required
+                                            >
+                                            {listaEspecialidades.map((option) => (
+                                                <option key={option.idEspecialidad} value={option.idEspecialidad}>{option.nombre}</option>
+                                            ))}
+                                            </select>
+                                            <div className="">
+                                                <button type="button" className="button-primary w-2/4" onClick={() => handleAddSpeciality(doctor.idMedico)}>Agregar</button>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>

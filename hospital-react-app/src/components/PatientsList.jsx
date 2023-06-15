@@ -5,6 +5,7 @@ import PatientRow from "./PatientRow";
 
 function PatientsList({ isDashboard }) {
     const [listaPacientes, setListaPacientes] = useState([]);
+    const [listaEspecialidades, setListaEspecialidades] = useState([]);
 
     useEffect(() => {
         fetch("https://localhost:44342/api/Patient/GetAllPatients", {
@@ -18,6 +19,18 @@ function PatientsList({ isDashboard }) {
             .catch(error => {
                 console.log("Error no se pudo obtener la lista de pacientes", error);
             })
+
+            fetch("https://localhost:44342/api/Speciality/GetAllSpecialities", {
+                method: "GET"
+            })
+                .then(response => response.json())
+                .then(data => {
+                    setListaEspecialidades(data.Data);
+                    console.log(data.Data)
+                })
+                .catch(error => {
+                    console.log("Error no se pudo obtener la lista de especialidades", error);
+                })
     }, []);
 
     if (isDashboard === true) {

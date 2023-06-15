@@ -8,6 +8,7 @@ function PatientRow(props) {
     const paciente = props.paciente;
     const isDashboard = props.tipo;
     const [showCard, setShowCard] = useState(false);
+    
 
 
     const handleClick = () => {
