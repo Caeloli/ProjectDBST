@@ -255,9 +255,6 @@ function DoctorRow(props) {
                                             {listaEspecialidadesIncluded.map((option) => (
                                                 <li key={option.idEspecialidad}>{option.nombre}</li>
                                             ))}
-                                                {/* <li>Especialidad 1</li>
-                                                <li>Especialidad 2</li>
-                                                <li>Especialidad 3</li> */}
                                             </ul>
                                         </div>
                                     </div>

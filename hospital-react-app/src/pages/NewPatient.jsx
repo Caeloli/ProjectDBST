@@ -3,6 +3,7 @@ import HamburgerMenuDesktop from "../components/HamburgerMenuDesktop";
 import imagen from '../assets/imgs/nuevoMedicamento.png'
 import {useLocation} from "react-router-dom";
 import PatientRegister from "../components/PatientRegister";
+import AdminNavDashboard from "../components/admindash/AdminNavDashboard";
 
 function NewPatient() {
   const location = useLocation();
@@ -23,7 +24,7 @@ function NewPatient() {
 
   return (
     <div className="flex w-screen h-screen">
-      <HamburgerMenuDesktop></HamburgerMenuDesktop>
+      <AdminNavDashboard></AdminNavDashboard>
       <PatientRegister isEdit={searchParams.get("edit") === "true"} id={searchParams.get("id")}/>
     </div>
   );

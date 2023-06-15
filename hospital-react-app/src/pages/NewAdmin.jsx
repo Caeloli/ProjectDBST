@@ -3,6 +3,7 @@ import HamburgerMenuDesktop from "../components/HamburgerMenuDesktop";
 import {useLocation} from "react-router-dom";
 import DoctorRegister from "../components/DoctorRegister";
 import AdminRegister from "../components/AdminRegister";
+import AdminNavDashboard from "../components/admindash/AdminNavDashboard";
 
 function NewAdmin() {
   const location = useLocation();
@@ -22,7 +23,7 @@ function NewAdmin() {
 
   return (
     <div className="flex w-screen h-screen">
-      <HamburgerMenuDesktop></HamburgerMenuDesktop>
+      <AdminNavDashboard></AdminNavDashboard>
       <AdminRegister isEdit={searchParams.get("edit") === "true"} id={searchParams.get("id")}/>
     </div>
   );

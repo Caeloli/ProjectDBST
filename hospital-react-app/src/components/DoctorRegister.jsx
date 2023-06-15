@@ -345,8 +345,8 @@ function DoctorRegister(props){
                                 >
                                 <option selected>Selecciona un consultorio</option>
                                 {consultorios.map((option) => (
-        <option key={option.idConsultorio} value={option.idConsultorio}>{option.idConsultorio}</option>
-      ))}
+                                    <option key={option.idConsultorio} value={option.idConsultorio}>{option.idConsultorio}</option>
+                                ))}
                               
                                 </select>
                             </div>

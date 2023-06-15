@@ -18,19 +18,19 @@ function App() {
             <li className='transition hover:text-aqua-squeeze'>
               <Link to="/">Home</Link>
             </li>
-            <li className='transition hover:text-aqua-squeeze'>
+            {/* <li className='transition hover:text-aqua-squeeze'>
               <Link to="/Dashboard">Dashboard</Link>
-            </li>
+            </li> */}
             <li className='transition hover:text-aqua-squeeze'>
               <Link to="/Contacto">Contacto</Link>
             </li>
           </div>
           <div className='flex col-start-4 col-end-6 justify-center'>
-            <li className='mr-4 text-blue-hosta hover:text-aqua-squeeze transition'>
+            {/* <li className='mr-4 text-blue-hosta hover:text-aqua-squeeze transition'>
               <Link to="/Login">Login</Link>
-            </li>
+            </li> */}
             <li className='button-primary'>
-              <Link to="/Registro">Sign-Up</Link>
+              <Link to="/Login">Login</Link>
             </li>
           </div>
         </ul>

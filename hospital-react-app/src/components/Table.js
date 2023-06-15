@@ -27,13 +27,14 @@ class Table extends React.Component {
         console.log("Análisis tabla");
         return data.map((row, rowIndex) => (
             <tr key={rowIndex}>
-                {row.map((cell, cellIndex) => (
+                {Object.entries(row).map((cell, cellIndex) => (
                     <td key={cellIndex} className="p-2 whitespace-nowrap">
-                        {cell}
+                        {cell[1]}
                     </td>
                 ))}
             </tr>
         ));;
+      
     }
 
     render() {

@@ -1,14 +1,24 @@
 import React, { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faNotesMedical, faHouse, faFlask, faVirus, faPlus, faUser, faUserDoctor, faUserFriends } from '@fortawesome/free-solid-svg-icons';
-import { Link } from 'react-router-dom';
+import { faNotesMedical, faHouse, faFlask, faVirus, faPlus, faUser, faUserDoctor, faUserFriends, faSignOut } from '@fortawesome/free-solid-svg-icons';
+import { Link, useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import {  resetUser } from '../../redux/states/user'
+
 
 const AdminHamburgerMenuDesktop = () => {
     const [isOpen, setIsOpen] = useState(false);
-
+    const navigate = useNavigate()
+    const dispatch = useDispatch()
     const toggleMenu = () => {
         setIsOpen(!isOpen);
     };
+
+    const handleLogOut = () => {
+        localStorage.removeItem('user')
+        dispatch(resetUser());
+        navigate('/home')
+    }
 
     return (
 
@@ -61,8 +71,8 @@ const AdminHamburgerMenuDesktop = () => {
                     </a>
                 </div>
                 <div className='h-1/6 flex justify-evenly flex-col'>
-                    <a className="" href='#'>
-                        <FontAwesomeIcon className='bg-blue-hosta p-7 text-xl rounded-full' icon={faUser} />
+                    <a className="" href='#' onClick={handleLogOut}>
+                        <FontAwesomeIcon className='bg-blue-hosta p-7 text-xl rounded-full' icon={faSignOut} />
                     </a>
                 </div>
             </div>

@@ -18,8 +18,8 @@ class Home extends React.Component {
                             <h1 className="text-blue-hosta text-7xl w-3/4"> Líderes en <span className="text-white">Calidad</span> del Servicio Médico </h1>
                             <p className="text-sm text-white">Ofrecemos las mejores experiencias médicas para nuestros clientes lorem ipsum modsad para Idas sadsadd</p>
                             <div className="flex justify-around w-1/2">
-                                <a className="button-primary">Agendar una Cita</a>
-                                <a className="button-primary">Registrarse</a>
+                                {/* <a className="button-primary">Agendar una Cita</a> */}
+                                {/* <a className="button-primary">Registrarse</a> */}
                             </div>
                         </div>
                         <div className="w-96 max-h-max">

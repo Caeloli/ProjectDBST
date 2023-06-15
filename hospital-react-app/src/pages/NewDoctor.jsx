@@ -4,6 +4,7 @@ import imagen from '../assets/imgs/nuevoMedicamento.png'
 import {useLocation} from "react-router-dom";
 import PatientRegister from "../components/PatientRegister";
 import DoctorRegister from "../components/DoctorRegister";
+import AdminNavDashboard from "../components/admindash/AdminNavDashboard";
 
 function NewDoctor() {
   const location = useLocation();
@@ -23,7 +24,7 @@ function NewDoctor() {
 
   return (
     <div className="flex w-screen h-screen">
-      <HamburgerMenuDesktop></HamburgerMenuDesktop>
+      <AdminNavDashboard></AdminNavDashboard>
       <DoctorRegister isEdit={searchParams.get("edit") === "true"} id={searchParams.get("id")}/>
     </div>
   );
