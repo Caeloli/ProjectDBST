@@ -47,7 +47,7 @@ function LoginCard(){
             }else if(data.Data.idUsuario == 'Medico'){
                 navigate('/Dashboard')
             } else{
-                navigate('/Dashboard')
+                navigate('/AdminDashboard')
             }
         })
         .catch(error => {

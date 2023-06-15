@@ -240,6 +240,7 @@ function DoctorRegister(props){
                                  type="date" id="fechaNacimiento" name="fechaNacimiento" placeholder="Fecha de Nacimiento"
                                  value= {doctor.fechaNacimiento.substring(0,10)}
                                 onChange={handleInputChange}
+                                min="1950-01-01" max="2023-01-01"
                                 required
                                  ></input>
                             </div>

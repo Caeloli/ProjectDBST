@@ -1,21 +1,21 @@
 import React, { useEffect , useState} from "react";
-import DoctorRow from "./DoctorRow";
+import AdminRow from "./AdminsRow";
 
 
-function DoctorsList({ isDashboard }) {
-    const [listaDoctores, setListaDoctores] = useState([]);
+function AdminList({ isDashboard }) {
+    const [listaAdmin, setListaAdmin] = useState([]);
 
     useEffect(() => {
-        fetch("https://localhost:44342/api/Doctor/GetAllDoctors", {
-            method: "GET"
-        })
+            fetch("https://localhost:44342/api/Admin/GetAllAdmins", {
+                method: "GET"
+            })
             .then(response => response.json())
             .then(data => {
-                setListaDoctores(data.Data);
+                setListaAdmin(data.Data);
                 console.log(data.Data)
             })
             .catch(error => {
-                console.log("Error no se pudo obtener la lista de doctores", error);
+                console.log("Error no se pudo obtener la lista de admins", error);
             })
     }, []);
 
@@ -24,7 +24,7 @@ function DoctorsList({ isDashboard }) {
             <div className="patients-list col-span-2">
                 <div className="w-auto max-w-full max-h-full h-full mx-auto bg-white shadow-lg rounded-3xl border border-blue-hosta">
                     <header className="px-5 py-4">
-                        <h2 className="font-semibold text-gray-800 mb-4">Doctores</h2>
+                        <h2 className="font-semibold text-gray-800 mb-4">Administradores</h2>
                     </header>
 
                     <div className=" overflow-y-auto max-h-[350px]">
@@ -52,8 +52,8 @@ function DoctorsList({ isDashboard }) {
                                 </tr>
                             </thead>
                             <tbody className="text-sm divide-y divide-gray-100 overflow-y-scroll">
-                                {listaDoctores.map(doctor => (
-                                    <DoctorRow doctor={doctor} key={doctor.idMedico} tipo={isDashboard}></DoctorRow>
+                                {listaAdmin.map(admin => (
+                                    <AdminRow admin={admin} key={admin.RFC} tipo={isDashboard}></AdminRow>
                                 ))} 
                             </tbody>
                         </table>
@@ -108,9 +108,9 @@ function DoctorsList({ isDashboard }) {
                                 </tr>
                             </thead>
                             <tbody className="text-sm divide-y divide-gray-100 overflow-y-scroll">
-                                {listaDoctores.map(doctor => (
-                                    <DoctorRow doctor={doctor} key={doctor.idMedico} tipo={isDashboard}></DoctorRow>
-                                ))}
+                                {listaAdmin.map(admin => (
+                                    <AdminRow admin={admin} key={admin.RFC} tipo={isDashboard}></AdminRow>
+                                ))} 
                             </tbody>
                         </table>
                     </div>
@@ -122,4 +122,4 @@ function DoctorsList({ isDashboard }) {
 
 }
 
-export default DoctorsList;
+export default AdminList;

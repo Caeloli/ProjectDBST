@@ -25,25 +25,11 @@ const AdminHamburgerMenuDesktop = () => {
                 </div>
                 <div className='h-4/6 flex  flex-col text-base text-center'>
                     <a
-                        href="/Dashboard"
+                        href="/AdminDashboard"
                         className="flex justify-start items-center py-4 pl-4 transition duration-300 ease-in-out hover:bg-aqua-squeeze hover:text-deep-sea-green"
                     >
                         <FontAwesomeIcon className='pr-6' icon={faHouse} />
                         <p>Inicio</p>
-                    </a>
-                    <a
-                        href="#"
-                        className="flex justify-start items-center py-4 pl-4 transition duration-300 ease-in-out hover:bg-aqua-squeeze hover:text-deep-sea-green"
-                    >
-                        <FontAwesomeIcon className='pr-6' icon={faNotesMedical} />
-                        <p>Doctores</p>
-                    </a>
-                    <a
-                        href="/Medicamentos"
-                        className="flex justify-start items-center py-4 pl-4 transition duration-300 ease-in-out hover:bg-aqua-squeeze hover:text-deep-sea-green"
-                    >
-                        <FontAwesomeIcon className='pr-6' icon={faFlask} />
-                        <p>Pacientes</p>
                     </a>
                     <a
                         href="/Medicamentos"
@@ -53,21 +39,21 @@ const AdminHamburgerMenuDesktop = () => {
                         <p>Farmacología</p>
                     </a>
                     <a
-                        href="/Pacientes"
+                        href="/GestionPacientes"
                         className="flex justify-start items-center py-4 pl-4 transition duration-300 ease-in-out hover:bg-aqua-squeeze hover:text-deep-sea-green"
                     >
                         <FontAwesomeIcon className='pr-6' icon={faUser} />
                         <p>Pacientes</p>
                     </a>
                     <a
-                        href="/Medico"
+                        href="/GestionMedicos"
                         className="flex justify-start items-center py-4 pl-4 transition duration-300 ease-in-out hover:bg-aqua-squeeze hover:text-deep-sea-green"
                     >
                         <FontAwesomeIcon className='pr-6' icon={faUserDoctor} />
                         <p>Medicos</p>
                     </a>
                     <a
-                        href="/Administrador"
+                        href="/GestionAdmin"
                         className="flex justify-start items-center py-4 pl-4 transition duration-300 ease-in-out hover:bg-aqua-squeeze hover:text-deep-sea-green"
                     >
                         <FontAwesomeIcon className='pr-6' icon={faUserFriends} />
