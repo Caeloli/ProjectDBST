@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faNotesMedical, faHouse, faFlask, faVirus, faPlus, faUser } from '@fortawesome/free-solid-svg-icons';
+import { faNotesMedical, faHouse, faFlask, faVirus, faPlus, faUser, faUserDoctor, faUserFriends } from '@fortawesome/free-solid-svg-icons';
 import { Link } from 'react-router-dom';
 
 const AdminHamburgerMenuDesktop = () => {
@@ -51,6 +51,27 @@ const AdminHamburgerMenuDesktop = () => {
                     >
                         <FontAwesomeIcon className='pr-6' icon={faFlask} />
                         <p>Farmacología</p>
+                    </a>
+                    <a
+                        href="/Pacientes"
+                        className="flex justify-start items-center py-4 pl-4 transition duration-300 ease-in-out hover:bg-aqua-squeeze hover:text-deep-sea-green"
+                    >
+                        <FontAwesomeIcon className='pr-6' icon={faUser} />
+                        <p>Pacientes</p>
+                    </a>
+                    <a
+                        href="/Medico"
+                        className="flex justify-start items-center py-4 pl-4 transition duration-300 ease-in-out hover:bg-aqua-squeeze hover:text-deep-sea-green"
+                    >
+                        <FontAwesomeIcon className='pr-6' icon={faUserDoctor} />
+                        <p>Medicos</p>
+                    </a>
+                    <a
+                        href="/Administrador"
+                        className="flex justify-start items-center py-4 pl-4 transition duration-300 ease-in-out hover:bg-aqua-squeeze hover:text-deep-sea-green"
+                    >
+                        <FontAwesomeIcon className='pr-6' icon={faUserFriends} />
+                        <p>Administradores</p>
                     </a>
                 </div>
                 <div className='h-1/6 flex justify-evenly flex-col'>

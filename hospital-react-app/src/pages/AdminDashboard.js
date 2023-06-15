@@ -9,20 +9,6 @@ import Table from "../components/Table";
 class AdminDashboard extends React.Component {
     constructor(props) {
         super(props);
-        this.medicinas = [
-            { id: 1, nombre: 'Advil', nombreFarmaceutico: 'Ibuprofeno', precio: 60, dosisRecomendada: '5mg' },
-            { id: 1, nombre: 'Advil', nombreFarmaceutico: 'Ibuprofeno', precio: 60, dosisRecomendada: '5mg' },
-            { id: 1, nombre: 'Advil', nombreFarmaceutico: 'Ibuprofeno', precio: 60, dosisRecomendada: '5mg' },
-            { id: 1, nombre: 'Advil', nombreFarmaceutico: 'Ibuprofeno', precio: 60, dosisRecomendada: '5mg' },
-            { id: 1, nombre: 'Advil', nombreFarmaceutico: 'Ibuprofeno', precio: 60, dosisRecomendada: '5mg' },
-            { id: 1, nombre: 'Advil', nombreFarmaceutico: 'Ibuprofeno', precio: 60, dosisRecomendada: '5mg' },
-            { id: 1, nombre: 'Advil', nombreFarmaceutico: 'Ibuprofeno', precio: 60, dosisRecomendada: '5mg' },
-            { id: 1, nombre: 'Advil', nombreFarmaceutico: 'Ibuprofeno', precio: 60, dosisRecomendada: '5mg' },
-            { id: 1, nombre: 'Advil', nombreFarmaceutico: 'Ibuprofeno', precio: 60, dosisRecomendada: '5mg' },
-            { id: 1, nombre: 'Advil', nombreFarmaceutico: 'Ibuprofeno', precio: 60, dosisRecomendada: '5mg' },
-            { id: 1, nombre: 'Advil', nombreFarmaceutico: 'Ibuprofeno', precio: 60, dosisRecomendada: '5mg' },
-    
-        ];
     }
 
     render() {
@@ -210,7 +196,7 @@ class AdminDashboard extends React.Component {
                             <div className="medicinal-supplies col-span-1 ">
                                 <div className="border-2  shadow-md rounded-3xl max-h-full h-full border-blue-hosta bg-white">
                                     {/* <h3>Medical Supplies</h3> */}
-                                    <MedicationList isDashboard={true} medicinas={this.medicinas}></MedicationList>
+                                    <MedicationList isDashboard={true} ></MedicationList>
                                 </div>
                             </div>
                         </div>

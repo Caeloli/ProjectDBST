@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
 import HamburgerMenuDesktop from "../components/HamburgerMenuDesktop";
 import imagen from '../assets/imgs/nuevoMedicamento.png'
-import {useLocation} from "react-router-dom";
+import {useLocation, useNavigate} from "react-router-dom";
 
 function NewMedicine() {
+  const navigate = useNavigate()
   const location = useLocation();
   const [isEditing, setIsEditing] = useState(false);
   const [medicamento, setMedicamento] = useState({
@@ -86,6 +87,7 @@ function NewMedicine() {
         .then(response => response.json())
         .then(data => {
           console.log("Medicamento editado correctamente", data.Data);
+          navigate('/Medicamentos')
         })
         .catch(error => {
           console.log("Error al editar el medicamento", error);
@@ -101,6 +103,7 @@ function NewMedicine() {
         .then(response => response.json())
         .then(data => {
           console.log("Medicamento guardado correctamente", data);
+          navigate('/Medicamentos')
         })
         .catch(error => {
           console.log("Error al guardar el medicamento", error);
@@ -225,6 +228,8 @@ function NewMedicine() {
           >
             {isEditing ? "Editar" : "Agregar"}
           </button>
+          <a href="/Medicamentos" className="button-primary w-1/4">Cancelar</a>
+
         </form>
       </div>
     </div>
