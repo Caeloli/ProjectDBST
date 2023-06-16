@@ -88,7 +88,7 @@ function DoctorRegister(props){
           doctorUpdate['Id'] = parseInt(props.id)
           doctorUpdate['IdDireccion'] = parseInt(direccionId)
           console.log(doctorUpdate)
-          fetch(`https://localhost:44342/api/Patient/UpdatePatient`, {
+          fetch(`https://localhost:44342/api/Doctor/UpdateDoctor`, {
             method: "POST",
             headers: {
               "Content-Type": "application/json"
