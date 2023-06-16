@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import NavDashboard from "../components/NavDashboard";
 import AdminNavDashboard from '../components/admindash/AdminNavDashboard';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -6,29 +6,39 @@ import { faGear } from '@fortawesome/free-solid-svg-icons';
 import Calendar from "../components/Calendar";
 import MedicationList from "../components/MedicationList";
 import Table from "../components/Table";
-class AdminDashboard extends React.Component {
-    constructor(props) {
-        super(props);
-        this.medicinas = [
-            { id: 1, nombre: 'Advil', nombreFarmaceutico: 'Ibuprofeno', precio: 60, dosisRecomendada: '5mg' },
-            { id: 1, nombre: 'Advil', nombreFarmaceutico: 'Ibuprofeno', precio: 60, dosisRecomendada: '5mg' },
-            { id: 1, nombre: 'Advil', nombreFarmaceutico: 'Ibuprofeno', precio: 60, dosisRecomendada: '5mg' },
-            { id: 1, nombre: 'Advil', nombreFarmaceutico: 'Ibuprofeno', precio: 60, dosisRecomendada: '5mg' },
-            { id: 1, nombre: 'Advil', nombreFarmaceutico: 'Ibuprofeno', precio: 60, dosisRecomendada: '5mg' },
-            { id: 1, nombre: 'Advil', nombreFarmaceutico: 'Ibuprofeno', precio: 60, dosisRecomendada: '5mg' },
-            { id: 1, nombre: 'Advil', nombreFarmaceutico: 'Ibuprofeno', precio: 60, dosisRecomendada: '5mg' },
-            { id: 1, nombre: 'Advil', nombreFarmaceutico: 'Ibuprofeno', precio: 60, dosisRecomendada: '5mg' },
-            { id: 1, nombre: 'Advil', nombreFarmaceutico: 'Ibuprofeno', precio: 60, dosisRecomendada: '5mg' },
-            { id: 1, nombre: 'Advil', nombreFarmaceutico: 'Ibuprofeno', precio: 60, dosisRecomendada: '5mg' },
-            { id: 1, nombre: 'Advil', nombreFarmaceutico: 'Ibuprofeno', precio: 60, dosisRecomendada: '5mg' },
+import { useSelector } from 'react-redux';
+function AdminDashboard() {
+    const [citas, setCitas] = useState([])
+    const [paciente, setPaciente] = useState([])
+    useEffect(() => {
+        fetch(`https://localhost:44342/api/Appointment/GetAppointments`, {
+            method: "GET"
+          })
+            .then(response => response.json())
+            .then(data => {
+              setCitas(data.Data)
+            })
+            .catch(error => {
+              console.log("Error al obtener datos de citas", error);
+            })
+            fetch(`https://localhost:44342/api/Patient/GetAllPatients`, {
+                method: "GET"
+              })
+                .then(response => response.json())
+                .then(data => {
+                  setPaciente(data.Data)
+                })
+                .catch(error => {
+                  console.log("Error al obtener datos de pacientes", error);
+                })
     
-        ];
-    }
+      
+    }, [])
+    
 
-    render() {
-
+        const userState = useSelector((store) => store.user);
         const headerTitle = "Citas"
-        const headerTable = ["Nombre", "Consultorio", "Hora"]
+        const headerTable = ["idCita", "Descripción", "Fecha", "idMedico", "idPaciente", "Consultorio", "Medico", "Paciente"]
         const tableInfo = [
             ["info", "info", "info"],
             ["info", "info", "info"],
@@ -42,8 +52,8 @@ class AdminDashboard extends React.Component {
                     <div className="w-11/12 flex flex-col h-full ">
                         <div className="title flex justify-between my-9">
                             <div className="w-1/2 background-green-blue-gradient flex flex-col justify-between p-4 rounded-2xl text-white">
-                                <h2 className="font-bold text-2xl">Buenos Días, <span>Dr. Nunez</span></h2>
-                                <p>Hay <span className="font-bold">120 pacientes</span> esperando por usted</p>
+                                <h2 className="font-bold text-2xl">Buenos Días, <span>{userState.nombre + ' ' + userState.paterno}</span></h2>
+                                <p>Usted es <span className="font-bold">{userState.tipo}</span></p>
                             </div>
                             <div>
                                 <FontAwesomeIcon className="border p-3 rounded-full " icon={faGear} />
@@ -51,22 +61,22 @@ class AdminDashboard extends React.Component {
                         </div>
                         <div className="panels grid grid-cols-3 gap-9 flex-1">
                             <div className="appointments col-span-1">
-                                <Table headerTitle={headerTitle} headerTable={headerTable} tableInfo={tableInfo} />
+                                <Table headerTitle={headerTitle} headerTable={headerTable} tableInfo={citas} />
                             </div>
                             <div className="appointments-request col-span-1 ">
                                 <Calendar />
                             </div>
                             <div className="doctor-review col-span-1">
-                                <div className="bg-white shadow-md h-full border border-blue-hosta rounded-3xl">
+                                <div className="bg-white shadow-md h-64 border border-blue-hosta rounded-3xl">
                                     <div className="flex flex-col items-center justify-center">
                                         <div className="flex flex-col items-center justify-center py-4">
                                             <div className="w-32 h-32 p-1 border shadow-md border-blue-hosta radial-bg-blue-hosta-gradient rounded-3xl flex items-center justify-center" >
-                                                <img src={require('../assets/imgs/surgeon.png')} className=" object-contain h-full w-full"></img>
+                                                <img src={require('../assets/imgs/admin.png')} className=" object-contain h-full w-full"></img>
                                             </div>
-                                            <h3 className="text-deep-sea-green font-semibold text-xl">Dra. Jackson Santos</h3>
-                                            <p className="font-light">Dermatólogo - Sesion del Hospital</p>
+                                            <h3 className="text-deep-sea-green font-semibold text-xl">Admin {userState.nombre + ' ' + userState.paterno + ' ' + userState.materno}</h3>
+                                            <p className="font-light">{userState.titulacion}</p>
                                         </div>
-                                        <div className="grid grid-cols-2 gap-2 border-t border-t-gray-400 w-3/4 pt-4 my-0 mx-auto">
+                                        {/* <div className="grid grid-cols-2 gap-2 border-t border-t-gray-400 w-3/4 pt-4 my-0 mx-auto">
                                             <div className="flex flex-col text-xl">
                                                 <span className="text-deep-sea-green font-bold">2.453</span>
                                                 <p>Citas</p>
@@ -83,7 +93,7 @@ class AdminDashboard extends React.Component {
                                                 <span className="text-deep-sea-green font-bold">2.453</span>
                                                 <p>Consultas</p>
                                             </div>
-                                        </div>
+                                        </div> */}
                                     </div>
                                 </div>
                             </div>
@@ -98,108 +108,37 @@ class AdminDashboard extends React.Component {
                                             <thead className="text-xs font-semibold uppercase text-gray-400 bg-gray-50">
                                                 <tr>
                                                     <th className="p-2 whitespace-nowrap">
-                                                        <div className="font-semibold text-left">Name</div>
+                                                        <div className="font-semibold text-left">Nombre</div>
                                                     </th>
                                                     <th className="p-2 whitespace-nowrap">
-                                                        <div className="font-semibold text-left">Age</div>
+                                                        <div className="font-semibold text-left">Nacimiento</div>
                                                     </th>
                                                     <th className="p-2 whitespace-nowrap">
-                                                        <div className="font-semibold text-left">Last Diagnosis</div>
+                                                        <div className="font-semibold text-left">Correo</div>
                                                     </th>
-                                                    <th className="p-2 whitespace-nowrap">
-                                                        <div className="font-semibold text-center">#Register</div>
-                                                    </th>
+                                                    {/* <th className="p-2 whitespace-nowrap">
+                                                        <div className="font-semibold text-center"></div>
+                                                    </th> */}
                                                 </tr>
                                             </thead>
                                             <tbody className="text-sm divide-y divide-gray-100 overflow-y-scroll">
+                                            {paciente.map((p) => (
                                                 <tr>
                                                     <td className="p-2 whitespace-nowrap">
                                                         <div className="flex items-center">
-                                                            <div className="w-10 h-10 flex-shrink-0 mr-2 sm:mr-3"><img className="rounded-full" src="https://raw.githubusercontent.com/cruip/vuejs-admin-dashboard-template/main/src/images/user-36-05.jpg" width="40" height="40" alt="Alex Shatov" /></div>
-                                                            <div className="font-medium text-gray-800">Alex Shatov</div>
+                                                            <div className="font-medium text-gray-800">{p.nombre}</div>
                                                         </div>
                                                     </td>
+                                                    
                                                     <td className="p-2 whitespace-nowrap">
-                                                        <div className="text-left">alexshatov@gmail.com</div>
+                                                        <div className="text-left">{p.fechaNacimiento}</div>
                                                     </td>
                                                     <td className="p-2 whitespace-nowrap">
-                                                        <div className="text-left font-medium text-green-500">$2,890.66</div>
-                                                    </td>
-                                                    <td className="p-2 whitespace-nowrap">
-                                                        <div className="text-lg text-center">??</div>
+                                                        <div className="text-left font-medium text-green-500">{p.email}</div>
                                                     </td>
                                                 </tr>
-
-                                                <tr>
-                                                    <td className="p-2 whitespace-nowrap">
-                                                        <div className="flex items-center">
-                                                            <div className="w-10 h-10 flex-shrink-0 mr-2 sm:mr-3"><img className="rounded-full" src="https://raw.githubusercontent.com/cruip/vuejs-admin-dashboard-template/main/src/images/user-36-06.jpg" width="40" height="40" alt="Philip Harbach" /></div>
-                                                            <div className="font-medium text-gray-800">Philip Harbach</div>
-                                                        </div>
-                                                    </td>
-                                                    <td className="p-2 whitespace-nowrap">
-                                                        <div className="text-left">philip.h@gmail.com</div>
-                                                    </td>
-                                                    <td className="p-2 whitespace-nowrap">
-                                                        <div className="text-left font-medium text-green-500">$2,767.04</div>
-                                                    </td>
-                                                    <td className="p-2 whitespace-nowrap">
-                                                        <div className="text-lg text-center">??</div>
-                                                    </td>
-                                                </tr>
-
-
-                                                <tr>
-                                                    <td className="p-2 whitespace-nowrap">
-                                                        <div className="flex items-center">
-                                                            <div className="w-10 h-10 flex-shrink-0 mr-2 sm:mr-3"><img className="rounded-full" src="https://raw.githubusercontent.com/cruip/vuejs-admin-dashboard-template/main/src/images/user-36-07.jpg" width="40" height="40" alt="Mirko Fisuk" /></div>
-                                                            <div className="font-medium text-gray-800">Mirko Fisuk</div>
-                                                        </div>
-                                                    </td>
-                                                    <td className="p-2 whitespace-nowrap">
-                                                        <div className="text-left">mirkofisuk@gmail.com</div>
-                                                    </td>
-                                                    <td className="p-2 whitespace-nowrap">
-                                                        <div className="text-left font-medium text-green-500">$2,996.00</div>
-                                                    </td>
-                                                    <td className="p-2 whitespace-nowrap">
-                                                        <div className="text-lg text-center">??</div>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td className="p-2 whitespace-nowrap">
-                                                        <div className="flex items-center">
-                                                            <div className="w-10 h-10 flex-shrink-0 mr-2 sm:mr-3"><img className="rounded-full" src="https://raw.githubusercontent.com/cruip/vuejs-admin-dashboard-template/main/src/images/user-36-08.jpg" width="40" height="40" alt="Olga Semklo" /></div>
-                                                            <div className="font-medium text-gray-800">Olga Semklo</div>
-                                                        </div>
-                                                    </td>
-                                                    <td className="p-2 whitespace-nowrap">
-                                                        <div className="text-left">olga.s@cool.design</div>
-                                                    </td>
-                                                    <td className="p-2 whitespace-nowrap">
-                                                        <div className="text-left font-medium text-green-500">$1,220.66</div>
-                                                    </td>
-                                                    <td className="p-2 whitespace-nowrap">
-                                                        <div className="text-lg text-center">??</div>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td className="p-2 whitespace-nowrap">
-                                                        <div className="flex items-center">
-                                                            <div className="w-10 h-10 flex-shrink-0 mr-2 sm:mr-3"><img className="rounded-full" src="https://raw.githubusercontent.com/cruip/vuejs-admin-dashboard-template/main/src/images/user-36-09.jpg" width="40" height="40" alt="Burak Long" /></div>
-                                                            <div className="font-medium text-gray-800">Burak Long</div>
-                                                        </div>
-                                                    </td>
-                                                    <td className="p-2 whitespace-nowrap">
-                                                        <div className="text-left">longburak@gmail.com</div>
-                                                    </td>
-                                                    <td className="p-2 whitespace-nowrap">
-                                                        <div className="text-left font-medium text-green-500">$1,890.66</div>
-                                                    </td>
-                                                    <td className="p-2 whitespace-nowrap">
-                                                        <div className="text-lg text-center">??</div>
-                                                    </td>
-                                                </tr>
+                                                            
+                                                ))}
                                             </tbody>
                                         </table>
                                     </div>
@@ -210,7 +149,7 @@ class AdminDashboard extends React.Component {
                             <div className="medicinal-supplies col-span-1 ">
                                 <div className="border-2  shadow-md rounded-3xl max-h-full h-full border-blue-hosta bg-white">
                                     {/* <h3>Medical Supplies</h3> */}
-                                    <MedicationList isDashboard={true} medicinas={this.medicinas}></MedicationList>
+                                    <MedicationList isDashboard={true} ></MedicationList>
                                 </div>
                             </div>
                         </div>
@@ -218,8 +157,6 @@ class AdminDashboard extends React.Component {
                 </div>
             </div>
         );
-    }
-
 }
 
 export default AdminDashboard;

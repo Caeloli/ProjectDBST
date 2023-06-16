@@ -1,11 +1,15 @@
 import React, { useState, useEffect } from "react";
 import HamburgerMenuDesktop from "../components/HamburgerMenuDesktop";
 import imagen from '../assets/imgs/nuevoMedicamento.png'
-import {useLocation} from "react-router-dom";
+import {useLocation, useNavigate} from "react-router-dom";
+import AdminNavDashboard from "../components/admindash/AdminNavDashboard";
 
 function NewMedicine() {
+  const navigate = useNavigate()
   const location = useLocation();
   const [isEditing, setIsEditing] = useState(false);
+  const [fabricantes,setFabricantes] = useState([])
+
   const [medicamento, setMedicamento] = useState({
     idFabricante: "",
     nombreComun:"",
@@ -15,7 +19,6 @@ function NewMedicine() {
     precauciones: ""
   });
 
-  const [fabricantes,setFabricantes] = useState([])
 
   useEffect(() => {
     const searchParams = new URLSearchParams(location.search);
@@ -38,8 +41,20 @@ function NewMedicine() {
         })
     }
 
-    fetchFabricantes();
-  }, [location.search]);
+    fetch("https://localhost:44342/api/Provider/GetProviders", {
+      method: "GET"
+    })
+      .then(response => response.json())
+      .then(data => {
+        setFabricantes(data.Data)
+        console.log(fabricantes)
+      })
+      .catch(error => {
+        console.log("Error al obtener la lista de fabricantes", error);
+      });
+
+
+  }, []);
 
   const fetchFabricantes = () => {
     fetch("https://localhost:44342/api/Provider/GetProviders", {
@@ -86,6 +101,7 @@ function NewMedicine() {
         .then(response => response.json())
         .then(data => {
           console.log("Medicamento editado correctamente", data.Data);
+          navigate('/Medicamentos')
         })
         .catch(error => {
           console.log("Error al editar el medicamento", error);
@@ -101,6 +117,7 @@ function NewMedicine() {
         .then(response => response.json())
         .then(data => {
           console.log("Medicamento guardado correctamente", data);
+          navigate('/Medicamentos')
         })
         .catch(error => {
           console.log("Error al guardar el medicamento", error);
@@ -110,7 +127,7 @@ function NewMedicine() {
 
   return (
     <div className="flex w-screen h-screen">
-      <HamburgerMenuDesktop></HamburgerMenuDesktop>
+      <AdminNavDashboard></AdminNavDashboard>
 
       <div className="flex justify-center items-center w-full h-full ">
         <div className="w-1/2 border-2 border-green-500 shadow-m rounded-lg h-[670px] flex justify-center items-center bg-deep-sea-green">
@@ -208,13 +225,13 @@ function NewMedicine() {
               onChange={handleInputChange}
               required
             >
-              <option value="">Seleccione un fabricante</option>
-              {fabricantes.map(fabricante => {
-                <option key={fabricante.idFabricante} value={fabricante.idFabricante}>ss</option>
-              })}
-              <option value="1">merk mexico</option>
+              <option>Seleccione un fabricante</option>
+              {fabricantes.map((fabricante) => (
+                <option key={fabricante.idFabricante} value={fabricante.idFabricante}>{fabricante.nombre}</option>
+              ))}
+              {/* <option value="1">merk mexico</option>
               <option value="2">boehringer ingelheim</option>
-              <option value="3">bayer</option>
+              <option value="3">bayer</option> */}
 
             </select>
           </div>
@@ -225,6 +242,8 @@ function NewMedicine() {
           >
             {isEditing ? "Editar" : "Agregar"}
           </button>
+          <a href="/Medicamentos" className="button-primary w-1/4">Cancelar</a>
+
         </form>
       </div>
     </div>
