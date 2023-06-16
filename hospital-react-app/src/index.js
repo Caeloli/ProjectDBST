@@ -23,6 +23,7 @@ import GestionMedicos from './pages/GestionMedicos';
 import NewDoctor from './pages/NewDoctor';
 import GestionAdmin from './pages/GestionAdmin';
 import NewAdmin from './pages/NewAdmin';
+import RecoverPassword from './pages/RecoverPassword';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -57,6 +58,7 @@ root.render(
           <Route path='/Dashboard' element={<Dashboard/>} />
         </Route>
         <Route path="/Login" element={<Login />} />
+        <Route path="/RecoverPassword" element={<RecoverPassword />} />
         <Route path="/Registro" element={<Register />} />
       </Routes>
     </BrowserRouter>

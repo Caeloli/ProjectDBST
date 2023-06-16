@@ -179,19 +179,24 @@ function PatientRegister(props){
                                 ></input>
                             </div>
                         </div>
-                        <div className="password-input flex justify-between">
-                            <div className="flex items-center w-1/4">
-                                <label for="password">Contraseña</label>
+                        {
+                            !props.isEdit ?
+                            <div className="password-input flex justify-between">
+                                <div className="flex items-center w-1/4">
+                                    <label for="password">Contraseña</label>
+                                </div>
+                                <div className="flex flex-col md:w-2/4 w-3/4">
+                                    <input className="border text-black text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 bg-aqua-squeeze border-deep-sea-green placeholder-deep-sea-green" 
+                                    id="password" name="password" type="password" placeholder="Contraseña"
+                                    value= {paciente.password}
+                                    onChange={handleInputChange}
+                                    required
+                                    ></input>
+                                </div>
                             </div>
-                            <div className="flex flex-col md:w-2/4 w-3/4">
-                                <input className="border text-black text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 bg-aqua-squeeze border-deep-sea-green placeholder-deep-sea-green" 
-                                id="password" name="password" type="password" placeholder="Contraseña"
-                                value= {paciente.password}
-                                onChange={handleInputChange}
-                                required
-                                ></input>
-                            </div>
-                        </div>
+                            :
+                            <div></div>
+                        }
                         <div className="address-input flex justify-between">
                             <div className="flex items-center w-1/4">
                                 <label for="estado">Dirección</label>
