@@ -24,6 +24,9 @@ import NewDoctor from './pages/NewDoctor';
 import GestionAdmin from './pages/GestionAdmin';
 import NewAdmin from './pages/NewAdmin';
 import RecoverPassword from './pages/RecoverPassword';
+import PatientDashboard from './pages/PatientDashboard';
+import AppointmentForm from './pages/ScheduleAppointment';
+import AppointmentsPage from './pages/PatientAppointments';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -45,6 +48,9 @@ root.render(
         <Route path="/NewAdmin" element={<NewAdmin />} />
         <Route path='/Medicamentos' element={<Medicines />} />
         <Route path='/NewMedicine' element={<NewMedicine />} />
+        <Route path='/PatientDashboard' element={<PatientDashboard />} />
+        <Route path='/AppointmentForm' element={<AppointmentForm />} />
+        <Route path='/AppointmentsPage' element={<AppointmentsPage />} />
 
         <Route element={<AuthGuard/>}>
           <Route path="/Dashboard" element={<Dashboard />} />
