@@ -4,7 +4,7 @@ import { faGear, faCircleXmark } from '@fortawesome/free-solid-svg-icons';
 import { Link } from "react-router-dom";
 
 function AppointmentAdminRow(props) {
-    const cita = (props.cita)[0];
+    const cita = (props.cita);
     const isDashboard = props.tipo;
     const [showCard, setShowCard] = useState(false);
 
@@ -34,17 +34,17 @@ function AppointmentAdminRow(props) {
             <tr>
                 <td className="p-2  whitespace-nowrap">
                     <div className="text-left">
-                        {cita.IdCita}
+                        {cita.idCita}
                     </div>
                 </td>
                 <td className="p-2  whitespace-nowrap">
                     <div className="text-left">
-                        {cita.IdPaciente}
+                    {cita.nombrePaciente + " " + cita.paternoPaciente}
                     </div>
                 </td>
                 <td className="p-2 whitespace-nowrap">
                     <div className="text-left">
-                        {cita.IdMedico}
+                    {cita.nombreMedico + " " + cita.paternoMedico}
                     </div>
                 </td>
                 <td className="p-2 whitespace-nowrap">
@@ -60,20 +60,20 @@ function AppointmentAdminRow(props) {
                 <tr className="hover:bg-gray-100">
                     <td className="p-2  whitespace-nowrap cursor-pointer" onClick={handleClick}>
                         <div className="text-left">
-                            {cita.IdCita}
+                            {cita.idCita}
                         </div>
 
                     </td>
 
                     <td className="p-2  whitespace-nowrap cursor-pointer" onClick={handleClick}>
                         <div className="text-left">
-                            {cita.IdPaciente}
+                            {cita.nombrePaciente + " " + cita.paternoPaciente}
                         </div>
                     </td>
 
                     <td className="p-2  whitespace-nowrap cursor-pointer" onClick={handleClick}>
                         <div className="text-left">
-                            {cita.IdMedico}
+                            {cita.nombreMedico + " " + cita.paternoMedico}
                         </div>
                     </td>
 
@@ -85,7 +85,7 @@ function AppointmentAdminRow(props) {
 
                     <td className="p-2 ">
                         <div className="text-left font-medium">
-                            <Link to={`/NewAppointment?edit=true&id=${cita.IdCita}`}>
+                            <Link to={`/NewAppointment?edit=true&id=${cita.idCita}&idPaciente=${cita.idCita}`}>
                                 <FontAwesomeIcon className='text-2xl hover:scale-110 translation' icon={faGear} style={{ color: "#545454", }} />
                             </Link>
                         </div>
@@ -93,7 +93,7 @@ function AppointmentAdminRow(props) {
 
                     <td className="p-2 ">
                         <div className="text-left font-medium text-green-500 hover:scale-110 translation">
-                            <a href="/GestionPacientes" onClick={() => handleDelete(cita.IdCita)}>
+                            <a href="/GestionCitasAdmin" onClick={() => handleDelete(cita.idCita)}>
                                 <FontAwesomeIcon className='text-2xl' icon={faCircleXmark} style={{ color: "#ff0000", }} />
                             </a>
                         </div>
@@ -106,7 +106,7 @@ function AppointmentAdminRow(props) {
                                 <div className="row-span-3  flex items-center justify-center flex-col">
                                     <p className="font-sans text-base">
                                         <span className="text-sky-400">Descripción:</span>
-                                        {cita.Descripcion}
+                                        {cita.descripcion}
                                     </p>
                                 </div>
                             </div>

@@ -17,110 +17,189 @@ function AppointmentRegister(props) {
 
     const [patients, setPatients] = useState([]);
     const [medics, setMedics] = useState([]);
+    const [hours, setHours] = useState([]);
+    const [hour, setHour] = useState("");
+    const [currentDoctor, setCurrentDoctor] =  useState({})
 
     useEffect(() => {
+        fetch("https://localhost:44342/api/Patient/GetAllPatients", {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+            .then(response => response.json())
+            .then(data => {
+                setPatients(data.Data);
+                console.log(data.Data)
+            })
+            .catch(error => {
+                console.log("Error, no se logró obtener la lista de pacientes de la API");
+            })
+
+        fetch("https://localhost:44342/api/Doctor/GetAllDoctors", {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+            .then(response => response.json())
+            .then(data => {
+                setMedics(data.Data);
+                console.log( data.Data);
+            })
+            .catch(error => {
+                console.log("Error, no se logró obtener la lista de pacientes de la API");
+            })
+        console.log(props)
         if (isEdit) {
-            fetch(`api/Appointment/GetAppointmentByAppointment?piId=${parseInt(props.id)}`, {
+            fetch(`https://localhost:44342/api/Appointment/GetAppointmentById?piId=${parseInt(props.idPaciente)}`, {
                 method: "GET"
             })
                 .then(response => response.json())
                 .then(data => {
                     console.log(data.Data[0])
-                    setAppointment(data.Data[0])
+                    setAppointment(data.Data)
+                    setCurrentDoctor(medics.find(medic => medic.idMedico === appointment[0].IdMedico))
+                    console.log(medics.find(medic => medic.idMedico === appointment[0].IdMedico))
+                    console.log(currentDoctor.RFC)
+                    fetch(`https://localhost:44342/api/Appointment/GetAvailableHours?psDate=${appointment[0].Fecha.split("T")[0]}&psRFC=${currentDoctor.RFC}&piIdMedico=${currentDoctor.idMedico}`, {
+                        method: 'GET',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        }
+                    })
+                        .then(response => response.json())
+                        .then(data => {
+                            setHours(data.Data)
+                            console.log(data);
+                        })
+                        .catch(error => {
+                            console.log("Error, no se logró obtener la lista de horas");
+                        })
                 })
                 .catch(error => {
                     console.log("Error al obtener datos de la cita", error);
                 })
         }
 
-        fetch("https://api.jsonserver.io/api/Patient/GetAllPatients", {
-            method: 'GET',
-            mode: 'cors',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-Jsio-Token': '8ecc882dae5b1f14d3e86662a9dddb60'
-            }
-        })
-            .then(response => response.json())
-            .then(data => {
-                setPatients(data.Data);
-            })
-            .catch(error => {
-                console.log("Error, no se logró obtener la lista de pacientes de la API");
-            })
-
-        fetch("https://api.jsonserver.io/api/Doctor/GetAllDoctors", {
-            method: 'GET',
-            mode: 'cors',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-Jsio-Token': '8ecc882dae5b1f14d3e86662a9dddb60'
-            }
-        })
-            .then(response => response.json())
-            .then(data => {
-                setMedics(data.Data);
-                console.log("Medico" + data.Data);
-            })
-            .catch(error => {
-                console.log("Error, no se logró obtener la lista de pacientes de la API");
-            })
+        
 
     }, [isEdit, props.id]);
 
+    const getDoctorAvailableHours = () =>{
+        if(isEdit){
+            setCurrentDoctor(medics.find(medic => medic.idMedico === appointment.IdMedico))
+        }else{
+            setCurrentDoctor(medics.find(medic => medic.idMedico === appointment.IdMedico)) 
+        }
+            console.log(currentDoctor)
+            console.log(appointment)
+        fetch(`https://localhost:44342/api/Appointment/GetAvailableHours?psDate=${appointment.Fecha}&psRFC=${currentDoctor.RFC}&piIdMedico=${currentDoctor.idMedico}`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+            .then(response => response.json())
+            .then(data => {
+                setHours(data.Data)
+                console.log(data.Data);
+            })
+            .catch(error => {
+                console.log("Error, no se logró obtener la lista de horas");
+            })
+    }
+
     const patientsOptionSelect = patients.map(patient => ({
-        value: parseInt(patient[0].idPaciente),
-        label: `${patient[0].nombre} ${patient[0].paterno} ${patient[0].materno}`
+        value: parseInt(patient.idPaciente),
+        label: `${patient.nombre} ${patient.paterno} ${patient.materno}`
     }));
 
     const medicsOptionSelect = medics.map(medic => ({
-        value: parseInt(medic[0].idMedico),
-        label: `Dr. ${medic[0].nombre} ${medic[0].paterno} ${medic[0].materno}`
+        value: parseInt(medic.idMedico),
+        label: `Dr. ${medic.nombre} ${medic.paterno} ${medic.materno}`
     }));
 
     const handleInputChange = (value, inputName) => {
+        console.log(inputName)
+        if(inputName === 'Fecha'){
+            getDoctorAvailableHours()
+        }
+        if(inputName === 'IdMedico'){
+            setHours([])
+        }
         setAppointment({
             ...appointment,
             [inputName]: value
         })
+        if(inputName === 'Hora'){
+            setHour(value)
+            console.log(value)
+        }
+    }
+
+    const validateAppointment = () => {
+        const currentPatient = patients.find(patient => patient.idPaciente === appointment.IdPaciente)
+        fetch(`https://localhost:44342/api/Appointment/ValidateAppointment?piId=${currentPatient.idPaciente}`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+            .then(response => response.json())
+            .then(data => {
+                if(data.StatusCode === 200){
+                    const fecha = appointment.Fecha + " " + hour
+                    appointment.Fecha = fecha
+                    console.log(fecha)
+                    if (isEdit) {
+                        appointment.IdCita = parseInt(props.id);
+                        fetch(`https://localhost:44342/api/Appointment/UpdateAppointment`, {
+                            method: "POST",
+                            headers: {
+                                "Content-Type": "application/json"
+                            },
+                            body: JSON.stringify(appointment)
+                        })
+                            .then(response => response.json())
+                            .then(data => {
+                                console.log("Cita editada correctamente", data.Data);
+                                navigate('/GestionCitasAdmin')
+                            })
+                            .catch(error => {
+                                console.log("Error al editar la cita", error);
+                            });
+                    } else {
+                        fetch("https://localhost:44342/api/Appointment/AddAppointment", {
+                        method: "POST",
+                        headers: {
+                          "Content-Type": "application/json"
+                        },
+                        body: JSON.stringify(appointment)
+                      })
+                      .then(response => response.json())
+                      .then(data => {
+                          console.log("Cita guardada correctamente", data.Data);
+                          navigate('/GestionCitasAdmin')
+                      })
+                      .catch(error => {
+                          console.log("Error al guardar la cita", error);
+                      });
+                    }
+                }else{
+                    alert(data.Message)
+                }
+            })
+            .catch(error => {
+                console.log("Error, no se logró validar la cita");
+            })
     }
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        if (isEdit) {
-            appointment.IdCita = parseInt(props.id);
-            fetch(`https://localhost:44342/api/Appointment/UpdateAppointment`, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify(appointment)
-            })
-                .then(response => response.json())
-                .then(data => {
-                    console.log("Cita editada correctamente", data.Data);
-                    navigate('/GestionCitasAdmin')
-                })
-                .catch(error => {
-                    console.log("Error al editar la cita", error);
-                });
-        } else {
-            fetch("https://localhost:44342/api/Provider/AddProvider", {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json"
-            },
-            body: JSON.stringify(appointment)
-          })
-          .then(response => response.json())
-          .then(data => {
-              console.log("Cita guardada correctamente", data.Data);
-              navigate('/GestionCitasAdmin')
-          })
-          .catch(error => {
-              console.log("Error al guardar la cita", error);
-          });
-        }
+        validateAppointment()
+        
     }
 
     const getCurrentDate = () => {
@@ -187,14 +266,35 @@ function AppointmentRegister(props) {
                             <label className="font-semibold text-lg text-deep-sea-green" for="IdPaciente">Paciente</label>
                         </div>
                         <div className="md:w-2/4 w-3/4">
-                            <Select
+                            {
+                                !isEdit &&(
+
+                                    <Select
+                                        className="shadow border-2 border-deep-sea-green"
+                                        name="IdPaciente"
+                                        placeholder="Su Paciente..."
+                                        options={patientsOptionSelect}
+                                        onChange={(selectedOption) => handleInputChange(selectedOption.value, "IdPaciente")}
+                                        isClearable
+                                        // value={{value: appointment.IdPaciente, label: patients.find(patient => patient.idPaciente === appointment.IdPaciente) }}
+        
+                                        required
+                                    />
+                                )
+                            }
+                            {isEdit && (
+
+                                <Select
                                 className="shadow border-2 border-deep-sea-green"
                                 name="IdPaciente"
                                 placeholder="Su Paciente..."
                                 options={patientsOptionSelect}
                                 onChange={(selectedOption) => handleInputChange(selectedOption.value, "IdPaciente")}
                                 isClearable
+                                // value={{value: appointment.IdPaciente, label: patients.find(patient => patient.idPaciente === appointment.IdPaciente) }}
+                                required
                             />
+                            )}
                         </div>
                     </div>
 
@@ -203,14 +303,30 @@ function AppointmentRegister(props) {
                             <label className="font-semibold text-lg text-deep-sea-green" for="IdMedico">Médico</label>
                         </div>
                         <div className="md:w-2/4 w-3/4">
-                            <Select
-                                className="shadow border-2 border-deep-sea-green"
-                                name="IdMedico"
-                                placeholder="Su Médico..."
-                                options={medicsOptionSelect}
-                                onChange={(selectedOption) => handleInputChange(selectedOption.value, "IdMedico")}
-                                isClearable
-                            />
+                            {
+                                !isEdit ?
+                                <Select
+                                    className="shadow border-2 border-deep-sea-green"
+                                    name="IdMedico"
+                                    placeholder="Su Médico..."
+                                    options={medicsOptionSelect}
+                                    onChange={(selectedOption) => handleInputChange(selectedOption.value, "IdMedico")}
+                                    isClearable
+                                    // value={{value: appointment.IdMedico, label: medics.find(medic => medic.idMedico === appointment.IdMedico).nombre }}
+                                    required
+                                />
+                                :
+                                <Select
+                                    className="shadow border-2 border-deep-sea-green"
+                                    name="IdMedico"
+                                    placeholder="Su Médico..."
+                                    options={medicsOptionSelect}
+                                    onChange={(selectedOption) => handleInputChange(selectedOption.value, "IdMedico")}
+                                    isClearable
+                                    // value={{value: appointment.IdMedico, label: medics.find(medic => medic.idMedico === appointment.IdMedico) }}
+                                    required
+                                />
+                            }
                         </div>
                     </div>
 
@@ -219,14 +335,30 @@ function AppointmentRegister(props) {
                             <label className="font-semibold text-lg text-deep-sea-green" for="Fecha">Fecha</label>
                         </div>
                         <div className="md:w-2/4 w-3/4">
-                            <input
+                            {
+                                !isEdit ?
+                                    <input
+                                        name="Fecha"
+                                        className="w-full shadow border-2 border-deep-sea-green"
+                                        type="date"
+                                        min={getCurrentDate()}
+                                        max={getMaxDate()}
+                                        onChange={(e) => handleInputChange(e.target.value, "Fecha")}
+                                        // value = {appointment.Fecha.split("T")[0]}
+                                        required
+                                    />
+                                :
+                                <input
                                 name="Fecha"
                                 className="w-full shadow border-2 border-deep-sea-green"
                                 type="date"
                                 min={getCurrentDate()}
                                 max={getMaxDate()}
                                 onChange={(e) => handleInputChange(e.target.value, "Fecha")}
+                                // value = {appointment.Fecha.split("T")[0]}
+                                required
                             />
+                            }
                         </div>
                     </div>
 
@@ -235,12 +367,36 @@ function AppointmentRegister(props) {
                             <label className="font-semibold text-lg text-deep-sea-green" for="Hora">Hora</label>
                         </div>
                         <div className="md:w-2/4 w-3/4">
-                            <input
+                            {/* <input
                                 name="Hora"
                                 className="w-full shadow border-2 border-deep-sea-green"
                                 type="time"
                                 step="1800"
-                            />
+                            /> */}
+                            {
+                                !isEdit ?
+                                    <select name="Hora" class="w-full shadow border-2 border-deep-sea-green" 
+                                        onChange={(e) => handleInputChange(e.target.value, "Hora")}
+                                        required
+                                        // value = {appointment.Fecha.split("T")[1].split(":").slice(0, 2).join(":")}
+                                        >
+                                        <option value="">Horas disponibles</option>
+                                        {hours != null ? hours.map((option, index) => (
+                                            <option key={index} value={option.Hora}>{option.Hora}</option>)) : <option disabled>Sin horas</option>
+                                        }
+                                    </select>
+                                :
+                                <select name="Hora" class="w-full shadow border-2 border-deep-sea-green" 
+                                        onChange={(e) => handleInputChange(e.target.value, "Hora")}
+                                        required
+                                        // value = {appointment.Fecha.split("T")[1].split(":").slice(0, 2).join(":")}
+                                        >
+                                        <option value="">Horas disponibles</option>
+                                        {hours != null ? hours.map((option, index) => (
+                                            <option key={index} value={option.Hora}>{option.Hora}</option>)) : <option disabled>Sin horas</option>
+                                        }
+                                    </select>
+                            }
                         </div>
                     </div>
 
@@ -254,6 +410,8 @@ function AppointmentRegister(props) {
                                 className="w-full shadow border-2 border-deep-sea-green"
                                 placeholder="Descripción de la cita..."
                                 onChange={(e) => handleInputChange(e.target.value, "Descripcion")}
+                                value={appointment.Descripcion}
+                                required
                             >
 
                             </textarea>
