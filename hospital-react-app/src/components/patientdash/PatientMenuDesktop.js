@@ -46,7 +46,7 @@ const PatientMenuDesktop = () => {
                         <p>Receta</p>
                     </a>
                     <a
-                        href="#"
+                        href="/AppointmentsPage"
                         className="flex justify-start items-center py-4 pl-4 transition duration-300 ease-in-out hover:bg-aqua-squeeze hover:text-deep-sea-green"
                     >
                         <FontAwesomeIcon className='pr-3' icon={faClipboard} />
