@@ -1,6 +1,7 @@
-import React, { useState , useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import AdminNavDashboard from "../components/admindash/AdminNavDashboard";
 import PatientsList from "../components/PatientsList";
+import LogBook from "../components/LogBook";
 
 function GestionBitacora() {
 
@@ -8,17 +9,25 @@ function GestionBitacora() {
         <div className="flex w-screen h-screen">
             <AdminNavDashboard />
 
-            <div className="relative">
-                <a href="/NewPatient">
-                    <button className="bg-green-500 hover:bg-green-700 hover:scale-110 text-white font-bold py-2 px-4 rounded absolute top-0 right-0 mr-10 mt-6 transition-all transition-300 duration-300">
-                        <i className="fas fa-circle-plus"></i>
-                        Añadir
-                    </button>
-                </a>
-
-                <div className="border-2  shadow-md rounded-3xl max-h-full h-full border-blue-hosta bg-white">
+            <div className="w-full">
+                <div className="flex mt-6 justify-between p-4 items-center">
+                    <header className="flex items-center">
+                        <h2 className="font-semibold text-gray-800 mb-4">
+                            Bitácora
+                        </h2>
+                    </header>
+                    <div>
+                        <a href="/NewBitacora"  >
+                            <button className="bg-green-500 hover:bg-green-700 hover:scale-110 text-white font-bold py-2 px-4 rounded transition-all transition-300 duration-300">
+                                <i className="fas fa-circle-plus"></i>
+                                Añadir
+                            </button>
+                        </a>
+                    </div>
+                </div>
+                <div className="bg-white" style={{height: "56rem"}}>
                     {/* <h3>Medical Supplies</h3> */}
-                    <PatientsList isDashboard={false} > </PatientsList>
+                    <LogBook isDashboard={false} />
                 </div>
             </div>
         </div>
