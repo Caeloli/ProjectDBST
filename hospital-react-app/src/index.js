@@ -27,6 +27,7 @@ import RecoverPassword from './pages/RecoverPassword';
 import PatientDashboard from './pages/PatientDashboard';
 import AppointmentForm from './pages/ScheduleAppointment';
 import AppointmentsPage from './pages/PatientAppointments';
+import Appointment from './pages/Appointment';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -51,6 +52,7 @@ root.render(
         <Route path='/PatientDashboard' element={<PatientDashboard />} />
         <Route path='/AppointmentForm' element={<AppointmentForm />} />
         <Route path='/AppointmentsPage' element={<AppointmentsPage />} />
+        <Route path='/Appointment' element={<Appointment />} />
 
         <Route element={<AuthGuard/>}>
           <Route path="/Dashboard" element={<Dashboard />} />
