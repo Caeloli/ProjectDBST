@@ -6,6 +6,7 @@ import { faGear } from '@fortawesome/free-solid-svg-icons';
 import Calendar from "../components/Calendar";
 import MedicationList from "../components/MedicationList";
 import Table from "../components/Table";
+import MedicalAppoimentList from "../components/MedicalAppoimentList";
 class Dashboard extends React.Component {
 
     constructor() {
@@ -14,13 +15,7 @@ class Dashboard extends React.Component {
 
     render() {
 
-        const headerTitle = "Citas"
-        const headerTable = ["Nombre", "Consultorio", "Hora"]
-        const tableInfo = [
-            ["info", "info", "info"],
-            ["info", "info", "info"],
-            ["info", "info", "info"]
-        ]
+        
 
         return (
             <div className="flex w-screen h-screen">
@@ -37,12 +32,19 @@ class Dashboard extends React.Component {
                             </div>
                         </div>
                         <div className="panels grid grid-cols-3 gap-9 flex-1">
-                            <div className="appointments col-span-1">
-                                <Table headerTitle={headerTitle} headerTable={headerTable} tableInfo={tableInfo} />
+                            <div className="appointments col-span-2">
+                                {/* <Table headerTitle={headerTitle} headerTable={headerTable} tableInfo={tableInfo} /> */}
+                                {/* <MedicalAppoimentList></MedicalAppoimentList> */}
+                                <div className="medicinal-supplies col-span-1 ">
+                                    <div className="border-2  shadow-md rounded-3xl max-h-full h-full border-blue-hosta bg-white">
+                                        {/* <h3>Medical Supplies</h3> */}
+                                        <MedicalAppoimentList></MedicalAppoimentList>
+                                    </div>
+                                </div>
                             </div>
-                            <div className="appointments-request col-span-1 ">
+                            {/* <div className="appointments-request col-span-1 ">
                                 <Calendar />
-                            </div>
+                            </div> */}
                             <div className="doctor-review col-span-1">
                                 <div className="bg-white shadow-md h-full border border-blue-hosta rounded-3xl">
                                     <div className="flex flex-col items-center justify-center">
