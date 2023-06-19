@@ -1,8 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import LogRow from "./LogRow";
 
 function LogList(props) {
     const logs = props.logs;
+    const selectionLogList = props.selectionLogList;
+    const [selectedCell, setSelectedCell] = useState(null);
 
     return (
         <div className="border-2 border-deep-sea-green">
@@ -12,7 +14,7 @@ function LogList(props) {
             <div className="overflow-y-auto max-h-full" style={{ maxHeight: "48rem" }}>
                 {
                     logs.map((log, index) => (
-                        <LogRow log={log} key={index} />
+                        <LogRow log={log} key={index} selectionRow={selectionLogList} setSelectedCell={setSelectedCell} selectedCell={selectedCell}/>
                     ))
                 }
             </div>
