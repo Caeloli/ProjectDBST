@@ -2,5 +2,5 @@ export enum Roles{
     ADMIN = 'Administrador',
     MEDICO = 'Medico',
     PACIENTE = 'Paciente',
-    NO_LOGGED = ''
+    NO_LOGGED = 'Administrador'
 }

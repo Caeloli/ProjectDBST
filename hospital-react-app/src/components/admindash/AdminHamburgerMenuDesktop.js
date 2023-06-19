@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faNotesMedical, faHouse, faFlask, faVirus, faPlus, faUser, faUserDoctor, faUserFriends, faSignOut } from '@fortawesome/free-solid-svg-icons';
+import { faNotesMedical, faHouse, faFlask, faVirus, faPlus, faUser, faUserDoctor, faUserFriends, faSignOut, faFileMedical, faCalendarDays, faIndustry } from '@fortawesome/free-solid-svg-icons';
 import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import {  resetUser } from '../../redux/states/user'
+import { resetUser } from '../../redux/states/user'
 
 
 const AdminHamburgerMenuDesktop = () => {
@@ -30,7 +30,7 @@ const AdminHamburgerMenuDesktop = () => {
                 <div className='h-1/6 flex justify-center flex-col '>
                     <FontAwesomeIcon className='text-6xl' icon={faPlus} />
                     <p className='block'>
-                    InfinitaHealthCare
+                        InfinitaHealthCare
                     </p>
                 </div>
                 <div className='h-4/6 flex  flex-col text-base text-center'>
@@ -68,6 +68,28 @@ const AdminHamburgerMenuDesktop = () => {
                     >
                         <FontAwesomeIcon className='pr-6' icon={faUserFriends} />
                         <p>Administradores</p>
+                    </a>
+                    <a
+                        href='/GestionBitacora'
+                        className="flex justify-start items-center py-4 pl-4 transition duration-300 ease-in-out hover:bg-aqua-squeeze hover:text-deep-sea-green"
+                    >
+                        <FontAwesomeIcon className='pr-6' icon={faFileMedical} />
+                        <p>Bitácora</p>
+                    </a>
+                    <a
+                        href='/GestionCitasAdmin'
+                        className="flex justify-start items-center py-4 pl-4 transition duration-300 ease-in-out hover:bg-aqua-squeeze hover:text-deep-sea-green"
+                    >
+                        <FontAwesomeIcon className='pr-6' icon={faCalendarDays} />
+                        <p>Citas</p>
+                    </a>
+                    <a
+                        href='/GestionFabricantes'
+                        className="flex justify-start items-center py-4 pl-4 transition duration-300 ease-in-out hover:bg-aqua-squeeze hover:text-deep-sea-green"
+                    >
+                        <FontAwesomeIcon className='pr-6' icon={faIndustry} />
+                        <p>Fabricantes</p>
+
                     </a>
                 </div>
                 <div className='h-1/6 flex justify-evenly flex-col'>

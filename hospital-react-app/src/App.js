@@ -45,6 +45,36 @@ function App() {
         // Section Features (Instalaciones)
         // Section Testimonios
       }
+      <footer className='footer-container bg-deep-sea-green flex flex-wrap justify-between items-center p-5'>
+        <div className='footer-logo flex '>
+          <div className='logo mr-2'>
+            <div className='circle-logo'></div>
+          </div>
+          <p className='font-bold text-xl ml-2 text-white'>Infinita HealthCare</p>
+        </div>
+        <div className='footer-links'>
+          <ul className='list-none p-0 m-0 flex'>
+            <li className='transition hover:text-blue-hosta mr-4 text-aqua-squeeze'>
+              <Link to="/">Home</Link>
+            </li>
+            <li className='transition hover:text-blue-hosta mr-4 text-aqua-squeeze'>
+              <Link to="/Contacto">Contacto</Link>
+            </li>
+            <li className='transition hover:text-blue-hosta mr-4 text-aqua-squeeze'>
+              <Link to="/Dashboard">Dashboard</Link>
+            </li>
+          </ul>
+        </div>
+        <div class="footer-contact mt-3 text-blue-hosta">
+          <h3>Contact Information</h3>
+          <p>Address: 123 Hospital Street, City, State ZIP</p>
+          <p>Phone: (123) 456-7890</p>
+          <p>Email: info@example.com</p>
+        </div>
+        <div class="footer-bottom p-3 text-center text-blue-hosta">
+          <p>&copy; 2023 Infinita HealthCare. Todos los derechos reservados.</p>
+        </div>
+      </footer>
     </div>
   );
 }

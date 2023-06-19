@@ -112,13 +112,14 @@ function DoctorRow(props) {
         fetch(`https://localhost:44342/api/Doctor/DeleteDoctor?psRFC=${id}`, {
             method: "POST"
         })
-            .then(response => {
-                if (response.ok) {
-                    console.log("Doctor borrado correctamente");
-                } else {
-                    console.error("No se pudo borrar el doctor");
-                }
-            })
+        .then(response => response.json())
+        .then(data => {
+            if(data.StatusCode === 200){
+                alert(data.Message)
+            }else{
+                alert(data.Message)
+            }
+        })
             .catch(error => {
                 console.error("Error al borrar doctor:", error);
             });

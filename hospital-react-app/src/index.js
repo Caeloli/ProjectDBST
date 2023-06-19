@@ -27,6 +27,11 @@ import RecoverPassword from './pages/RecoverPassword';
 import PatientDashboard from './pages/PatientDashboard';
 import AppointmentForm from './pages/ScheduleAppointment';
 import AppointmentsPage from './pages/PatientAppointments';
+import GestionBitacora from './pages/GestionBitacora';
+import GestionCitasAdmin from './pages/GestionCitasAdmin';
+import NewAppointment from './pages/NewAppointment';
+import GestionFabricantes from './pages/GestionFabricantes';
+import NewProvider from './pages/NewProvider';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -43,6 +48,10 @@ root.render(
         <Route path="/GestionPacientes" element={<GestionPacientes />} />
         <Route path="/GestionMedicos" element={<GestionMedicos />} />
         <Route path="/GestionAdmin" element={<GestionAdmin />} />
+        <Route path='/GestionBitacora' element={<GestionBitacora />} />
+        <Route path='/GestionCitasAdmin' element={<GestionCitasAdmin />} />
+        <Route path='/GestionFabricantes' element={<GestionFabricantes />} />
+        <Route path='/NewAppointment' element={<NewAppointment />} />
         <Route path="/NewPatient" element={<NewPatient />} />
         <Route path="/NewDoctor" element={<NewDoctor />} />
         <Route path="/NewAdmin" element={<NewAdmin />} />
@@ -52,16 +61,18 @@ root.render(
         <Route path='/AppointmentForm' element={<AppointmentForm />} />
         <Route path='/AppointmentsPage' element={<AppointmentsPage />} />
 
-        <Route element={<AuthGuard/>}>
-          <Route path="/Dashboard" element={<Dashboard />} />
+
+        <Route path='/NewProvider' element={<NewProvider />} />
+        <Route path="/Dashboard" element={<Dashboard />} />
+        <Route element={<AuthGuard />}>
           {/* <Route path='/Medicamentos' element={<Medicines />} /> */}
         </Route>
         <Route element={<RoleGuard rol={Roles.ADMIN} />}>
-          <Route path='/AdminDashboard' element={<AdminDashboard/>} />
+          <Route path='/AdminDashboard' element={<AdminDashboard />} />
           {/* <Route path='/NewMedicine' element={<NewMedicine />} /> */}
         </Route>
         <Route element={<RoleGuard rol={Roles.MEDICO} />}>
-          <Route path='/Dashboard' element={<Dashboard/>} />
+          <Route path='/Dashboard' element={<Dashboard />} />
         </Route>
         <Route path="/Login" element={<Login />} />
         <Route path="/RecoverPassword" element={<RecoverPassword />} />
