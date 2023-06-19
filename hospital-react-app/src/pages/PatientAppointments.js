@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import PatientNavDashboard from '../components/patientdash/PatientNavDashboard';
-import Table from "../components/Table";
+import TableAp from "../components/TableAp";
 import { useLocation } from 'react-router-dom';
 
 const AppointmentsPage = () => {
     const [appointments, setAppointments] = useState([]);
-    const setPatientInfo = useState([]);
-    const [Doctor, setDoctor] = useState([]);
+    const [patientInfo, setPatientInfo] = useState([]);
+    const [doctor, setDoctor] = useState([]);
 
     const location = useLocation();
     const searchParams = new URLSearchParams(location.search);
@@ -39,7 +39,7 @@ const AppointmentsPage = () => {
   }, []);
 
   useEffect(() => {
-    if (appointments) {
+    if (appointments.length > 0) {
       // Obtener información del médico. Cambiar RUTA si es necesario
         fetch(`https://localhost:44342/api/Doctor/GetDoctorInfo?piId=${appointments.IdMedico}`, {
             method: "GET"
@@ -57,7 +57,10 @@ const AppointmentsPage = () => {
 
     const headerTitle = "Historial de Citas";
     const headerTable = ["Medico", "Fecha - Hora", "Descripción"];
-    const tableInfo = appointments && Doctor.length > 0 ? [[Doctor[0].Nombre + ' ' + Doctor[0].ApellidoPaterno + ' ' + Doctor[0].ApellidoMaterno, appointments.fecha, appointments.Descripcion]] : [];;
+    const tableInfo = appointments.map(appointment =>{
+      const doctorName = doctor.length > 0 ? `${doctor[0].Nombre} ${doctor[0].ApellidoPaterno} ${doctor[0].ApellidoMaterno}` : "";
+      return [doctorName, appointment.Fecha, appointment.Descripcion];
+    });
 
   return (
     <div className="flex w-screen h-screen">
@@ -71,7 +74,7 @@ const AppointmentsPage = () => {
         </div>
         <div className="panels grid grid-cols-1 gap-9 flex-1  ">
           <div className="appointments col-span-1">
-              <Table headerTitle={headerTitle} headerTable={headerTable} tableInfo={tableInfo} />
+              <TableAp headerTitle={headerTitle} headerTable={headerTable} tableInfo={tableInfo} />
           </div>
         </div>
         </div>
