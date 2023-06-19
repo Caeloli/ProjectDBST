@@ -21,7 +21,7 @@ function LogDisplay(props) {
     useEffect(() => {
         //LookLogByIdLogFull
         if (idLog != null) {
-            fetch("https://api.jsonserver.io/api/Log/GetLogFullById", {
+            fetch("https://localhost:44342/api/Binnacle/getUserBinnaccleInfo", {
                 method: 'GET',
                 mode: 'cors',
                 headers: {
@@ -47,7 +47,7 @@ function LogDisplay(props) {
     }
 
     const handleSubmit = () => {
-        fetch(`https://localhost:44342/api/Log/UpdateLog`, {
+        fetch(`https://localhost:44342/api/Binnacle/UpdateBinnacle`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"

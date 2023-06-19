@@ -11,12 +11,10 @@ function LogBook(props) {
     const [dataLogList, setSelectionLogList] = useState(null);
 
     useEffect(() => {
-        fetch("https://api.jsonserver.io/api/Patient/GetAllPatients", {
+        fetch("https://localhost:44342/api/Patient/GetAllPatients", {
             method: 'GET',
-            mode: 'cors',
             headers: {
-                'Content-Type': 'application/json',
-                'X-Jsio-Token': '8ecc882dae5b1f14d3e86662a9dddb60'
+                'Content-Type': 'application/json'
             }
         })
             .then(response => response.json())
@@ -31,12 +29,10 @@ function LogBook(props) {
     const handleInputChange = (value, inputName) => {
         if (value != null) {
             //GET BY bitacoraID
-            fetch(`https://api.jsonserver.io/api/Patient/GetAllPatients`, {
+            fetch(`https://localhost:44342/api/Binnacle/getUserBinnacclea?piId=${value}`, {
                 method: 'GET',
-                mode: 'cors',
                 headers: {
                     'Content-Type': 'application/json',
-                    'X-Jsio-Token': '8ecc882dae5b1f14d3e86662a9dddb60'
                 }
             })
                 .then(response => response.json())
@@ -55,8 +51,8 @@ function LogBook(props) {
     }
 
     const patientsOptionSelect = patients.map(patient => ({
-        value: parseInt(patient[0].idPaciente),
-        label: `${patient[0].nombre} ${patient[0].paterno} ${patient[0].materno}`
+        value: parseInt(patient.idPaciente),
+        label: `${patient.nombre} ${patient.paterno} ${patient.materno}`
     }));
 
     console.log("Log-list: " + dataLogList);
@@ -69,7 +65,7 @@ function LogBook(props) {
                         className="shadow border-2 border-deep-sea-green"
                         placeholder="Su Paciente..."
                         options={patientsOptionSelect}
-                        onChange={(selectedOption) => handleInputChange(selectedOption.value, "IdPaciente")}
+                        onChange={(selectedOption) => handleInputChange(selectedOption.value, "idPaciente")}
                     />
                 </div>
                 <LogList logs={logs} selectionLogList={handleSelectionFromLogList}/>

@@ -2,7 +2,7 @@ import React from "react";
 import { useEffect, useState } from "react";
 
 function LogRow(props) {
-    const log = props.log[0];
+    const log = props.log;
     const selectionRow = props.selectionRow;
     const setSelectedCell = props.setSelectedCell;
     const selectedCell = props.selectedCell;

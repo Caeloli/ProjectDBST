@@ -13,9 +13,10 @@ function LogList(props) {
             </h2>
             <div className="overflow-y-auto max-h-full" style={{ maxHeight: "48rem" }}>
                 {
-                    logs.map((log, index) => (
+                    logs != null ? logs.map((log, index) => (
                         <LogRow log={log} key={index} selectionRow={selectionLogList} setSelectedCell={setSelectedCell} selectedCell={selectedCell}/>
                     ))
+                    : <div>Sin bitacora aún</div>
                 }
             </div>
         </div>
