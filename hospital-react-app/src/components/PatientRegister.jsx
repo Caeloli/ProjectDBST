@@ -64,7 +64,7 @@ function PatientRegister(props){
             headers: {
               "Content-Type": "application/json"
             },
-            body: JSON.stringify(paciente)
+            body: JSON.stringify(pacienteUpdate)
           })
             .then(response => response.json())
             .then(data => {

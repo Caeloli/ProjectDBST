@@ -8,25 +8,32 @@ function ProviderRegister(props) {
 
     const navigate = useNavigate();
     const isEdit = props.isEdit;
+    const [direccionId, setDireccionId] = useState(0)
     const [provider, setProvider] = useState({
-        idFabricante: "",
-        Nombre: "",
-        Registro: "",
-        Licencia: "",
-        Telefono: "",
-        Sitio: "",
-        Email: "",
-        idDireccion: ""
+        nombre: "",
+        infoRegistro: "",
+        infoLicencia: "",
+        telefono: "",
+        sitioWeb: "",
+        email: "",
+        noInterior: "",
+        noExterior: "",
+        estado: "",
+        municipio: "",
+        colonia: "",
+        calle: "",
+        cp: ""
     })
 
     useEffect(() => {
         if (isEdit) {
-            fetch(`api/Provider/GetProviderByProvider?piId=${parseInt(props.id)}`, {
+            fetch(`https://localhost:44342/api/Provider/GetProviderById?piId=${parseInt(props.id)}`, {
                 method: "GET"
             })
                 .then(response => response.json())
                 .then(data => {
                     console.log(data.Data[0])
+                    setDireccionId(data.Data[0].idDireccion)
                     setProvider(data.Data[0])
                 })
                 .catch(error => {
@@ -38,14 +45,17 @@ function ProviderRegister(props) {
     const handleSubmit = (e) => {
         e.preventDefault();
         if (isEdit) {
-            provider.idFabricante = parseInt(props.id)
+            let providerUpdate = {}
+            providerUpdate = provider
+            providerUpdate['Id'] = parseInt(props.id)
+            providerUpdate['IdDireccion'] = parseInt(direccionId)
             console.log(provider);
             fetch(`https://localhost:44342/api/Provider/UpdateProvider`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
                 },
-                body: JSON.stringify(provider)
+                body: JSON.stringify(providerUpdate)
             })
                 .then(response => response.json())
                 .then(data => {
@@ -129,90 +139,96 @@ function ProviderRegister(props) {
 
                             <div className="flex justify-between">
                                 <div className="flex items-center w-1/4">
-                                    <label className="font-semibold text-lg text-deep-sea-green" for="Nombre">Nombre</label>
+                                    <label className="font-semibold text-lg text-deep-sea-green" for="nombre">Nombre</label>
                                 </div>
                                 <div className="md:w-2/4 w-3/4">
                                     <input
                                         type="text"
-                                        name="Nombre"
+                                        name="nombre"
                                         className="w-full shadow border-2 border-deep-sea-green"
                                         placeholder="Su nombre..."
-                                        onChange={(e) => handleInputChange(e.target.value, "Nombre")}
+                                        value={provider.nombre}
+                                        onChange={(e) => handleInputChange(e.target.value, "nombre")}
                                     />
                                 </div>
                             </div>
 
                             <div className="flex justify-between">
                                 <div className="flex items-center w-1/4">
-                                    <label className="font-semibold text-lg text-deep-sea-green" for="Registro">Registro</label>
+                                    <label className="font-semibold text-lg text-deep-sea-green" for="infoRegistro">Registro</label>
                                 </div>
                                 <div className="md:w-2/4 w-3/4">
                                     <input
-                                        name="Registro"
+                                        name="infoRegistro"
                                         type="text"
                                         className="w-full shadow border-2 border-deep-sea-green"
                                         placeholder="Su Registro..."
-                                        onChange={(e) => handleInputChange(e.target.value, "Registro")}
+                                        value={provider.infoRegistro}
+                                        onChange={(e) => handleInputChange(e.target.value, "infoRegistro")}
                                     />
                                 </div>
                             </div>
 
                             <div className="flex justify-between">
                                 <div className="flex items-center w-1/4">
-                                    <label className="font-semibold text-lg text-deep-sea-green" for="Licencia">Licencia</label>
+                                    <label className="font-semibold text-lg text-deep-sea-green" for="infoLicencia">Licencia</label>
                                 </div>
                                 <div className="md:w-2/4 w-3/4">
                                     <input
-                                        name="Licencia"
+                                        name="infoLicencia"
                                         type="text"
                                         className="w-full shadow border-2 border-deep-sea-green"
                                         placeholder="Su Licencia..."
-                                        onChange={(e) => handleInputChange(e.target.value, "Licencia")}
+                                        value={provider.infoLicencia}
+                                        onChange={(e) => handleInputChange(e.target.value, "infoLicencia")}
                                     />
                                 </div>
                             </div>
 
                             <div className="flex justify-between">
                                 <div className="flex items-center w-1/4">
-                                    <label className="font-semibold text-lg text-deep-sea-green" for="Telefono">Teléfono</label>
+                                    <label className="font-semibold text-lg text-deep-sea-green" for="telefono">Teléfono</label>
                                 </div>
                                 <div className="md:w-2/4 w-3/4">
                                     <input
-                                        name="Telefono"
+                                        name="telefono"
                                         type="tel"
                                         className="w-full shadow border-2 border-deep-sea-green"
                                         placeholder="Su Teléfono..."
-                                        onChange={(e) => handleInputChange(e.target.value, "Telefono")}
+                                        value={provider.telefono}
+                                        onChange={(e) => handleInputChange(e.target.value, "telefono")}
                                     />
                                 </div>
                             </div>
 
                             <div className="flex justify-between">
                                 <div className="flex items-center w-1/4">
-                                    <label className="font-semibold text-lg text-deep-sea-green" for="Sitio">Sitio</label>
+                                    <label className="font-semibold text-lg text-deep-sea-green" for="sitioWeb">Sitio</label>
                                 </div>
                                 <div className="md:w-2/4 w-3/4">
                                     <input
-                                        name="Sitio"
+                                        name="sitioWeb"
                                         type="text"
                                         className="w-full shadow border-2 border-deep-sea-green"
                                         placeholder="Su Sitio..."
-                                        onChange={(e) => handleInputChange(e.target.value, "Sitio")}
+                                        value={provider.sitioWeb}
+                                        onChange={(e) => handleInputChange(e.target.value, "sitioWeb")}
                                     />
                                 </div>
                             </div>
 
                             <div className="flex justify-between">
                                 <div className="flex items-center w-1/4">
-                                    <label className="font-semibold text-lg text-deep-sea-green" for="Email">E-Mail</label>
+                                    <label className="font-semibold text-lg text-deep-sea-green" for="email">E-Mail</label>
                                 </div>
                                 <div className="md:w-2/4 w-3/4">
                                     <input
-                                        name="Email"
+                                        name="email"
                                         type="email"
                                         className="w-full shadow border-2 border-deep-sea-green"
                                         placeholder="Su E-Mail..."
-                                        onChange={(e) => handleInputChange(e.target.value, "Email")}
+                                        value={provider.email}
+                                        onChange={(e) => handleInputChange(e.target.value, "email")}
                                     />
                                 </div>
                             </div>
@@ -224,105 +240,112 @@ function ProviderRegister(props) {
 
                             <div className="flex justify-between">
                                 <div className="flex items-center w-1/4">
-                                    <label className="font-semibold text-lg text-deep-sea-green" for="Nombre">Estado</label>
+                                    <label className="font-semibold text-lg text-deep-sea-green" for="estado">Estado</label>
                                 </div>
                                 <div className="md:w-2/4 w-3/4">
                                     <input
                                         type="text"
-                                        name="Estado"
+                                        name="estado"
                                         className="w-full shadow border-2 border-deep-sea-green"
                                         placeholder="Su Estado..."
-                                        //onChange={(e) => handleInputChange(e.target.value, "Estado")}
+                                        value={provider.estado}
+                                        onChange={(e) => handleInputChange(e.target.value, "estado")}
                                     />
                                 </div>
                             </div>
 
                             <div className="flex justify-between">
                                 <div className="flex items-center w-1/4">
-                                    <label className="font-semibold text-lg text-deep-sea-green" for="Colonia">Colonia</label>
+                                    <label className="font-semibold text-lg text-deep-sea-green" for="colonia">Colonia</label>
                                 </div>
                                 <div className="md:w-2/4 w-3/4">
                                     <input
-                                        name="Colonia"
+                                        name="colonia"
                                         type="text"
                                         className="w-full shadow border-2 border-deep-sea-green"
                                         placeholder="Su Colonia..."
-                                        //onChange={(e) => handleInputChange(e.target.value, "Colonia")}
+                                        value={provider.colonia}
+                                        onChange={(e) => handleInputChange(e.target.value, "colonia")}
                                     />
                                 </div>
                             </div>
 
                             <div className="flex justify-between">
                                 <div className="flex items-center w-1/4">
-                                    <label className="font-semibold text-lg text-deep-sea-green" for="Municipio">Municipio</label>
+                                    <label className="font-semibold text-lg text-deep-sea-green" for="municipio">Municipio</label>
                                 </div>
                                 <div className="md:w-2/4 w-3/4">
                                     <input
-                                        name="Licencia"
+                                        name="municipio"
                                         type="text"
                                         className="w-full shadow border-2 border-deep-sea-green"
                                         placeholder="Su Municipio..."
-                                        //onChange={(e) => handleInputChange(e.target.value, "Municipio")}
+                                        value={provider.municipio}
+                                        onChange={(e) => handleInputChange(e.target.value, "municipio")}
                                     />
                                 </div>
                             </div>
 
                             <div className="flex justify-between">
                                 <div className="flex items-center w-1/4">
-                                    <label className="font-semibold text-lg text-deep-sea-green" for="Telefono">Calle</label>
+                                    <label className="font-semibold text-lg text-deep-sea-green" for="calle">Calle</label>
                                 </div>
                                 <div className="md:w-2/4 w-3/4">
                                     <input
-                                        name="Calle"
+                                        name="calle"
                                         type="text"
                                         className="w-full shadow border-2 border-deep-sea-green"
                                         placeholder="Su Calle..."
-                                        //onChange={(e) => handleInputChange(e.target.value, "Telefono")}
+                                        value={provider.calle}
+                                        onChange={(e) => handleInputChange(e.target.value, "calle")}
                                     />
                                 </div>
                             </div>
 
                             <div className="flex justify-between">
                                 <div className="flex items-center w-1/4">
-                                    <label className="font-semibold text-lg text-deep-sea-green" for="CP">CP</label>
+                                    <label className="font-semibold text-lg text-deep-sea-green" for="cp">CP</label>
                                 </div>
                                 <div className="md:w-2/4 w-3/4">
                                     <input
-                                        name="CP"
+                                        name="cp"
                                         type="number"
                                         className="w-full shadow border-2 border-deep-sea-green"
                                         placeholder="Su Código Postal..."
-                                        //onChange={(e) => handleInputChange(e.target.value, "CP")}
+                                        value={provider.cp}
+                                        onChange={(e) => handleInputChange(e.target.value, "cp")}
                                     />
                                 </div>
                             </div>
 
                             <div className="flex justify-between">
                                 <div className="flex items-center w-1/4">
-                                    <label className="font-semibold text-lg text-deep-sea-green" for="Exterior">No. Exterior</label>
+                                    <label className="font-semibold text-lg text-deep-sea-green" for="noExterior">No. Exterior</label>
                                 </div>
                                 <div className="md:w-2/4 w-3/4">
                                     <input
-                                        name="Exterior"
+                                        name="noExterior"
                                         type="number"
                                         className="w-full shadow border-2 border-deep-sea-green"
                                         placeholder="Su No. Exterior..."
-                                        //onChange={(e) => handleInputChange(e.target.value, "Exterior")}
+                                        value={provider.noExterior}
+                                        onChange={(e) => handleInputChange(e.target.value, "noExterior")}
                                     />
                                 </div>
                             </div>
 
                             <div className="flex justify-between">
                                 <div className="flex items-center w-1/4">
-                                    <label className="font-semibold text-lg text-deep-sea-green" for="Exterior">No. Interior</label>
+                                    <label className="font-semibold text-lg text-deep-sea-green" for="noInterior">No. Interior</label>
                                 </div>
                                 <div className="md:w-2/4 w-3/4">
                                     <input
-                                        name="Interior"
+                                        name="noInterior"
                                         type="number"
                                         className="w-full shadow border-2 border-deep-sea-green"
                                         placeholder="Su No. Interior..."
-                                        //onChange={(e) => handleInputChange(e.target.value, "Exterior")}
+                                        value={provider.noInterior}
+                                        onChange={(e) => handleInputChange(e.target.value, "noInterior")}
                                     />
                                 </div>
                             </div>

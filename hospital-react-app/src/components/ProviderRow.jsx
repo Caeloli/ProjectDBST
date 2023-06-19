@@ -7,7 +7,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 function ProviderRow(props) {
     console.log("Proveedor");
     console.log(props.provider);
-    const provider = (props.provider)[0];
+    const provider = props.provider;
     const isDashboard = props.tipo;
     const [showCard, setShowCard] = useState(false);
 
@@ -19,13 +19,14 @@ function ProviderRow(props) {
         fetch(`https://localhost:44342/api/Provider/DeleteProvider?piId=${id}`, {
             method: "POST",
         })
-            .then(response => {
-                if (response.ok) {
-                    console.log("Cita borrada correctamente");
-                } else {
-                    console.error("No se pudo borrar la cita");
-                }
-            })
+        .then(response => response.json())
+        .then(data => {
+            if(data.StatusCode === 200){
+                alert(data.Message)
+            }else{
+                alert(data.Message)
+            }
+        })
             .catch(error => {
                 console.error("Error al borrar la cita:", error);
             });
@@ -36,17 +37,17 @@ function ProviderRow(props) {
             <tr>
                 <td className="p-2  whitespace-nowrap">
                     <div className="text-left">
-                        {provider.Nombre}
+                        {provider.nombre}
                     </div>
                 </td>
                 <td className="p-2  whitespace-nowrap">
                     <div className="text-left">
-                        {provider.Licencia}
+                        {provider.infoLicencia}
                     </div>
                 </td>
                 <td className="p-2 whitespace-nowrap">
                     <div className="text-left">
-                        {provider.Registro}
+                        {provider.infoRegistro}
                     </div>
                 </td>
             </tr>
@@ -57,17 +58,17 @@ function ProviderRow(props) {
                 <tr className="hover:bg-gray-100">
                     <td className="p-2  whitespace-nowrap" onClick={handleClick}>
                         <div className="text-left">
-                            {provider.Nombre}
+                            {provider.nombre}
                         </div>
                     </td>
                     <td className="p-2  whitespace-nowrap" onClick={handleClick}>
                         <div className="text-left">
-                            {provider.Licencia}
+                            {provider.infoLicencia}
                         </div>
                     </td>
                     <td className="p-2 whitespace-nowrap" onClick={handleClick}>
                         <div className="text-left">
-                            {provider.Registro}
+                            {provider.infoRegistro}
                         </div>
                     </td>
 
@@ -95,15 +96,15 @@ function ProviderRow(props) {
                                     <div className="grid grid-cols-2 py-2 px-2">
                                         <p className="font-sans text-base">
                                             <span className="text-sky-400">Teléfono: </span>
-                                            {provider.Telefono}
+                                            {provider.telefono}
                                         </p>
                                         <p className="font-sans text-base">
                                             <span className="text-sky-400">Email: </span>
-                                            {provider.Email}
+                                            {provider.email}
                                         </p>
                                         <p className="font-sans text-base">
                                             <span className="text-sky-400">Sitio Web: </span>
-                                            {provider.Sitio}
+                                            {provider.sitioWeb}
                                         </p>
                                     </div>
                                 </div>
@@ -115,13 +116,13 @@ function ProviderRow(props) {
                                         <div>
                                             <ul className="list-disc">
                                                 {/* Lista de ingredientes activos */}
-                                                <li>Estado: provider.estado</li>
-                                                <li>Municipio: provider.municipio</li>
-                                                <li>Colonia: provider.colonia</li>
-                                                <li>Calle: provider.calle</li>
-                                                <li>C.P: provider.cp</li>
-                                                <li>No.Exterior: provider.noExterior</li>
-                                                <li>No. Interior: provider.noInterior</li>
+                                                <li>Estado: {provider.estado}</li>
+                                                <li>Municipio: {provider.municipio}</li>
+                                                <li>Colonia: {provider.colonia}</li>
+                                                <li>Calle: {provider.calle}</li>
+                                                <li>C.P: {provider.cp}</li>
+                                                <li>No.Exterior: {provider.noExterior}</li>
+                                                <li>No. Interior: {provider.noInterior}</li>
                                             </ul>
 
                                         </div>

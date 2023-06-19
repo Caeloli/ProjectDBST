@@ -13,17 +13,18 @@ function AppointmentAdminRow(props) {
         setShowCard(!showCard);
     };
 
-    const handleDelete = (id) => {
-        fetch(`https://localhost:44342/api/Appointment/DeleteAppointment?piId=${id}`, {
+    const handleDelete = (id, idPaciente) => {
+        fetch(`https://localhost:44342/api/Appointment/DeleteAppointment?piId=${id}&piIdPaciente=${idPaciente}`, {
             method: "POST",
         })
-            .then(response => {
-                if (response.ok) {
-                    console.log("Cita borrada correctamente");
-                } else {
-                    console.error("No se pudo borrar la cita");
-                }
-            })
+        .then(response => response.json())
+        .then(data => {
+            if(data.StatusCode === 200){
+                alert(data.Message)
+            }else{
+                alert(data.Message)
+            }
+        })
             .catch(error => {
                 console.error("Error al borrar la cita:", error);
             });
@@ -93,7 +94,7 @@ function AppointmentAdminRow(props) {
 
                     <td className="p-2 ">
                         <div className="text-left font-medium text-green-500 hover:scale-110 translation">
-                            <a href="/GestionCitasAdmin" onClick={() => handleDelete(cita.idCita)}>
+                            <a href="/GestionCitasAdmin" onClick={() => handleDelete(cita.idCita, cita.idPaciente)}>
                                 <FontAwesomeIcon className='text-2xl' icon={faCircleXmark} style={{ color: "#ff0000", }} />
                             </a>
                         </div>

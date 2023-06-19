@@ -21,13 +21,14 @@ function PatientRow(props) {
         fetch(`https://localhost:44342/api/Patient/DeletePatient?piId=${id}`, {
             method: "POST"
         })
-            .then(response => {
-                if (response.ok) {
-                    console.log("Paciente borrado correctamente");
-                } else {
-                    console.error("No se pudo borrar el paciente");
-                }
-            })
+        .then(response => response.json())
+        .then(data => {
+            if(data.StatusCode === 200){
+                alert(data.Message)
+            }else{
+                alert(data.Message)
+            }
+        })
             .catch(error => {
                 console.error("Error al borrar paciente:", error);
             });

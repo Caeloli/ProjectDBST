@@ -6,16 +6,15 @@ function ProviderList(props) {
     const [listProviders, setListProviders] = useState([]);
 
     useEffect(() => {
-        fetch("https://api.jsonserver.io/api/Manufacturer/GetAllManufacturers", {
+        fetch("https://localhost:44342/api/Provider/GetProviders", {
             method: 'GET',
-            mode: 'cors',
             headers: {
-                'Content-Type': 'application/json',
-                'X-Jsio-Token': '8ecc882dae5b1f14d3e86662a9dddb60'
+                'Content-Type': 'application/json'
             }
         })
             .then(response => response.json())
             .then(data => {
+                console.log(data.Data)
                 setListProviders(data.Data);
             })
             .catch(error => {

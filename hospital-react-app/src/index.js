@@ -55,8 +55,8 @@ root.render(
         <Route path='/Medicamentos' element={<Medicines />} />
         <Route path='/NewMedicine' element={<NewMedicine />} />
         <Route path='/NewProvider' element={<NewProvider />}/>
-        <Route element={<AuthGuard />}>
           <Route path="/Dashboard" element={<Dashboard />} />
+        <Route element={<AuthGuard />}>
           {/* <Route path='/Medicamentos' element={<Medicines />} /> */}
         </Route>
         <Route element={<RoleGuard rol={Roles.ADMIN} />}>
