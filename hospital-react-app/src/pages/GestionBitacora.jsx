@@ -12,18 +12,10 @@ function GestionBitacora() {
             <div className="w-full">
                 <div className="flex mt-6 justify-between p-4 items-center">
                     <header className="flex items-center">
-                        <h2 className="font-semibold text-gray-800 mb-4">
+                        <h2 className="font-bold text-xl text-gray-800 mb-1">
                             Bitácora
                         </h2>
                     </header>
-                    <div>
-                        <a href="/NewBitacora"  >
-                            <button className="bg-green-500 hover:bg-green-700 hover:scale-110 text-white font-bold py-2 px-4 rounded transition-all transition-300 duration-300">
-                                <i className="fas fa-circle-plus"></i>
-                                Añadir
-                            </button>
-                        </a>
-                    </div>
                 </div>
                 <div className="bg-white" style={{height: "56rem"}}>
                     {/* <h3>Medical Supplies</h3> */}
