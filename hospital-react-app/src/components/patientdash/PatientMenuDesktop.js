@@ -32,7 +32,7 @@ const PatientMenuDesktop = () => {
                         <p>Inicio</p>
                     </a>
                     <a
-                        href="/AppointmentForm"
+                        href="/Appointment"
                         className="flex justify-start items-center py-4 pl-4 transition duration-300 ease-in-out hover:bg-aqua-squeeze hover:text-deep-sea-green"
                     >
                         <FontAwesomeIcon className='pr-3' icon={faNotesMedical} />
