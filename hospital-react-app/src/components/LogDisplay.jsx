@@ -7,31 +7,31 @@ function LogDisplay(props) {
     const idLog = props.idLog;
     const [isEditable, setIsEditable] = useState(false);
     const [log, setLog] = useState({
-        idRegBitacora: "",
+        idRegistroBitacora: "",
         fecha: "",
         idPaciente: "",
         idMedico: "",
         padecimiento: "",
         alergia: "",
-        idRegMedico: "",
+        idRegistroMedico: "",
         diagnostico: "",
         fechaAsignacion: ""
     });
 
     useEffect(() => {
         //LookLogByIdLogFull
+        console.log(idLog)
         if (idLog != null) {
-            fetch("https://localhost:44342/api/Binnacle/getUserBinnaccleInfo", {
+            fetch(`https://localhost:44342/api/Binnacle/getUserBinnaccleInfo?piIdBinnacle=${idLog}`, {
                 method: 'GET',
-                mode: 'cors',
                 headers: {
                     'Content-Type': 'application/json',
-                    'X-Jsio-Token': '8ecc882dae5b1f14d3e86662a9dddb60'
                 }
             })
                 .then(response => response.json())
                 .then(data => {
                     setLog(data.Data[0]);
+                    console.log(data.Data[0])
                 })
                 .catch(error => {
                     console.log("Error, no se logró obtener la lista de pacientes de la API");
@@ -65,7 +65,7 @@ function LogDisplay(props) {
     };
 
     const handleDelete = () => {
-        fetch(`https://localhost:44342/api/Log/DeleteLog?piId=${log.idRegBitacora}`, {
+        fetch(`https://localhost:44342/api/Log/DeleteLog?piId=${log.idRegistroBitacora}`, {
             method: "POST",
         })
             .then(response => {
@@ -91,7 +91,7 @@ function LogDisplay(props) {
                         <label className="font-semibold pl-3 text-base text-deep-sea-green" for="IdBitacora">Id Bitácora</label>
                     </div>
                     <div className="md:w-2/4 w-3/4">
-                        <input name="IdBitacora" type="text" className="shadow border-2 border-deep-sea-green w-full" disabled={isEditable === false} value={log.idRegBitacora}
+                        <input name="IdBitacora" type="text" className="shadow border-2 border-deep-sea-green w-full" disabled value={log.idRegistroBitacora}
                             onChange={(e) => handleInputChange(e.target.value, "idRegBitacora")}
                         />
                     </div>
@@ -102,14 +102,15 @@ function LogDisplay(props) {
                         <label className="font-semibold pl-3 text-base text-deep-sea-green" for="Fecha">Fecha</label>
                     </div>
                     <div className="md:w-2/4 w-3/4">
-                        <input name="Fecha" type="date" className="shadow border-2 border-deep-sea-green w-full" disabled={isEditable === false} value={log.fecha}
+                        <input name="Fecha" type="date" className="shadow border-2 border-deep-sea-green w-full" disabled={isEditable === false} 
+                        value={log.fecha.split('T')[0]}
                             onChange={(e) => handleInputChange(e.target.value, "fecha")}
                         />
                     </div>
                 </div>
 
-                <h2 className="text-base mt-3 text-deep-sea-green font-semibold mb-3" style={{ borderBottom: "solid 0.1rem #0B5755" }}>Padecimientos</h2>
-                <div className="flex justify-between">
+                {/* <h2 className="text-base mt-3 text-deep-sea-green font-semibold mb-3" style={{ borderBottom: "solid 0.1rem #0B5755" }}>Padecimientos</h2> */}
+                {/* <div className="flex justify-between">
                     <div className="flex items-center w-1/4">
                         <label className="font-semibold pl-3 text-base text-deep-sea-green" for="Padecimiento">Padecimientos</label>
                     </div>
@@ -118,9 +119,9 @@ function LogDisplay(props) {
                             onChange={(e) => handleInputChange(e.target.value, "padecimiento")}
                         />
                     </div>
-                </div>
+                </div> */}
 
-                <h2 className="text-base mt-3 text-deep-sea-green font-semibold mb-3" style={{ borderBottom: "solid 0.1rem #0B5755" }}>Alergias</h2>
+                {/* <h2 className="text-base mt-3 text-deep-sea-green font-semibold mb-3" style={{ borderBottom: "solid 0.1rem #0B5755" }}>Alergias</h2>
                 <div className="flex justify-between">
                     <div className="flex items-center w-1/4">
                         <label className="font-semibold pl-3 text-base text-deep-sea-green" for="Alergia">Alergias</label>
@@ -130,7 +131,7 @@ function LogDisplay(props) {
                             onChange={(e) => handleInputChange(e.target.value, "alergia")}
                         />
                     </div>
-                </div>
+                </div> */}
 
                 <h2 className="text-base mt-3 text-deep-sea-green font-semibold mb-3" style={{ borderBottom: "solid 0.1rem #0B5755" }}>Registro Medico</h2>
                 <div className="flex justify-between">
@@ -138,7 +139,7 @@ function LogDisplay(props) {
                         <label className="font-semibold text-base pl-3 text-deep-sea-green" for="RegistroMedico">IdRegistroMédico</label>
                     </div>
                     <div className="md:w-2/4 w-3/4">
-                        <input name="RegistroMedico" type="text" className="shadow border-2 border-deep-sea-green w-full" disabled={isEditable === false} value={log.idRegMedico}
+                        <input name="RegistroMedico" type="text" className="shadow border-2 border-deep-sea-green w-full" disabled value={log.idRegistroMedico}
                             onChange={(e) => handleInputChange(e.target.value, "idRegMedico")}
                         />
                     </div>
@@ -158,7 +159,7 @@ function LogDisplay(props) {
                         <label className="font-semibold text-base pl-3 text-deep-sea-green" for="Fecha">Fecha de Asignación</label>
                     </div>
                     <div className="md:w-2/4 w-3/4">
-                        <input name="Fecha" type="date" className="shadow border-2 border-deep-sea-green w-full" disabled={isEditable === false} value={log.fechaAsignacion}
+                        <input name="Fecha" type="date" className="shadow border-2 border-deep-sea-green w-full" disabled={isEditable === false} value={log.fechaAsignacion.split('T')[0]}
                             onChange={(e) => handleInputChange(e.target.value, "fechaAsignacion")}
                         />
                     </div>

@@ -40,20 +40,20 @@ const HamburgerMenuDesktop = () => {
                         <FontAwesomeIcon className='pr-6' icon={faHouse} />
                         <p>Inicio</p>
                     </a>
-                    <a
+                    {/* <a
                         href="#"
                         className="flex justify-start items-center py-4 pl-4 transition duration-300 ease-in-out hover:bg-aqua-squeeze hover:text-deep-sea-green"
                     >
                         <FontAwesomeIcon className='pr-6' icon={faNotesMedical} />
                         <p>Recetas</p>
-                    </a>
-                    <a
+                    </a> */}
+                    {/* <a
                         href="/Medicamentos"
                         className="flex justify-start items-center py-4 pl-4 transition duration-300 ease-in-out hover:bg-aqua-squeeze hover:text-deep-sea-green"
                     >
                         <FontAwesomeIcon className='pr-6' icon={faFlask} />
                         <p>Farmacología</p>
-                    </a>
+                    </a> */}
                 </div>
                 <div className='h-1/6 flex justify-evenly flex-col'>
                     <a className="" href='#' onClick={handleLogOut}>

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import PatientNavDashboard from '../components/patientdash/PatientNavDashboard';
 import TableAp from "../components/TableAp";
 import { useLocation } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
 const AppointmentsPage = () => {
     const [appointments, setAppointments] = useState([]);
@@ -11,54 +12,57 @@ const AppointmentsPage = () => {
     const location = useLocation();
     const searchParams = new URLSearchParams(location.search);
     const pacienteId = searchParams.get("Id");
+    const userState = useSelector((store) => store.user);
+    
 
   useEffect(() => {
     // Datos Paciente con PacienteId, cambiar RUTA si es necesario
-    fetch(`https://localhost:44342/api/Patient/GetPatientInfo?piId=${pacienteId}`, {
+    fetch(`https://localhost:44342/api/Patient/GetPatientByiD?piId=${userState.idPaciente}`, {
       method: "GET",
   })
       .then(response => response.json())
       .then(data => {
-          setPatientInfo(data);
+          setPatientInfo(data.Data[0]);
       })
       .catch(error => {
           console.log("Error al obtener los datos del paciente", error);
       });
 
   // Obtener Citas. Cambiar RUTA si es necesario
-  fetch(`https://localhost:44342/api/Appointment/GetAppointmentsByPatient?piId=${pacienteId}`, {
+  fetch(`https://localhost:44342/api/Appointment/GetAppointmentsByPatient?piId=${userState.idPaciente}`, {
       method: "GET"
   })
       .then(response => response.json())
       .then(data => {
-          setAppointments(data);
+          setAppointments(data.Data);
+          console.log(data.Data)
       })
       .catch(error => {
           console.log("Error al obtener la cita del paciente", error);
       });
   }, []);
 
-  useEffect(() => {
-    if (appointments.length > 0) {
-      // Obtener información del médico. Cambiar RUTA si es necesario
-        fetch(`https://localhost:44342/api/Doctor/GetDoctorInfo?piId=${appointments.IdMedico}`, {
-            method: "GET"
-        })
-            .then(response => response.json())
-            .then(data => {
-            setDoctor(data);
-            })
-            .catch(error => {
-            console.log("Error al obtener la información del médico", error);
-            });
-        }
-  }, [appointments]);
+  // useEffect(() => {
+  //   if (appointments.length > 0) {
+  //     // Obtener información del médico. Cambiar RUTA si es necesario
+  //       fetch(`https://localhost:44342/api/Doctor/GetDoctorInfo?piId=${appointments.IdMedico}`, {
+  //           method: "GET"
+  //       })
+  //           .then(response => response.json())
+  //           .then(data => {
+  //           setDoctor(data);
+  //           })
+  //           .catch(error => {
+  //           console.log("Error al obtener la información del médico", error);
+  //           });
+  //       }
+  // }, [appointments]);
 
 
     const headerTitle = "Historial de Citas";
     const headerTable = ["Medico", "Fecha - Hora", "Descripción"];
     const tableInfo = appointments.map(appointment =>{
-      const doctorName = doctor.length > 0 ? `${doctor[0].Nombre} ${doctor[0].ApellidoPaterno} ${doctor[0].ApellidoMaterno}` : "";
+      const doctorName = `${appointment.nombreMedico} ${appointment.paternoMedico} ${appointment.maternoMedico}`;
       return [doctorName, appointment.Fecha, appointment.Descripcion];
     });
 

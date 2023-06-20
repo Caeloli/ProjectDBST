@@ -253,9 +253,9 @@ function DoctorRow(props) {
                                         </div>
                                         <div>
                                             <ul className="list-disc">
-                                            {listaEspecialidadesIncluded.map((option) => (
-                                                <li key={option.idEspecialidad}>{option.nombre}</li>
-                                            ))}
+                                            {listaEspecialidadesIncluded != null ? listaEspecialidadesIncluded.map((option) => (
+                                                <li key={option.idEspecialidad}>{option.nombre}</li> 
+                                            )) : "sin especialidades"}
                                             </ul>
                                         </div>
                                     </div>

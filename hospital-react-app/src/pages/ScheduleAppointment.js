@@ -2,11 +2,16 @@ import React, { useState, useEffect } from "react";
 import PatientMenuDesktop from "../components/patientdash/PatientMenuDesktop";
 import imagen from '../assets/imgs/Cita.png'
 import { useLocation, useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 function AppointmentForm() {
     const location = useLocation();
     const [doctors, setDoctors] = useState([]);
-    const [isEditing, setIsEditing] = useState(false);
+    const [hours, setHours] = useState([]);
+    const [hour, setHour] = useState("");
+    const [currentDoctor, setCurrentDoctor] =  useState({})
+    const userState = useSelector((store) => store.user);
+    const [isEdit, setIsEdit] = useState(false);
     const [appointment, setAppointment] = useState({
         Descripcion: "",
         Fecha: "",
@@ -17,20 +22,21 @@ function AppointmentForm() {
     useEffect(() => {
         const searchParams = new URLSearchParams(location.search);
         const isEdit = searchParams.get("edit") === "true";
-        const AppointmentId = searchParams.get("IdCita");
+        const AppointmentId = searchParams.get("id");
 
-        setIsEditing(isEdit);
+        setIsEdit(isEdit);
+        console.log(AppointmentId)
         if(isEdit && AppointmentId) {
-            fetch(`https://localhost:44342/api/Appointment/GetAppointmentByPatient?piId=${AppointmentId}`, {
+            fetch(`https://localhost:44342/api/Appointment/GetAppointmentById?piId=${AppointmentId}`, {
             method: "GET"
             })
             .then(response => response.json())
             .then(data => {
-            console.log(data.Data[0])
-            setAppointment(data.Data[0])
+                console.log(data.Data[0])
+                setAppointment(data.Data[0])
             })
             .catch(error => {
-            console.log("Error al obtener datos del medicamento", error);
+            console.log("Error al obtener datos de la cita", error);
             })
         }
 
@@ -39,7 +45,7 @@ function AppointmentForm() {
         })
             .then(response => response.json())
             .then(data => {
-                setDoctors(data);
+                setDoctors(data.Data);
             })
             .catch(error => {
                 console.log("Error al obtener la lista de doctores", error);
@@ -47,65 +53,109 @@ function AppointmentForm() {
 
 
     },[]);
-
-    const handleInputChange = (e) => {
-        if (e.target.name === "datetime") {
-            setAppointment({
-                ...appointment,
-                Fecha: e.target.value,
-            });
-        } else {
-            setAppointment({
-                ...appointment,
-                [e.target.name]: e.target.value,
-            });
-        }
+    const getCurrentDate = () => {
+        const today = new Date();
+        const year = today.getFullYear();
+        const month = (today.getMonth() + 1).toString().padStart(2, '0');
+        const day = today.getDate().toString().padStart(2, '0');
+        return `${year}-${month}-${day}`;
     };
+
+    const getMaxDate = () => {
+        const maxDate = new Date();
+        maxDate.setMonth(maxDate.getMonth() + 3);
+        const year = maxDate.getFullYear();
+        const month = (maxDate.getMonth() + 1).toString().padStart(2, '0');
+        const day = maxDate.getDate().toString().padStart(2, '0');
+        return `${year}-${month}-${day}`;
+    };
+
+    const getDoctorAvailableHours = () =>{
+        console.log(currentDoctor)
+        // console.log(appointment)
+    fetch(`https://localhost:44342/api/Appointment/GetAvailableHours?psDate=${appointment.Fecha}&psRFC=${currentDoctor.RFC}&piIdMedico=${currentDoctor.idMedico}`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    })
+        .then(response => response.json())
+        .then(data => {
+            setHours(data.Data)
+            console.log(data.Data);
+        })
+        .catch(error => {
+            console.log("Error, no se logró obtener la lista de horas");
+        })
+}
+
+const handleInputChange = (value, inputName) => {
+    console.log(inputName)
+    setAppointment({
+        ...appointment,
+        [inputName]: value
+    })
+    if(inputName === 'Fecha'){
+        getDoctorAvailableHours()
+    }
+    if(inputName === 'IdMedico'){
+        setHours([])
+    }
+    if(inputName === 'Hora'){
+        setHour(value)
+        console.log(value)
+    }
+    setCurrentDoctor(doctors.find(medic => medic.idMedico == appointment.IdMedico))
+
+    console.log(doctors.find(medic => medic.idMedico == appointment.IdMedico))
+    console.log(doctors)
+}
 
     const navigate = useNavigate()
     const handleSubmit = (e) => {
         e.preventDefault();
-        appointment.AppointmentId = parseInt(appointment.AppointmentId);
-        //conexión con la base de datos y guardar la cita
+        validateAppointment()
+        // appointment.AppointmentId = parseInt(appointment.AppointmentId);
+        // //conexión con la base de datos y guardar la cita
 
-        if (isEditing) {
-            const searchParams = new URLSearchParams(location.search);
-            let CitaUpdate = {}
-            CitaUpdate = appointment
-            CitaUpdate['IdCita'] = parseInt(searchParams.get("IdCita"))
-            console.log(CitaUpdate)
-            fetch(`https://localhost:44342/api/Appointment/UpdateAppointment`, {
-                method: "POST",
-                headers: {
-                "Content-Type": "application/json"
-                },
-                body: JSON.stringify(appointment)
-            })
-            .then(response => response.json())
-            .then(data => {
-            console.log("Cita editada correctamente", data.Data);
-            navigate('/Appointment')
-            })
-            .catch(error => {
-            console.log("Error al editar la cita", error);
-            });
-        }else {
-            fetch("https://localhost:44342/api/Appointment/AddAppointment", {
-                method: "POST",
-                headers: {
-                "Content-Type": "application/json"
-                },
-                body: JSON.stringify(appointment)
-            })
-            .then(response => response.json())
-            .then(data => {
-            console.log("Cita agendada correctamente", data);
-            navigate('/Appointment')
-            })
-            .catch(error => {
-            console.log("Error al agendar la cita", error);
-            });
-        }
+        // if (isEdit) {
+        //     const searchParams = new URLSearchParams(location.search);
+        //     let CitaUpdate = {}
+        //     CitaUpdate = appointment
+        //     CitaUpdate['IdCita'] = parseInt(searchParams.get("IdCita"))
+        //     console.log(CitaUpdate)
+        //     fetch(`https://localhost:44342/api/Appointment/UpdateAppointment`, {
+        //         method: "POST",
+        //         headers: {
+        //         "Content-Type": "application/json"
+        //         },
+        //         body: JSON.stringify(appointment)
+        //     })
+        //     .then(response => response.json())
+        //     .then(data => {
+        //     console.log("Cita editada correctamente", data.Data);
+        //     navigate('/Appointment')
+        //     })
+        //     .catch(error => {
+        //     console.log("Error al editar la cita", error);
+        //     });
+        // }else {
+        //     fetch("https://localhost:44342/api/Appointment/AddAppointment", {
+        //         method: "POST",
+        //         headers: {
+        //         "Content-Type": "application/json"
+        //         },
+        //         body: JSON.stringify(appointment)
+        //     })
+        //     .then(response => response.json())
+        //     .then(data => {
+        //     console.log("Cita agendada correctamente", data);
+        //     navigate('/Appointment')
+        //     })
+        //     .catch(error => {
+        //     console.log("Error al agendar la cita", error);
+        //     });
+        // }
 
         //console.log("Cita guardada correctamente", appointment);
     };
@@ -116,6 +166,63 @@ function AppointmentForm() {
         tomorrow.setDate(tomorrow.getDate() + 1);
         return tomorrow.toISOString().split("T")[0];
     };
+    const validateAppointment = () => {
+        fetch(`https://localhost:44342/api/Appointment/ValidateAppointment?piId=${userState.idPaciente}&fecha=${appointment.Fecha}&isEdit=${1}`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+            .then(response => response.json())
+            .then(data => {
+                if(data.StatusCode === 200){
+                    const fecha = appointment.Fecha + " " + hour
+                    appointment.Fecha = fecha
+                    appointment.IdPaciente = userState.idPaciente
+                    console.log(fecha)
+                    if (isEdit) {
+                        const searchParams = new URLSearchParams(location.search);
+                        appointment.IdCita = searchParams.get("id");
+                        fetch(`https://localhost:44342/api/Appointment/UpdateAppointment`, {
+                            method: "POST",
+                            headers: {
+                                "Content-Type": "application/json"
+                            },
+                            body: JSON.stringify(appointment)
+                        })
+                            .then(response => response.json())
+                            .then(data => {
+                                console.log("Cita editada correctamente", data.Data);
+                                navigate('/PatientDashboard')
+                            })
+                            .catch(error => {
+                                console.log("Error al editar la cita", error);
+                            });
+                    } else {
+                        fetch("https://localhost:44342/api/Appointment/AddAppointment", {
+                        method: "POST",
+                        headers: {
+                          "Content-Type": "application/json"
+                        },
+                        body: JSON.stringify(appointment)
+                      })
+                      .then(response => response.json())
+                      .then(data => {
+                          console.log("Cita guardada correctamente", data.Data);
+                          navigate('/PatientDashboard')
+                      })
+                      .catch(error => {
+                          console.log("Error al guardar la cita", error);
+                      });
+                    }
+                }else{
+                    alert(data.Message)
+                }
+            })
+            .catch(error => {
+                console.log("Error, no se logró validar la cita");
+            })
+    }
 
     return (
         <div className="flex w-screen h-screen">
@@ -136,13 +243,13 @@ function AppointmentForm() {
                             name="IdMedico"
                             className="w-full border border-gray-300 rounded-md py-2 px-3"
                             value={appointment.IdMedico}
-                            onChange={handleInputChange}
+                            onChange={(e) => handleInputChange(e.target.value, "IdMedico")}
                             required
                         >
                             <option value="">Seleccione un doctor</option>
                             {doctors.map((doctor) => (
-                                <option key={doctor.IdMedico} value={doctor.IdMedico}>
-                                    {doctor.name}
+                                <option key={doctor.idMedico} value={doctor.idMedico}>
+                                    {doctor.nombre}
                                 </option>
                             ))}
                         </select>
@@ -157,13 +264,13 @@ function AppointmentForm() {
                             name="Descripcion"
                             className="w-full border border-gray-300 rounded-md py-2 px-3 h-40 resize-none"
                             value={appointment.Descripcion}
-                            onChange={handleInputChange}
+                            onChange={(e) => handleInputChange(e.target.value, "Descripcion")}
                             required
                         ></textarea>
                     </div>
 
                     <div className="mb-4">
-                        <label htmlFor="datetime" className="block font-semibold">
+                        {/* <label htmlFor="datetime" className="block font-semibold">
                             Fecha y Hora:
                         </label>
                         <input
@@ -175,7 +282,56 @@ function AppointmentForm() {
                             min={getTomorrowDate()}
                             onChange={handleInputChange}
                             required
-                        />
+                        /> */}
+                               { !isEdit ?
+                                    <input
+                                        name="Fecha"
+                                        className="w-full shadow border-2 border-deep-sea-green"
+                                        type="date"
+                                        min={getCurrentDate()}
+                                        max={getMaxDate()}
+                                        onChange={(e) => handleInputChange(e.target.value, "Fecha")}
+                                        // value = {appointment.Fecha.split("T")[0]}
+                                        required
+                                    />
+                                :
+                                <input
+                                name="Fecha"
+                                className="w-full shadow border-2 border-deep-sea-green"
+                                type="date"
+                                min={getCurrentDate()}
+                                max={getMaxDate()}
+                                value = {appointment.Fecha.split('T')[0]}
+                                onChange={(e) => handleInputChange(e.target.value, "Fecha")}
+                                required
+                            />}
+                    </div>
+                    <div className="mb-4">
+                    {
+                                !isEdit ?
+                                    <select name="Hora" class="w-full shadow border-2 border-deep-sea-green" 
+                                        onChange={(e) => handleInputChange(e.target.value, "Hora")}
+                                        required
+                                        // value = {appointment.Fecha.split("T")[1].split(":").slice(0, 2).join(":")}
+                                        >
+                                        <option value="">Horas disponibles</option>
+                                        {hours != null ? hours.map((option, index) => (
+                                            <option key={index} value={option.Hora}>{option.Hora}</option>)) : <option disabled>Sin horas</option>
+                                        }
+                                    </select>
+                                :
+                                <select name="Hora" class="w-full shadow border-2 border-deep-sea-green" 
+                                        value = {appointment.Fecha.split("T")[1]}
+                                        onChange={(e) => handleInputChange(e.target.value, "Hora")}
+                                        required
+                                        >
+                                        <option value="">Horas disponibles</option>
+                                        <option value={appointment.Fecha.split("T")[1]}>{appointment.Fecha.split("T")[1]}</option>
+                                        {hours != null ? hours.map((option, index) => (
+                                            <option key={index} value={option.Hora}>{option.Hora}</option>)) : <option disabled>Sin horas</option>
+                                        }
+                                    </select>
+                            }
                     </div>
 
                     <div className="flex justify-between">
@@ -183,7 +339,7 @@ function AppointmentForm() {
                             type="submit"
                             className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
                         >
-                            {isEditing ? "Editar" : "Agendar"}
+                            {isEdit ? "Editar" : "Agendar"}
                         </button>
                         <a href="/Appointment" className="button-primary w-1/4">Cancelar</a>
                     </div>

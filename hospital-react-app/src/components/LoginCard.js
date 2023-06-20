@@ -43,7 +43,7 @@ function LoginCard(){
             
             dispatch(createUser(data.Data))
             if(data.Data.tipo == 'Paciente'){
-                navigate('/Dashboard')
+                navigate('/PatientDashboard')
             }else if(data.Data.tipo == 'Medico'){
                 navigate('/Dashboard')
             } else{

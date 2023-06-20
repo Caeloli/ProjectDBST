@@ -3,10 +3,14 @@ import NavDashboard from "../components/NavDashboard";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleXmark } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
+import {useLocation} from "react-router-dom";
+import { useSelector } from "react-redux";
 
 
-function Cita({ idPaciente }) {
+function Cita() {
     const navigate = useNavigate();
+    const location = useLocation();
+    const userState = useSelector((store) => store.user);
     /*
     pacienteInfo {
         nombre,
@@ -32,29 +36,38 @@ function Cita({ idPaciente }) {
     const [infoPaciente, setInfoPaciente] = useState({});
     const [medicamentosConsulta, setMedicamentosConsulta] = useState([]);
 
+    const searchParams = new URLSearchParams(location.search);
     useEffect(() => {
         // Realizar la petición GET para obtener la lista de medicamentos desde la base de datos
         // y guardarla en el estado "medicamentos"
+
+        const idPaciente = searchParams.get("idPaciente");
+        
         const fetchMedicamentos = async () => {
-            try {
-                const response = await fetch('API');
-                const data = await response.json();
-                setMedicamentos(data);
-            } catch (error) {
-                console.log(error);
-            }
+            fetch("https://localhost:44342/api/Medicine/GetAllMedicine", {
+            method: "GET"
+        })
+            .then(response => response.json())
+            .then(data => {
+                setMedicamentos(data.Data);
+                console.log(data.Data)
+            })
+            .catch(error => {
+                console.log("Error no se pudo obtener la lista de medicinas", error);
+            })
+        
         };
 
         // Realizar una peticion GET para obtener la informacion del paciente de la cita desde la base de datos
         // y guardarla en elestado "infoPaciente"
         const fetchInfoPaciente = async (idPaciente) => {
-            try {
-                const response = await fetch('API');
-                const data = await response.json();
-                setInfoPaciente(data);
-            } catch (error) {
-                console.log(error);
-            }
+            fetch(`https://localhost:44342/api/Patient/GetPatientById?piId=${parseInt(idPaciente)}`, {
+            method: "GET"
+          })
+            .then(response => response.json())
+            .then(data => {
+              setInfoPaciente(data.Data[0])
+            })
         }
 
         fetchMedicamentos();
@@ -68,11 +81,15 @@ function Cita({ idPaciente }) {
         const consulta = {
             diagnostico: diagnostico,
             medicamentos: medicamentosConsulta,
-            infoPaciente: infoPaciente
+            idMedico: searchParams.get("idMedico"),
+            idPaciente: searchParams.get("idPaciente"),
+            Fecha: new Date()
+            
         }
-
+        
+        console.log(consulta)
         // Se manda una peticion POST a la API para guardar la consulta en la base de datos
-        fetch(`URL_API`, {
+        fetch(`https://localhost:44342/api/Binnacle/AddBinnacle`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
@@ -110,13 +127,13 @@ function Cita({ idPaciente }) {
 
         if (selectedMedicamento) {
             // Filtramos el medicamento seleccionado
-            const medicamento = medicamentos.find(medicamento => medicamento.id === parseInt(selectedMedicamento));
+            const medicamento = medicamentos.find(medicamento => medicamento.idMedicamento === parseInt(selectedMedicamento));
 
-            if (!(medicamentosConsulta.find(m => m.id === medicamento.id))) {
+            if (!(medicamentosConsulta.find(m => m.idMedicamento === medicamento.idMedicamento))) {
                 // Creamos el medicamento a agregar
                 const newMedicamentoConsulta = {
-                    id: medicamento.id,
-                    nombre: medicamento.name,
+                    id: medicamento.idMedicamento,
+                    nombre: medicamento.nombreComun,
                     dosificacion,
                     tiempoTratamiento
                 }
@@ -194,8 +211,8 @@ function Cita({ idPaciente }) {
                                 >
                                     <option value="">Seleccionar Medicamento</option>
                                     {medicamentos.map((medicamento) => (
-                                        <option key={medicamento.id} value={medicamento.id}>
-                                            {medicamento.name}
+                                        <option key={medicamento.idMedicamento} value={medicamento.idMedicamento}>
+                                            {medicamento.nombreComun}
                                         </option>
                                     ))}
                                 </select>

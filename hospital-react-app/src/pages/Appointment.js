@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPenToSquare, faTrash } from '@fortawesome/free-solid-svg-icons'
 import Table from "../components/Table";
 import { Link, useLocation } from "react-router-dom";
+import { useSelector } from 'react-redux';
 
 
 const Appointment = () => {
@@ -14,6 +15,7 @@ const Appointment = () => {
   const searchParams = new URLSearchParams(location.search);
   const pacienteId = searchParams.get("Id");
   const [patientInfo, setPatientInfo] = useState([]);
+  const userState = useSelector((store) => store.user);
 
   const [appointments, setAppointments] = useState([]);
   const [doctor, setDoctor] = useState([]);
@@ -23,28 +25,28 @@ const Appointment = () => {
   useEffect(() => {
 
     // Datos Paciente con PacienteId, cambiar RUTA si es necesario
-    fetch(`https://localhost:44342/api/Patient/GetPatientInfo?piId=${pacienteId}`, {
+    fetch(`https://localhost:44342/api/Patient/GetPatientById?piId=${userState.idPaciente}`, {
       method: "GET",
         })
           .then(response => response.json())
           .then(data => {
-          setPatientInfo(data);
+          setPatientInfo(data.Data[0]);
         })
           .catch(error => {
           console.log("Error al obtener los datos del paciente", error);
       });
 
       // OObtener las citas del paciente con el pacienteId
-    fetch(`https://localhost:44342/api/Appointment/GetAppointmentsByPatient?piId=${pacienteId}`, {
+    fetch(`https://localhost:44342/api/Appointment/GetAppointmentsByPatient?piId=${userState.idPaciente}`, {
       method: "GET"
       })
         .then(response => response.json())
         .then(data => {
-        setAppointments(data);
+        setAppointments(data.Data);
 
         const currentDate = new Date(); // Obtiene la fecha y hora actual
         //const pendingCita = data.find(appointment => appointment.Fecha > currentDate);
-        const pendingCita = data.find(appointment => new Date(appointment.Fecha) > currentDate);
+        const pendingCita = data.Data.find(appointment => new Date(appointment.Fecha) > currentDate);
         // Busca una cita en la lista de citas del paciente donde la fecha sea posterior a la fecha actual
         //para tomarla como una cita que no ha sido realizada
         setPendingAppointment(pendingCita);
@@ -52,12 +54,13 @@ const Appointment = () => {
         // Si se encontró una cita pendiente
         if (pendingCita) {
           // Obtener los datos del médico asociado a la cita pendiente
-          fetch(`https://localhost:44342/api/Doctor/GetDoctorInfo?piId=${pendingCita.IdMedico}`, {
+          fetch(`https://localhost:44342/api/Doctor/GetDoctorById?piId=${pendingCita.IdMedico}`, {
             method: "GET"
           })
             .then(response => response.json())
             .then(data => {
-              setDoctor(data);
+              console.log(data.Data)
+              setDoctor(data.Data[0]);
             })
             .catch(error => {
               console.log("Error al obtener los datos del médico", error);
@@ -78,19 +81,20 @@ const Appointment = () => {
   const handleCancel = (appointmentId) => {
     console.log(appointmentId);
     console.log(new Date().toLocaleString());
-    fetch(`https://localhost:44342/api/Appointment/DeleteAppointment?piId=${appointmentId}`, {
+    fetch(`https://localhost:44342/api/Appointment/DeleteAppointment?piId=${appointmentId}&piIdPaciente=${userState.idPaciente}`, {
             method: "POST"
         })
-        .then(response => {
-          if (response.ok) {
-              console.log("Cita cancelada correctamente");
-          } else {
-              console.error("No se pudo cancelar la cita");
-          }
-      })
-      .catch(error => {
-        console.error("Error al eliminar la cita:", error);
-    });
+        .then(response => response.json())
+        .then(data => {
+            if(data.StatusCode === 200){
+                alert(data.Message)
+            }else{
+                alert(data.Message)
+            }
+        })
+            .catch(error => {
+                console.error("Error al borrar la cita:", error);
+            });
   };
 
   const headerTitle = "Tienes una cita pendiente";
@@ -103,10 +107,10 @@ if (pendingAppointment) {
   const citaHora = citaDateTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }); // Obtener solo la hora
       tableInfo = [
         [ pendingAppointment.IdCita,
-          patientInfo?.Nombre + " " + patientInfo?.Paterno + " " + patientInfo?.Materno,
-          doctor?.Nombre + " " + doctor?.ApellidoPaterno + " " + doctor?.ApellidoMaterno,
+          patientInfo?.nombre + " " + patientInfo?.paterno + " " + patientInfo?.materno,
+          doctor?.nombre + " " + doctor?.paterno + " " + doctor?.materno,
           `${citaFecha} - ${citaHora}`,
-          doctor?.IdConsultorio,
+          doctor?.idConsultorio,
           <Link to={`/AppointmentForm?edit=true&id=${pendingAppointmentId}`}>
             <FontAwesomeIcon className='text-2xl hover:scale-110 translation' icon={faPenToSquare} style={{ color: "#545454", }} />
           </Link>,
