@@ -27,12 +27,12 @@ import RecoverPassword from './pages/RecoverPassword';
 import PatientDashboard from './pages/PatientDashboard';
 import AppointmentForm from './pages/ScheduleAppointment';
 import AppointmentsPage from './pages/PatientAppointments';
+import Cita from './pages/Cita';
 import GestionBitacora from './pages/GestionBitacora';
 import GestionCitasAdmin from './pages/GestionCitasAdmin';
 import NewAppointment from './pages/NewAppointment';
 import GestionFabricantes from './pages/GestionFabricantes';
 import NewProvider from './pages/NewProvider';
-import Appointment from './pages/Appointment';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -63,7 +63,11 @@ root.render(
         <Route path='/AppointmentsPage' element={<AppointmentsPage />} />
         <Route path='/Appointment' element={<Appointment />} />
 
-
+        <Route element={<AuthGuard />}>
+          <Route path="/Dashboard" element={<Dashboard />} />
+          <Route path="/Cita" element={<Cita />} />
+          {/* <Route path='/Medicamentos' element={<Medicines />} /> */}
+        </Route>
         <Route path='/NewProvider' element={<NewProvider />} />
         <Route path="/Dashboard" element={<Dashboard />} />
         <Route element={<AuthGuard />}>
