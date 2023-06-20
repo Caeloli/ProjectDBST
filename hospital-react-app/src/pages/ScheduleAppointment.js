@@ -84,7 +84,7 @@ function AppointmentForm() {
             .then(response => response.json())
             .then(data => {
             console.log("Cita editada correctamente", data.Data);
-            navigate('/PatientDashboard')
+            navigate('/Appointment')
             })
             .catch(error => {
             console.log("Error al editar la cita", error);
@@ -100,7 +100,7 @@ function AppointmentForm() {
             .then(response => response.json())
             .then(data => {
             console.log("Cita agendada correctamente", data);
-            navigate('/PatientDashboard')
+            navigate('/Appointment')
             })
             .catch(error => {
             console.log("Error al agendar la cita", error);
@@ -185,7 +185,7 @@ function AppointmentForm() {
                         >
                             {isEditing ? "Editar" : "Agendar"}
                         </button>
-                        <a href="/PatientDashboard" className="button-primary w-1/4">Cancelar</a>
+                        <a href="/Appointment" className="button-primary w-1/4">Cancelar</a>
                     </div>
                 </form>
 

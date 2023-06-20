@@ -47,7 +47,7 @@ const PatientMenuCellphone = () => {
               </div>
               <div className="h-4/6 flex flex-col text-base text-center">
                 <Link
-                  to="/Paciente"
+                  to="/PatientDashboard"
                   className="flex justify-start items-center py-4 pl-4 transition duration-300 ease-in-out hover:bg-aqua-squeeze hover:text-deep-sea-green"
                   onClick={toggleMenu}
                 >
@@ -55,7 +55,7 @@ const PatientMenuCellphone = () => {
                   <p>Inicio</p>
                 </Link>
                 <Link
-                  to="/Cita"
+                  to="/Appointment"
                   className="flex justify-start items-center py-4 pl-4 transition duration-300 ease-in-out hover:bg-aqua-squeeze hover:text-deep-sea-green"
                   onClick={toggleMenu}
                 >
