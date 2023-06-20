@@ -3,12 +3,13 @@ import { useEffect, useState } from "react";
 
 function LogRow(props) {
     const log = props.log;
-    console.log(log)
+    // console.log(log)
     const selectionRow = props.selectionRow;
     const setSelectedCell = props.setSelectedCell;
     const selectedCell = props.selectedCell;
 
     const sendDataToParent = (value) => {
+        console.log(value)
         selectionRow(value)
         setSelectedCell(value);
     }
@@ -25,7 +26,7 @@ function LogRow(props) {
         hover:border-r-aqua-squeeze
         transition-all 
         ease-in-out
-        ${selectedCell === log.idPaciente ? 'text-aqua-squeeze  bg-deep-sea-green ' : 'bg-white text-deep-sea-green'}`
+        ${selectedCell === log.idRegistroBitacora ? 'text-aqua-squeeze  bg-deep-sea-green ' : 'bg-white text-deep-sea-green'}`
         }
          
         style={{ borderBottom: "solid 0.1rem #0B5755" }}

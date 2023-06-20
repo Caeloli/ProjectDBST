@@ -38,7 +38,9 @@ function RecoverCard(){
         })
         .then(response => response.json())
         .then(data => {
-            
+            if(data.StatusCode == 500){
+                alert(data.Message)
+            }
             navigate('/Login')
         })
         .catch(error => {

@@ -36,7 +36,7 @@ class TableConsulta extends React.Component {
                 ))}
                 {
                     
-                    new Date(row.Fecha) >= new Date() && new Date(row.Fecha) <= new Date().setHours(new Date().getHours()+1)
+                    new Date() >= new Date(row.Fecha) && new Date() <= new Date(row.Fecha).setHours(new Date(row.Fecha).getHours()+1)
                     ?
                         <td className="p-2 whitespace-nowrap">
                             <Link to={`/Cita?idPaciente=${row.idPaciente}&idMedico=${row.idMedico}`}>

@@ -20,7 +20,7 @@ function LogDisplay(props) {
 
     useEffect(() => {
         //LookLogByIdLogFull
-        console.log(idLog)
+        console.log(props)
         if (idLog != null) {
             fetch(`https://localhost:44342/api/Binnacle/getUserBinnaccleInfo?piIdBinnacle=${idLog}`, {
                 method: 'GET',
@@ -197,7 +197,7 @@ function LogDisplay(props) {
                     >
                         {isEditable === false ? "Editar" : "Actualizar"}
                     </button>
-                    <button onClick={(event) => {
+                    {/* <button onClick={(event) => {
                         event.preventDefault();
                         if (isEditable) {
                             setIsEditable(false);
@@ -206,7 +206,18 @@ function LogDisplay(props) {
                             navigate('/GestionBitacora')
                         }
                     }}
-                        className="text-center button-primary w-1/4">{isEditable === false ? "Eliminar" : "Cancelar"}</button>
+                        className="text-center button-primary w-1/4">{isEditable === false ? "Eliminar" : "Cancelar"}</button> */}
+                        
+                        {
+                            isEditable ?
+
+                            <button onClick={(event) => {
+                            event.preventDefault();
+                            setIsEditable(false);
+                            }}
+                            className="text-center button-primary w-1/4">Cancelar</button> 
+                            : <div></div>
+                        }                        
                 </div>
             </form>
         </Fragment>

@@ -38,7 +38,10 @@ function LoginCard(){
         })
         .then(response => response.json())
         .then(data => {
-            console.log("Logeado", data.Data);
+            console.log(data.StatusCode);
+            if(data.StatusCode === 500){
+                alert(data.Message)
+            }
             // localStorage.setItem("token", data.Data.idUsuario)
             
             dispatch(createUser(data.Data))
