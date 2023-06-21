@@ -59,13 +59,13 @@ function AdminDashboard() {
                                 <FontAwesomeIcon className="border p-3 rounded-full " icon={faGear} />
                             </div>
                         </div>
-                        <div className="panels grid grid-cols-3 gap-9 flex-1">
+                        <div className="panels grid grid-cols-1 gap-9 flex-1">
                             <div className="appointments col-span-1">
                                 <Table headerTitle={headerTitle} headerTable={headerTable} tableInfo={citas} />
                             </div>
-                            <div className="appointments-request col-span-1 ">
+                            {/* <div className="appointments-request col-span-1 ">
                                 <Calendar />
-                            </div>
+                            </div> */}
                             <div className="doctor-review col-span-1">
                                 <div className="bg-white shadow-md h-64 border border-blue-hosta rounded-3xl">
                                     <div className="flex flex-col items-center justify-center">

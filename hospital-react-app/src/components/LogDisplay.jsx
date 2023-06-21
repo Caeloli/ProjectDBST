@@ -1,8 +1,9 @@
 import { Fragment, React, useEffect, useState } from 'react';
 import { useNavigate } from "react-router-dom";
+import Modal from './Modal';
 
 function LogDisplay(props) {
-
+    const [showModal, setShowModal] = useState(false);
     const navigate = useNavigate();
     const idLog = props.idLog;
     const [isEditable, setIsEditable] = useState(false);
@@ -166,36 +167,81 @@ function LogDisplay(props) {
                 </div>
                 <div className="flex justify-between">
                     <div className="flex items-center w-1/4">
-                        <label className="font-semibold text-base pl-3 text-deep-sea-green" for="Doctor">Doctor</label>
+                        <label className="font-semibold text-base pl-3 text-deep-sea-green" for="Doctor">Consultorio</label>
                     </div>
                     <div className="md:w-2/4 w-3/4">
-                        <input name="Doctor" type="text" className="shadow border-2 border-deep-sea-green w-full" disabled={isEditable === false} value={log.idMedico}
-                            onChange={(e) => handleInputChange(e.target.value, "idMedico")}
+                        <input name="Doctor" type="text" className="shadow border-2 border-deep-sea-green w-full" disabled 
+                        value={log.idConsultorio}
+                            
                         />
                     </div>
                 </div>
                 <div className="flex justify-between">
                     <div className="flex items-center w-1/4">
-                        <label className="font-semibold text-base pl-3 text-deep-sea-green" for="Paciente">Paciente</label>
+                        <label className="font-semibold text-base pl-3 text-deep-sea-green" for="Paciente">Total a pagar</label>
                     </div>
                     <div className="md:w-2/4 w-3/4">
-                        <input name="Paciente" type="text" className="shadow border-2 border-deep-sea-green w-full" disabled={isEditable === false} value={log.idPaciente}
-                            onChange={(e) => handleInputChange(e.target.value, "idPaciente")}
+                        <input name="Paciente" type="text" className="shadow border-2 border-deep-sea-green w-full"  
+                        value={log.totalPagar != null ? log.totalPagar + 50 : 50} disabled
                         />
                     </div>
                 </div>
+                <div className='flex justify-between'>
+                    <div className="flex items-center w-1/4">
+                        <label className="font-semibold text-base pl-3 text-deep-sea-green" for="Doctor">Doctor ID</label>
+                    </div>
+                    <div className="md:w-2/4 w-3/4">
+                        <input name="Doctor" type="text" className="shadow border-2 border-deep-sea-green w-full" disabled value={log.idMedico}
+                            onChange={(e) => handleInputChange(e.target.value, "idMedico")}
+                        />
+                    </div>
+
+                </div>
+                <div className='flex justify-between'>
+                    <div className="flex items-center w-1/4">
+                        <label className="font-semibold text-base pl-3 text-deep-sea-green" for="Doctor">Nombre doctor</label>
+                    </div>
+                    <div className="md:w-2/4 w-3/4">
+                        <input name="Doctor" type="text" className="shadow border-2 border-deep-sea-green w-full" disabled 
+                        value={log.nombre + " " + log.paterno + " " + log.materno}
+                            
+                        />
+                    </div>
+
+                </div>
+                <div className='flex justify-between'>
+                    <div className="flex items-center w-1/4">
+                        <label className="font-semibold text-base pl-3 text-deep-sea-green" for="Paciente">Paciente Id</label>
+                    </div>
+                    <div className="md:w-2/4 w-3/4">
+                        <input name="Paciente" type="text" className="shadow border-2 border-deep-sea-green w-full" disabled value={log.idPaciente}
+                            onChange={(e) => handleInputChange(e.target.value, "idPaciente")}
+                        />
+                    </div>
+
+                </div>
+                <div className='flex justify-between'>
+                    <div className="flex items-center w-1/4">
+                        <label className="font-semibold text-base pl-3 text-deep-sea-green" for="Paciente">Paciente nombre</label>
+                    </div>
+                    <div className="md:w-2/4 w-3/4">
+                        <input name="Paciente" type="text" className="shadow border-2 border-deep-sea-green w-full"  
+                        value={log.nombre1 + " " + log.paterno1 + " " + log.materno1} disabled
+                
+                        />
+                    </div>
+
+                </div>
+
                 <div className="flex justify-center mt-3">
-                    <button onClick={(event) => {
-                        event.preventDefault();
-                        if (isEditable) {
-                            handleSubmit();
-                        } else {
-                            setIsEditable(true)
-                        }
-                    }}
+                    <button 
                         className="button-primary w-1/4"
+                        onClick={(e) => {
+                            e.preventDefault()
+                            setShowModal(true);
+                        }} 
                     >
-                        {isEditable === false ? "Editar" : "Actualizar"}
+                        Generar ticket
                     </button>
                     {/* <button onClick={(event) => {
                         event.preventDefault();
@@ -220,6 +266,8 @@ function LogDisplay(props) {
                         }                        
                 </div>
             </form>
+            
+            {showModal && <Modal setOpenModal={setShowModal} binnacleId={log.idRegistroBitacora}/>}
         </Fragment>
     );
 }

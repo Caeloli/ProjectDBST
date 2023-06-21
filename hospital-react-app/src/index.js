@@ -34,6 +34,8 @@ import NewAppointment from './pages/NewAppointment';
 import GestionFabricantes from './pages/GestionFabricantes';
 import NewProvider from './pages/NewProvider';
 import Appointment from './pages/Appointment'
+import Receipt from './pages/Receipt';
+import GestionBitacoraDoctor from './pages/GestionBitacoraDoctor';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -48,9 +50,11 @@ root.render(
           <Route path='*' element={<Home />} />
         </Route>
         <Route path="/GestionPacientes" element={<GestionPacientes />} />
+        <Route path="/Recetas" element={<Receipt />} />
         <Route path="/GestionMedicos" element={<GestionMedicos />} />
         <Route path="/GestionAdmin" element={<GestionAdmin />} />
         <Route path='/GestionBitacora' element={<GestionBitacora />} />
+        <Route path='/GestionBitacoraDoctor' element={<GestionBitacoraDoctor />} />
         <Route path='/GestionCitasAdmin' element={<GestionCitasAdmin />} />
         <Route path='/GestionFabricantes' element={<GestionFabricantes />} />
         <Route path='/NewAppointment' element={<NewAppointment />} />

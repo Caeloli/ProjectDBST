@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faNotesMedical, faHouse, faFlask, faVirus, faPlus, faUser, faSignOut } from '@fortawesome/free-solid-svg-icons';
+import { faNotesMedical, faHouse, faFlask, faVirus, faPlus, faUser, faSignOut, faPaperclip, faBookBookmark } from '@fortawesome/free-solid-svg-icons';
 import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import {  resetUser } from '../redux/states/user'
@@ -47,13 +47,13 @@ const HamburgerMenuDesktop = () => {
                         <FontAwesomeIcon className='pr-6' icon={faNotesMedical} />
                         <p>Recetas</p>
                     </a> */}
-                    {/* <a
-                        href="/Medicamentos"
+                    <a
+                        href="/GestionBitacoraDoctor"
                         className="flex justify-start items-center py-4 pl-4 transition duration-300 ease-in-out hover:bg-aqua-squeeze hover:text-deep-sea-green"
                     >
-                        <FontAwesomeIcon className='pr-6' icon={faFlask} />
-                        <p>Farmacología</p>
-                    </a> */}
+                        <FontAwesomeIcon className='pr-6' icon={faBookBookmark} />
+                        <p>Historiales</p>
+                    </a> 
                 </div>
                 <div className='h-1/6 flex justify-evenly flex-col'>
                     <a className="" href='#' onClick={handleLogOut}>

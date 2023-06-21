@@ -3,15 +3,17 @@ import { useEffect, useState } from "react";
 import Select from 'react-select';
 import LogList from "./LogList";
 import LogDisplay from "./LogDisplay";
+import { useSelector } from "react-redux";
 
-function LogBook(props) {
+function LogBookDoctor(props) {
 
     const [patients, setPatients] = useState([]);
     const [logs, setLogs] = useState([]);
     const [dataLogList, setSelectionLogList] = useState(null);
+    const userState = useSelector((store) => store.user)
 
     useEffect(() => {
-        fetch("https://localhost:44342/api/Patient/GetAllPatients", {
+        fetch(`https://localhost:44342/api/Patient/GetPatientsByDoctor?piId=${userState.idMedico}`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json'
@@ -29,6 +31,7 @@ function LogBook(props) {
     const handleInputChange = (value, inputName) => {
         if (value != null) {
             //GET BY bitacoraID
+            console.log(value)
             fetch(`https://localhost:44342/api/Binnacle/getUserBinnacclea?piId=${value}`, {
                 method: 'GET',
                 headers: {
@@ -37,7 +40,6 @@ function LogBook(props) {
             })
                 .then(response => response.json())
                 .then(data => {
-                    console.log(data.Data)
                     setLogs(data.Data)
                 })
                 .catch(error => {
@@ -79,4 +81,4 @@ function LogBook(props) {
 
 
 }
-export default LogBook;
+export default LogBookDoctor;
