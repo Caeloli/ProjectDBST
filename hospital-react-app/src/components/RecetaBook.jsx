@@ -1,15 +1,15 @@
 import React from "react";
 import { useEffect, useState } from "react";
 import Select from 'react-select';
-import LogList from "./LogList";
-import LogDisplay from "./LogDisplay";
 import { useSelector } from "react-redux";
+import RecetasList from "./RecetasList";
+import RecetaDisplay from "./RecetaDisplay";
 
-function LogBookDoctor(props) {
+function RecetaBook(props) {
 
     const [patients, setPatients] = useState([]);
-    const [logs, setLogs] = useState([]);
-    const [dataLogList, setSelectionLogList] = useState(null);
+    const [recetas, setRecetas] = useState([]);
+    const [dataRecetaList, setSelectionRecetaList] = useState(null);
     const userState = useSelector((store) => store.user)
 
     useEffect(() => {
@@ -32,7 +32,7 @@ function LogBookDoctor(props) {
         if (value != null) {
             //GET BY bitacoraID
             console.log(value)
-            fetch(`https://localhost:44342/api/Binnacle/getUserBinnacclea?piId=${value}`, {
+            fetch(`https://localhost:44342/api/Receipt/GetUserReceipts?piId=${value}`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
@@ -40,7 +40,7 @@ function LogBookDoctor(props) {
             })
                 .then(response => response.json())
                 .then(data => {
-                    setLogs(data.Data)
+                    setRecetas(data.Data)
                 })
                 .catch(error => {
                     console.log("Error, no se logró obtener la lista de pacientes de la API");
@@ -48,8 +48,8 @@ function LogBookDoctor(props) {
         }
     }
 
-    const handleSelectionFromLogList = (data) => {
-        setSelectionLogList(data);
+    const handleSelectionFromRecetaList = (data) => {
+        setSelectionRecetaList(data);
         console.log("Received data in parent: " + data);
     }
 
@@ -58,7 +58,7 @@ function LogBookDoctor(props) {
         label: `${patient.nombre} ${patient.paterno} ${patient.materno}`
     }));
 
-    console.log("Log-list: " + dataLogList);
+    console.log("Log-list: " + dataRecetaList);
 
     return (
         <div className="max-w-full max-h-full grid grid-cols-3 gap-9 p-5">
@@ -71,14 +71,14 @@ function LogBookDoctor(props) {
                         onChange={(selectedOption) => handleInputChange(selectedOption.value, "idPaciente")}
                     />
                 </div>
-                <LogList logs={logs} selectionLogList={handleSelectionFromLogList}/>
+                <RecetasList recetas={recetas} selectionRecetaList={handleSelectionFromRecetaList}/>
             </div>
             <div className="col-span-2 border-2 border-deep-sea-green shadow">
-                <LogDisplay idLog={dataLogList}/>
+                <RecetaDisplay idReceta={dataRecetaList}/>
             </div>
         </div>
     );
 
 
 }
-export default LogBookDoctor;
+export default RecetaBook;

@@ -66,14 +66,14 @@ function Modal({ setOpenModal, binnacleId }) {
 
       <div data-te-modal-body-ref class="p-4 w-full">
       <table class="table-fixed w-full border-collapse border border-slate-400">
-  <thead>
-    <tr>
-      <th className="border border-slate-300">Medicamento ID</th>
-      <th className="border border-slate-300">Nombre</th>
-      <th className="border border-slate-300">Precio</th>
-    </tr>
-  </thead>
-  <tbody>
+      <thead>
+        <tr>
+          <th className="border border-slate-300">Medicamento ID</th>
+          <th className="border border-slate-300">Nombre</th>
+          <th className="border border-slate-300">Precio</th>
+        </tr>
+      </thead>
+      <tbody>
         {
             ticket != null ?
             ticket.map(e => (
