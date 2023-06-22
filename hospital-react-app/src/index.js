@@ -37,6 +37,8 @@ import Appointment from './pages/Appointment'
 import Receipt from './pages/Receipt';
 import GestionBitacoraDoctor from './pages/GestionBitacoraDoctor';
 import GestionRecetaDoctor from './pages/GestioRecetaDoctor';
+import GestionConsultorio from './pages/GestionConsultorio';
+import NewConsultingRoom from './pages/NewConsultingRoom';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -59,12 +61,14 @@ root.render(
         <Route path='/GestionRecetaDoctor' element={<GestionRecetaDoctor />} />
         <Route path='/GestionCitasAdmin' element={<GestionCitasAdmin />} />
         <Route path='/GestionFabricantes' element={<GestionFabricantes />} />
+        <Route path='/GestionConsultorio' element={<GestionConsultorio/>} />
         <Route path='/NewAppointment' element={<NewAppointment />} />
         <Route path="/NewPatient" element={<NewPatient />} />
         <Route path="/NewDoctor" element={<NewDoctor />} />
         <Route path="/NewAdmin" element={<NewAdmin />} />
         <Route path='/Medicamentos' element={<Medicines />} />
         <Route path='/NewMedicine' element={<NewMedicine />} />
+        <Route path='/NewConsultingRoom' element={<NewConsultingRoom />} />
         <Route path='/PatientDashboard' element={<PatientDashboard />} />
         <Route path='/AppointmentForm' element={<AppointmentForm />} />
         <Route path='/AppointmentsPage' element={<AppointmentsPage />} />

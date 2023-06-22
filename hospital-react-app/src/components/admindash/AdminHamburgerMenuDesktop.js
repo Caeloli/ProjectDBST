@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faNotesMedical, faHouse, faFlask, faVirus, faPlus, faUser, faUserDoctor, faUserFriends, faSignOut, faFileMedical, faCalendarDays, faIndustry } from '@fortawesome/free-solid-svg-icons';
+import { faNotesMedical, faHouse, faFlask, faVirus, faPlus, faUser, faUserDoctor, faUserFriends, faSignOut, faFileMedical, faCalendarDays, faIndustry, faBroom } from '@fortawesome/free-solid-svg-icons';
 import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { resetUser } from '../../redux/states/user'
@@ -89,6 +89,14 @@ const AdminHamburgerMenuDesktop = () => {
                     >
                         <FontAwesomeIcon className='pr-6' icon={faIndustry} />
                         <p>Fabricantes</p>
+
+                    </a>
+                    <a
+                        href='/GestionConsultorio'
+                        className="flex justify-start items-center py-4 pl-4 transition duration-300 ease-in-out hover:bg-aqua-squeeze hover:text-deep-sea-green"
+                    >
+                        <FontAwesomeIcon className='pr-6' icon={faBroom} />
+                        <p>Consultorios</p>
 
                     </a>
                 </div>

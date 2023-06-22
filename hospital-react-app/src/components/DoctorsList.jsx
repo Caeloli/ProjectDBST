@@ -69,7 +69,7 @@ function DoctorsList({ isDashboard }) {
             <div className="patients-list col-span-2">
                 <div className="w-auto max-w-full max-h-full h-full mx-auto bg-white shadow-lg rounded-3xl border border-blue-hosta">
                     <header className="px-5 py-4">
-                        <h2 className="font-semibold text-gray-800 mb-4">Administradores</h2>
+                        <h2 className="font-semibold text-gray-800 mb-4">Médicos</h2>
                     </header>
 
                     <div className=" overflow-y-auto">
