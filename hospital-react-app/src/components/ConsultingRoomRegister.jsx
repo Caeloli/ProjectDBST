@@ -11,37 +11,33 @@ function ConsultingRoomRegister(props) {
     const isEdit = props.isEdit;
     const [room, setRoom] = useState({
         idConsultorio: "",
-        idMedico: "",
-        nombreDoctor: "",
-        paternoDoctor: "",
-        maternoDoctor: "",
         estadoLimpieza: ""
     })
     const [optionsDoctors, setOptionsDoctors] = useState([]);
 
     useEffect(() => {
-        fetch("https://api.jsonserver.io/api/Doctor/GetAllDoctors", {
-            method: "GET",
-            mode: 'cors',
-            headers: {
-                'X-Jsio-Token': '8ecc882dae5b1f14d3e86662a9dddb60 '
-            }
-        })
-            .then(response => response.json())
-            .then(data => {
-                console.log("Fetch a GetAllDoctors");
-                console.log(data.Data);
-                const options = (data.Data).map(medic => ({
-                    value: medic[0].idMedico,
-                    label: `${medic[0].nombre} ${medic[0].paterno} ${medic[0].materno}`
-                }));
-                setOptionsDoctors(options);
-            })
-            .catch(error => {
-                // Manejo de errores en caso de que la solicitud falle
-            });
+        // fetch("https://api.jsonserver.io/api/Doctor/GetAllDoctors", {
+        //     method: "GET",
+        //     mode: 'cors',
+        //     headers: {
+        //         'X-Jsio-Token': '8ecc882dae5b1f14d3e86662a9dddb60 '
+        //     }
+        // })
+        //     .then(response => response.json())
+        //     .then(data => {
+        //         console.log("Fetch a GetAllDoctors");
+        //         console.log(data.Data);
+        //         const options = (data.Data).map(medic => ({
+        //             value: medic[0].idMedico,
+        //             label: `${medic[0].nombre} ${medic[0].paterno} ${medic[0].materno}`
+        //         }));
+        //         setOptionsDoctors(options);
+        //     })
+        //     .catch(error => {
+        //         // Manejo de errores en caso de que la solicitud falle
+        //     });
         if (isEdit) {
-            fetch(`https://localhost:44342/api/Consulting/GetConsultingById?piId=${parseInt(props.id)}`, {
+            fetch(`https://localhost:44342/api/Office/GetOfficeById?piId=${parseInt(props.id)}`, {
                 method: "GET"
             })
                 .then(response => response.json())
@@ -62,7 +58,7 @@ function ConsultingRoomRegister(props) {
             roomUpdate = room
             roomUpdate['idConsultorio'] = parseInt(props.id)
             console.log(room);
-            fetch(`https://localhost:44342/api/ConsultingRoom/UpdateConsultingRoom`, {
+            fetch(`https://localhost:44342/api/Office/UpdateOffice`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
@@ -78,12 +74,11 @@ function ConsultingRoomRegister(props) {
                     console.log("Error al editar el consultorio", error);
                 });
         } else {
-            fetch("https://localhost:44342/api/ConsultingRoom/AddConsultingRoom", {
+            fetch(`https://localhost:44342/api/Office/AddOffice?piLimpieza=${room.estadoLimpieza}`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
                 },
-                body: JSON.stringify(room)
             })
                 .then(response => response.json())
                 .then(data => {
@@ -153,7 +148,7 @@ function ConsultingRoomRegister(props) {
                                     </div>
                                 )
                                 }
-                                <div className="flex justify-between">
+                                {/* <div className="flex justify-between">
                                     <div className="flex items-center w-1/4">
                                         <label className="font-semibold text-lg text-deep-sea-green" for="nombre">Médico</label>
                                     </div>
@@ -166,7 +161,7 @@ function ConsultingRoomRegister(props) {
                                             required
                                         />
                                     </div>
-                                </div>
+                                </div> */}
 
                                 <div className="flex justify-between">
                                     <div className="flex items-center w-1/4">

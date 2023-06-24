@@ -5,7 +5,7 @@ function ConsultingRoomList(props) {
     const [listCRooms, setListCRooms] = useState([]);
 
     useEffect(() => {
-        fetch("https://localhost:44342/api/Rooms/GetAllRooms", {
+        fetch("https://localhost:44342/api/Office/GetAllConsultingRooms", {
             method: "GET"
         })
             .then(response => response.json())
@@ -35,9 +35,9 @@ function ConsultingRoomList(props) {
                                         <div className="font-semibold  text-left ">Número</div>
                                     </th>
 
-                                    <th className="p-2 whitespace-nowrap w-2/12">
+                                    {/* <th className="p-2 whitespace-nowrap w-2/12">
                                         <div className="font-semibold text-left">Médico</div>
-                                    </th>
+                                    </th> */}
 
                                     <th className="p-2 whitespace-nowrap w-2/12">
                                         <div className="font-semibold text-left">Indicador de Limpieza</div>
@@ -59,7 +59,7 @@ function ConsultingRoomList(props) {
                             </thead>
                             <tbody className="text-sm divide-y divide-gray-100 overflow-y-scroll">
                                 {listCRooms.map(room => (
-                                    <ConsultingRoomRow room={room} key={room.IdConsultorio} tipo={isDashboard} />
+                                    <ConsultingRoomRow room={room} key={room.idConsultorio} tipo={isDashboard} />
                                 ))}
                             </tbody>
                         </table>
@@ -87,9 +87,9 @@ function ConsultingRoomList(props) {
                                         <div className="font-semibold  text-left ">Número</div>
                                     </th>
 
-                                    <th className="p-2 whitespace-nowrap w-2/12">
+                                    {/* <th className="p-2 whitespace-nowrap w-2/12">
                                         <div className="font-semibold text-left">Médico</div>
-                                    </th>
+                                    </th> */}
 
                                     <th className="p-2 whitespace-nowrap w-2/12">
                                         <div className="font-semibold text-left">Indicador de Limpieza</div>

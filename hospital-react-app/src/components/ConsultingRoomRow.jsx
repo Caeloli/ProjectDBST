@@ -1,9 +1,10 @@
 import { React, useState, useEffect, Fragment } from "react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faGear, faCircleXmark, faBroom } from '@fortawesome/free-solid-svg-icons';
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Link, Navigate, useLocation, useNavigate } from "react-router-dom";
 //props: provider, tipo
 function ConsultingRoomRow(props) {
+    const navigate = useNavigate()
     const room = props.room;
     const isDashboard = props.tipo;
     const [showCard, setShowCard] = useState(false);
@@ -29,15 +30,15 @@ function ConsultingRoomRow(props) {
 
 
     const handleDelete = (id) => {
-        fetch(`https://localhost:44342/api/Rooms/DeleteRoom?piId=${id}`, {
+        fetch(`https://localhost:44342/api/Office/DeleteOffice?piId=${id}`, {
             method: "POST",
         })
             .then(response => response.json())
             .then(data => {
-                if (data.StatusCode === 200) {
+                if (data.StatusCode === 500) {
                     alert(data.Message)
                 } else {
-                    alert(data.Message)
+                    navigate('/GestionConsultorio')
                 }
             })
             .catch(error => {
@@ -57,11 +58,11 @@ function ConsultingRoomRow(props) {
                         {room.idConsultorio}
                     </div>
                 </td>
-                <td className="p-2  whitespace-nowrap">
+                {/* <td className="p-2  whitespace-nowrap">
                     <div className="text-left">
                         {`${room.nombreDoctor} ${room.paternoDoctor} ${room.maternoDoctor}`}
                     </div>
-                </td>
+                </td> */}
                 <td className="p-2 whitespace-nowrap">
                     <div className="text-left">
                         {isClean ? "Limpio" : "Sucio"}
@@ -78,11 +79,11 @@ function ConsultingRoomRow(props) {
                             {room.idConsultorio}
                         </div>
                     </td>
-                    <td className="p-2  whitespace-nowrap">
+                    {/* <td className="p-2  whitespace-nowrap">
                         <div className="text-left">
                             {`${room.nombreDoctor} ${room.paternoDoctor} ${room.maternoDoctor}`}
                         </div>
-                    </td>
+                    </td> */}
                     <td className="p-2 whitespace-nowrap">
                         <div className="text-left">
                             {isClean ? "Limpio" : "Sucio"}
@@ -105,9 +106,9 @@ function ConsultingRoomRow(props) {
 
                     <td className="p-2 ">
                         <div className="text-left font-medium text-green-500 hover:scale-110 translation">
-                            <a href="/GestionConsultorio" onClick={() => handleDelete(room.idConsultorio)}>
+                            <button onClick={() => handleDelete(room.idConsultorio)}>
                                 <FontAwesomeIcon className='text-2xl' icon={faCircleXmark} style={{ color: "#ff0000", }} />
-                            </a>
+                            </button>
                         </div>
                     </td>
                 </tr>
